@@ -60,9 +60,17 @@ ion-content{
         left: 58px;
         top: 132px;
 
+        .validation-errors-required{
+            .error-message-required{
+                color: red;
+                font-size: 16px;
+            }
+        }
+
         .validation-errors{
             position: relative;
             top: 35%;
+
             .error-message
             {
               color: red;

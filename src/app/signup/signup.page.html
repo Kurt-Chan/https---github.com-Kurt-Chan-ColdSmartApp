@@ -11,26 +11,40 @@
     <ion-item class="fullName">
       <ion-icon name="person" slot="start" style="color: #0E2B3D;"></ion-icon>
       <ion-input type="text" formControlName="name" placeholder="Full Name"></ion-input>
+      <div class="validation-errors-required">
+        <ng-container *ngFor="let validation of validation_messages.name">
+          <div class="error-message-required" *ngIf="validation.type == 'required' && validations_form.get('name').hasError(validation.type) && (validations_form.get('name').dirty || validations_form.get('name').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+          </div>
+        </ng-container>
+      </div>
     </ion-item>
     
 
     <ion-item class="userName">
       <ion-icon name="person-circle-outline" slot="start" style="color: #0E2B3D;"></ion-icon>
       <ion-input type="text" formControlName="username" placeholder="Username"></ion-input>
-      
+      <div class="validation-errors-required">
+        <ng-container *ngFor="let validation of validation_messages.username">
+          <div class="error-message-required" *ngIf="validation.type == 'required' && validations_form.get('username').hasError(validation.type) && (validations_form.get('username').dirty || validations_form.get('username').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+          </div>
+        </ng-container>
+      </div>
     </ion-item>
-    <!-- <div class="validation-errors">
-      <ng-container *ngFor="let validation of validation_messages.username">
-        <div class="error-message" *ngIf="validations_form.get('username').hasError(validation.type) && (validations_form.get('username').dirty || validations_form.get('username').touched)">
-          <ion-icon name="information-circle-outline"></ion-icon>{{validation.message}}
-        </div>
-      </ng-container>
-    </div> -->
     
 
     <ion-item class="emailAdd">
       <ion-icon name="at" slot="start" style="color: #0E2B3D;"></ion-icon>
       <ion-input type="text" formControlName="email" placeholder="Email Address"></ion-input>
+      <div class="validation-errors-required">
+        <ng-container *ngFor="let validation of validation_messages.email">
+          <div class="error-message-required" *ngIf="validation.type == 'required' && validations_form.get('email').hasError(validation.type) && (validations_form.get('email').dirty || validations_form.get('email').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+          </div>
+        </ng-container>
+      </div>
+  
     </ion-item>
     
 
@@ -86,18 +100,10 @@
 
     <!-- validation error messages -->
 
-    <div class="validation-errors">
-      <ng-container *ngFor="let validation of validation_messages.name">
-        <div id="error-message" class="error-message" *ngIf="validations_form.get('name').hasError(validation.type) && (validations_form.get('name').dirty || validations_form.get('name').touched)">
-          <ion-icon name="information-circle-outline"></ion-icon> {{validation.message}}
-        </div>
-      </ng-container>
-    </div>
-
 
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validation_messages.username">
-        <div class="error-message" *ngIf="validations_form.get('username').hasError(validation.type) && (validations_form.get('username').dirty || validations_form.get('username').touched)">
+        <div class="error-message" *ngIf="validation.type == 'pattern' || validation.type == 'minlength' || validation.type == 'maxlength' || validation.type == 'validUsername' && validations_form.get('username').hasError(validation.type) && (validations_form.get('username').dirty || validations_form.get('username').touched)">
           <ion-icon name="information-circle-outline"></ion-icon> {{validation.message}}
         </div>
       </ng-container>
@@ -105,7 +111,7 @@
 
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validation_messages.email">
-        <div class="error-message" *ngIf="validations_form.get('email').hasError(validation.type) && (validations_form.get('email').dirty || validations_form.get('email').touched)">
+        <div class="error-message" *ngIf="validation.type == 'pattern' && validations_form.get('email').hasError(validation.type) && (validations_form.get('email').dirty || validations_form.get('email').touched)">
           <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
         </div>
       </ng-container>
