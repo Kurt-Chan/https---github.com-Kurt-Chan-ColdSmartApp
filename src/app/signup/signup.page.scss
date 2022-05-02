@@ -1,0 +1,184 @@
+$font: 'Metropolis';
+$white: #F5F5F5;
+$gray: #E6E6E6;
+$black: #1F1F1F;
+$darkblue: #0E2B3D;
+$blue: #174866;
+$lightblue: #52AAB5;
+ 
+ 
+ img{
+    width: 414px;
+    height: 239px;
+    left: 414px;
+    top: 239px;
+    z-index: -1;
+}
+
+.introText{
+    position: absolute;
+    width: 206px;
+    height: 28px;
+    left: 103px;
+    top: 117px;
+
+    font-family: $font;
+    font-style: normal;
+    font-weight: 100;
+    font-size: 14px;
+    line-height: 14px;
+    text-align: center;
+    color:$white;
+}
+
+.coldsmartType{
+    position: absolute;
+    width: 192px;
+    height: 35px;
+    left: 110px;
+    top: 160px;
+}
+
+ion-content{
+    .textHeader{
+        position: absolute;
+        width: 187px;
+        height: 64px;
+        left: 53px;
+        top: 5px;
+        
+        font-style: normal;
+        font-weight: 800;
+        font-size: 32px;
+        line-height: 32px;
+    }
+
+    form{
+        position: absolute;
+        width: 298px;
+        height: 213px;
+        left: 58px;
+        top: 132px;
+
+        .validation-errors{
+            position: relative;
+            top: 35%;
+            .error-message
+            {
+              color: red;
+              font-size: 12px;
+            //   margin-left: 10px;
+              margin-top: 10px;
+              text-align: center;
+            }
+        }
+
+
+
+        .fullName{
+            --border-width: 1px;
+            --border-color: $black;
+            --border-radius: 8px 8px 0px 0px;
+        }
+        .userName{
+            --border-width: 1px;
+            --border-color: $black;
+        }
+        .emailAdd{
+            --border-width: 1px;
+            --border-color: $black;
+        }
+        .contact{
+            --border-width: 1px;
+            --border-color: $black;
+        }
+        .password{
+            --border-width: 1px;
+            --border-color: $black;
+        }
+        .confirmPass{
+            --border-width: 1px;
+            --border-color: $black;
+            --border-radius: 0px 0px 8px 8px;
+        }
+
+        .signUpBtn{
+            position: absolute;
+            height: 50px;
+            width: 200px;
+            top: 325px;
+            left: 50px;
+
+            background: $lightblue;
+            border-radius: 8px;
+            
+            font-style: normal;
+            font-size: 16px;
+            font-weight: 200;
+            line-height: 16px;
+            color: $white;
+        }
+    }
+
+    .signUpOptions{
+        position: absolute;
+        height: 10px;
+        width: 62px;
+        top: 83%;
+        left: 176px;
+
+        font-style: normal;
+        font-size: 10px;
+        font-weight: 500;
+        line-height: 10px;
+    }
+
+    .signUpOptBtn{
+
+        .google{
+            position: absolute;
+            height: 32px;
+            width: 35px;
+            top: 87%;
+            left: 169px;
+        }
+
+        .facebook{
+            position: absolute;
+            height: 32px;
+            width: 35px;
+            top: 87%;
+            left: 210px;
+        }
+    }
+
+    .login{
+        position: absolute;
+        width: 156px;
+        height: 10px;
+        left: 129px;
+        top: 92%;
+
+        font-style: normal;
+        font-weight: 200;
+        font-size: 10px;
+        line-height: 10px;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title> <img class="coldsmartType" src="assets/logotypeLGHTBLUE.png" alt=""></ion-title>
+    <ion-buttons slot="end">
+      <ion-button slot="icon-only" class="profile" [routerLink]="['/home']"><ion-icon name="home"></ion-icon></ion-button>
+      <ion-button slot="icon-only" class="menu" (click)="openMenuPopover($event)"> <ion-icon name="menu-outline" ></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="userCard">
+    
+      <div class="circle">
+        <div class="editPic">
+          <ion-icon name="pencil-sharp" (click)="changePic()"></ion-icon>
+        </div>
+        <img class="userPic" src="assets/Ajmere-Dale-Square-thumbnail.jpg">
+
+      </div>
+
+    <ion-card>
+      <ion-card-header color="primary">
+        
+      <ion-title>
+        <div class="username">
+          USERNAME
+        </div>
+      </ion-title>
+      <ion-label>
+        <p class="email">username@gmail.com</p> 
+      </ion-label>
+    </ion-card-header>
+
+
+      <ion-card-content>
+        <p class="address">Carig Sur, Tuguegarao City</p>
+        <p class="contact">(+63) 912 345 6789</p>
+
+        <!-- if the user is DSM Registered -->
+        <div class="dsmVerified"> 
+          <ion-label>
+            <!-- <ion-icon slot="start" name="checkmark-circle"></ion-icon> -->
+            <a href="#">Register to DSM</a> 
+          </ion-label>
+        </div>
+        <!-- if the user is DSM Registered -->
+
+
+
+        <button class="editProfileBtn" ion-button routerLink="/edit-profile-page">
+          <!-- <ion-icon slot="end" name="create"></ion-icon> -->
+          Edit Profile
+        </button>
+      </ion-card-content>
+   
+
+
+    
+    </ion-card>
+  </div>
+
+
+  
+
+</ion-content>
+
+<ion-footer collapse="fade" class="ion-no-border" >
+  <ion-toolbar>
+    <p class="coldsmart">coldsmart</p>
+    <p class="allRights">All Rights Reserved</p>
+    <p class="copyright">Copyright Ⓒ 2022 </p>
+  </ion-toolbar>
+</ion-footer>

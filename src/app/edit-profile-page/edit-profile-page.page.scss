@@ -1,0 +1,31 @@
+$font: 'Metropolis';
+$white: #F5F5F5;
+$gray: #E6E6E6;
+$black: #1F1F1F;
+$darkblue: #0E2B3D;
+$blue: #174866;
+$lightblue: #52AAB5;
+
+ion-content{
+    form{
+        ion-list{
+            .addSchedBtns{
+                padding: 1rem;
+                .setBtn{
+                    position: absolute;
+                    width: 70%;
+                    height: 40px;
+                    // left: 10%;
+                    border-radius: 8px;
+                    background: $lightblue;
+                    font-style: normal;
+                    font-size: 16px;
+                    font-weight: 300;
+                    line-height: 40px;
+                    color: $white;
+                }
+                
+            }
+        }
+    }
+}

@@ -1,0 +1,103 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Add Aircon</ion-title>
+    <ion-buttons slot="end">
+    <ion-button slot="icon-only" class="close" (click)="dismissModal()"><ion-icon name="close-outline"></ion-icon></ion-button>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="addAirconForm">
+
+    <div class="information">
+
+      <p class="textInfo"> <ion-icon name="help-circle"></ion-icon>
+        Adding more aircon helps you to fully maximize comfort and energy management.
+
+    </div>
+
+    <form action="">
+
+      <ion-item-divider class="ion-text-center">
+        <div style="width: 100%; text-align: center; color:#1F1F1F; font-weight: 500;">RASPBERRY PI</div>
+      </ion-item-divider>
+
+      <ion-list lines="none">
+      <ion-item>
+        <ion-label position="stacked">ID: </ion-label>
+        <ion-input type="text" placeholder="Raspberry Pi ID"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Password: </ion-label>
+        <ion-input type="password" placeholder="Password"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-item-divider class="ion-text-center">
+      <div style="width: 100%; text-align: center; color:#1F1F1F; font-weight: 500;">DEVICE INFORMATION</div>
+    </ion-item-divider>
+
+    <ion-list lines="none">
+
+      <ion-item>
+        <ion-label position="stacked">AC Brand: </ion-label>
+        <ion-input type="text" placeholder="Condura"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">AC Type: </ion-label>
+        <ion-input type="text" placeholder="Split Type"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Remote Model </ion-label>
+        <ion-input type="text" placeholder="WCARZ006EC"></ion-input>
+      </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Minimum Temperature: </ion-label>
+      <ion-input type="number" placeholder="16"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Maximum Temperature: </ion-label>
+      <ion-input type="number" placeholder="27"></ion-input>
+    </ion-item>
+
+    <ion-item-divider class="ion-text-center">
+      <div style="width: 100%; text-align: center; color:#1F1F1F; font-weight: 500;">MODES</div>
+    </ion-item-divider>
+
+      <ion-item>
+        <ion-label>Fan Mode</ion-label>
+        <ion-checkbox ></ion-checkbox>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Eco Mode</ion-label>
+        <ion-checkbox ></ion-checkbox>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Power Mode</ion-label>
+        <ion-checkbox></ion-checkbox>
+      </ion-item>
+      
+    
+
+
+  </ion-list>
+
+  <ion-item class="addSchedBtns" lines="none">
+    <button slot="end" ion-button class="setBtn"  type="submit" expand="block" >Add</button>
+    <!-- <button slot="end" ion-button class="cancelBtn" (click)="dismissModal()" color="danger">Cancel</button> -->
+  </ion-item>
+
+
+    </form>
+  </div>
+
+</ion-content>

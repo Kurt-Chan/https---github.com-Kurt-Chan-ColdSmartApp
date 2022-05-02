@@ -24,3 +24,60 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+// @font-face {   
+//     font-family: 'Metropolis';    //This is what we are going to call
+//     src: url('src/assets/fonts/Metropolis-Regular.otf');
+//   }
+
+.extra-small-modal{
+    &::part(content){
+        width: 100%;
+        height: 40%;
+        margin: auto;
+        border-radius: 16px 16px 8px 8px;
+    }
+
+}
+
+.small-modal{
+    &::part(content){
+        width: 80%;
+        height: 70%;
+        margin: auto;
+        border-radius: 16px 16px 8px 8px;
+    }
+
+}
+
+.medium-modal{
+    &::part(content){
+        width: 85%;
+        height: 70%;
+        margin: auto;
+        border-radius: 16px 16px 8px 8px;
+    }
+
+}
+
+.menuPopover{
+    &::part(content){
+        border-radius: 8px 8px 8px 8px;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 10px;
+        line-height: 14px;
+    }
+}
+
+.infoPopover{
+    --max-height: 200px;
+
+    &::part(content){
+        border-radius: 8px 8px 8px 8px;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 10px;
+        line-height: 14px;
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAEQ,WAFG,CACP,QAAQ,CACJ,QAAQ,CAAA;EACJ,QAAQ,EAAE,QAAQ;EAClB,KAAK,EAAE,GAAG;EAEV,IAAI,EAAE,EAAE;EACR,MAAM,EAAE,QAAQ;EAEhB,WAAW,EAAE,GAAG;EAChB,UAAU,EAAE,MAAM;EAClB,WAAW,EAAE,IAAI;EACjB,SAAS,EAAE,IAAI;CAClB",
+    "sources": [
+        "air-quality-info-pop.page.scss"
+    ],
+    "names": [],
+    "file": "air-quality-info-pop.page.css"
+}

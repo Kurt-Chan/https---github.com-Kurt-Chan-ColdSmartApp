@@ -1,27 +1,399 @@
-#container {
-  text-align: center;
+$font: 'Metropolis';
+$white: #F5F5F5;
+$gray: #E6E6E6;
+$black: #1F1F1F;
+$darkblue: #0E2B3D;
+$blue: #174866;
+$lightblue: #52AAB5;
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+ion-header{
+  ion-toolbar{
+    --background: $darkblue;
+    .coldsmartType{
+      width: 146px;
+      height: 27px;
+      left: 31px;
+      top: 67px;
+    }
+
+    ion-segment{
+      // --background: $darkblue;
+      // color: #52AAB5;
+      
+
+      ::part(indicator-background) {
+        background-color: #52AAB5;
+        color: #52AAB5;
+
+      }
+    }
+
+  }
+
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
+ion-content{
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
+  .status{
+    padding-bottom: 1rem;
 
-  color: #8c8c8c;
+    ion-item-divider{
+      position: relative;
+      width: 85%;
+      height: 30%;
+      margin: 1px auto;
 
-  margin: 0;
-}
+      font-family: $font;
+      font-weight: 200;
+      font-style: normal;
+      line-height: 10px;
+      font-size: 12px;
 
-#container a {
-  text-decoration: none;
+    }
+
+    ion-item{
+      position: relative;
+      width: 80%;
+      left: 10%;
+
+      --min-height: 14px;
+
+      font-family: $font;
+      font-weight: 200;
+      font-style: normal;
+      line-height: 10px;
+      font-size: 12px;
+
+      div{
+        position: relative;
+        .AQColor{
+          position: absolute;
+          width: 11px; 
+          height: 10px; 
+          margin-right: 5px;
+          left: -15px;
+        }
+      }
+    }
+  }
+
+  .card1{
+    border-radius: 16px 16px 8px 8px;
+    ion-card-header{
+      padding-bottom: 1rem;
+      .deviceHeader{
+        ion-label{
+          ion-card-subtitle{
+            font-weight: 100;
+            font-style: normal;
+            line-height: 12px;
+            font-size: 10px;
+          }
+    
+          p{
+            font-weight: 100;
+            font-style: normal;
+            line-height: 12px;
+            font-size: 10px;
+          }
+    
+          ion-card-title{
+            font-style: normal;
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 32px;
+            color: #52AAB5;
+          }
+
+        }
+
+    }
+
+  }
+
+  .circle1 {
+    background: $lightblue;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1rem auto;
+    padding: 1rem;
+    box-shadow: 0 5px 5px 3px rgba(31, 31, 31, 0.5);
+
+    .circle2{
+      background: $darkblue;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: auto;
+      padding: 1rem;
+      box-shadow: 4px 10px 3px #3A7880;
+
+      .fan{
+        width: 23px;
+        height: 23px;
+        position: absolute;
+        left: 50%;
+        top: 30%;
+        transform: translate(-50%, -50%);
+      }
+
+      .auto{
+        width: 23px;
+        height: 23px;
+        position: absolute;
+        left: 50%;
+        top: 30%;
+        transform: translate(-50%, -50%);
+      }
+
+      .eco{
+        width: 23px;
+        height: 23px;
+        position: absolute;
+        left: 50%;
+        top: 30%;
+        transform: translate(-50%, -50%);
+        margin-bottom: 1rem;
+      }
+
+      .tempNumber{
+        font-style: normal;
+        font-weight: 600;
+        font-size: 120px;
+        line-height: 128px;
+        color: $white;
+        position: absolute;
+        left: 50%;
+        top: 25.5%;
+        transform: translate(-50%, -50%);
+      }
+
+      .unit{
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 20px;
+        color: $white;
+        position: absolute;
+        left: 100%;
+        top: 5%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+  }
+
+  .tempRange{
+    position: relative;
+    top: 1rem;
+    width: 305px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .settings{
+    position: relative;
+    top: 50px;
+    width: 250px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-bottom: 1rem;
+
+    ion-label{
+      font-style: normal;
+      font-weight: 200;
+      font-size: 16px;
+      line-height: 16px;
+    }
+
+    .fan{
+      width: 23px;
+      height: 23px;
+    }
+
+    .auto{
+      width: 23px;
+      height: 23px;
+    }
+
+  }
+  }
+
+  ion-accordion-group{
+    position: relative;
+    width: 90%;
+    left: 5%;
+
+
+    ion-accordion {
+      margin: 0 auto;
+      
+      ion-list{
+        position: relative;
+        width: 85%;
+        // left: 50%;
+        // transform: translate(-50%, -50%);
+        margin: 5px auto;
+      }
+    }
+    
+    // ion-accordion.accordion-expanding,
+    // ion-accordion.accordion-expanded {
+    //   width: calc(100% - 32px);
+    //   margin: auto;
+    // }
+
+    ion-accordion.accordion-collapsing ion-item[slot="header"],
+    ion-accordion.accordion-collapsed ion-item[slot="header"]{
+      --color: #F5F5F5;
+      text-align: center;
+      --background: #0E2B3D;
+      border-radius: 8px 8px 8px 8px;
+      
+    }
+
+    ion-accordion.accordion-expanding ion-item[slot="header"],
+    ion-accordion.accordion-expanded ion-item[slot="header"] {
+      --color: #F5F5F5;
+      text-align: center;
+      --background: #0E2B3D;
+      border-radius: 8px 8px 0px 0px;
+    }
+
+    ion-accordion.accordion-expanding ion-item[slot="content"],
+    ion-accordion.accordion-expanded ion-item[slot="content"] {
+      --background: #E6E6E6;
+      border-radius: 8px 8px 0px 0px;
+    }
+
+
+    .sleep{
+      width: 28px;
+      height: 12px;
+    }
+
+    .geofencing{
+      width: 18px;
+      height: 18px;
+      
+    }
+
+    .fanDiss{
+      width: 18px;
+      height: 18.9px;
+    }
+
+    .dehumidify{
+      width: 14.4px;
+      height: 20px;
+    }
+
+    .DSM{
+      width: 16.2px;
+      height: 18px;
+    }
+
+    .HVAC{
+      width: 20px;
+      height: 17.67px;
+    }
+
+    .airQuality{
+      width: 16px;
+      height: 16px;
+    }
+
+    .linkWear{
+      width: 11px;
+      height: 16px;
+    }
+
+  }
+
+  
+  .deleteAircon{
+    position: relative;
+    border-radius: 8px 8px 8px 8px;
+    width: 90%;
+    height: 40px;
+    margin: 1rem auto;
+    left: 5%;
+
+    background-color: #dd4848;
+
+
+    ion-icon{
+      font-style: normal;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 16px;
+      color: white;
+
+      // ion-icon{
+      //   font-style: normal;
+      //   font-weight: 400;
+      //   font-size: 15px;
+      //   line-height: 10px;
+      //   color: white;
+      // }
+    }
+
+  }
+
+
+  // schedule
+
+  .listSched{
+    p{
+      font-weight: 100;
+      font-style: normal;
+      line-height: 12px;
+      font-size: 10px;
+    }
+    h1{
+      font-style: normal;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 32px;
+      color: #0E2B3D;
+    }
+  }
+
+  ion-fab{
+    position: fixed;
+  }
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

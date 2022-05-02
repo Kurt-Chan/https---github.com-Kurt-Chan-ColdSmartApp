@@ -1,0 +1,169 @@
+$font: 'Metropolis';
+$white: #F5F5F5;
+$gray: #E6E6E6;
+$black: #1F1F1F;
+$darkblue: #0E2B3D;
+$blue: #174866;
+$lightblue: #52AAB5;
+
+ion-header{
+  ion-toolbar{
+    --background: $darkblue;
+    .coldsmartType{
+      width: 146px;
+      height: 27px;
+      left: 31px;
+      top: 67px;
+    }
+  }
+}
+
+ion-content{
+
+
+  .userCard{
+    
+    .circle{
+        position: relative;
+        // left: 22%;
+        width: 50%;
+        margin: 2rem auto;
+        
+        .editPic{
+          position: absolute;
+          top: 77%;
+          left: 48.5%;
+          transform: translate(-50%, -50%);
+          height: 55px;
+          width: 83%;
+          border-radius: 0 0 50% 50%/0 0 100% 100%;
+          background-color: $black;
+          opacity: 0.5;
+
+          align-items: center;
+          text-align: center;
+          
+          ion-icon{
+            position: relative;
+            top: 17%;
+            color: white;
+            font-size: 33px;
+          }
+
+        }
+
+      .userPic{
+        border-radius: 50%;
+        width: 200px;
+        height: 200px;
+        border: 10px solid #0E2B3D;
+      }
+
+    }
+
+    ion-card{
+      top: -1rem;
+      border-radius: 16px 16px 8px 8px;
+
+      .username{
+        width: 100%;
+        text-align: center; 
+        font-style: normal;
+        font-weight: 600;
+        font-size: 32px;
+        line-height: 32px;
+      }
+
+      ion-label .email{
+        width: 100%;
+        text-align: center; 
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 14px;
+        color: #F5F5F5;
+      }
+
+      ion-card-content{
+        margin-top: 1rem;
+        width: 100%;
+        text-align: center; 
+        font-style: normal;
+        font-weight: 300;
+        font-size: 14px;
+        line-height: 14px;
+      }
+    }
+
+
+    .dsmVerified{
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+
+      ion-label{
+        color: #174866;
+        font-weight: 500;
+        width: 100%;
+        margin: auto;
+      }
+    }
+
+    .editProfileBtn{
+      position: relative;
+      width: 50%;
+      
+      height: 40px;
+      margin: 5px auto;
+
+      background-color: #52AAB5;
+      color: white;
+
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 8px;
+    }
+
+  }
+
+
+
+
+}
+
+
+
+ion-footer{
+
+  .coldsmart{
+    position: absolute;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 12px;
+    left: 177px;
+    line-height: 12px;
+
+    color: #52AAB5;
+  }
+  
+  .allRights{
+    position: relative;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+    left: 150px;
+    top: 14px;
+  }
+
+  .copyright{
+    position: relative;
+    font-style: normal;
+    font-weight: 200;
+    font-size: 10px;
+    line-height: 12px;
+    left: 163px;
+    top: 3px;
+  }
+
+
+}

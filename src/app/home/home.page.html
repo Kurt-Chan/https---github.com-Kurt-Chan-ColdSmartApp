@@ -1,20 +1,451 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title> <img class="coldsmartType" src="assets/logotypeLGHTBLUE.png" alt=""></ion-title>
+    <ion-buttons slot="end">
+      <ion-button slot="icon-only" class="profile" [routerLink]="['/profile']"><ion-icon name="person-circle-outline"></ion-icon></ion-button>
+      <ion-button slot="icon-only" class="menu" (click)="openMenuPopover($event)"> <ion-icon name="menu-outline" ></ion-icon></ion-button>
+    </ion-buttons>
   </ion-toolbar>
+
+  <!-- segments -->
+  <ion-toolbar color="primary">
+    <ion-segment [(ngModel)]="selectTabs">
+
+      <ion-segment-button value="temperature" active>
+        <ion-label>AC Devices</ion-label>
+      </ion-segment-button>
+    
+      <ion-segment-button value="schedule">
+        <ion-label>Schedule</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+
+
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+<!-- contentsss -->
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+
+<div class="status">
+  <ion-item-divider class="ion-text-center">
+    <div style="width: 100%; text-align: center; color:#1F1F1F;">ROOM STATUS</div>
+  </ion-item-divider>
+  <ion-item lines="none">
+    <ion-label>Temperature</ion-label>
+    <ion-text><b>35 °C</b></ion-text>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label>Humidity</ion-label>
+    <ion-text><b>32 AH</b></ion-text>
+  </ion-item>
+  
+  <ion-item button (click)="airQualityInfoPop()" lines="none">
+    <ion-label>Air Quality</ion-label>
+
+    <ng-container *ngIf="air_quality == 'normal'">
+      <div *ngFor="let messages of aq_messages.normal">
+        <div class="AQColor" [ngStyle]="{'background-color': messages.color}"></div>
+        <ion-text><b>{{ messages.status }}</b></ion-text>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="air_quality == 'adequate'">
+      <div *ngFor="let messages of aq_messages.adequate">
+        <div class="AQColor" [ngStyle]="{'background-color': messages.color}"></div>
+        <ion-text><b>{{ messages.status }}</b></ion-text>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="air_quality == 'unhealthy'">
+      <div *ngFor="let messages of aq_messages.unhealthy">
+        <div class="AQColor" [ngStyle]="{'background-color': messages.color}"></div>
+        <ion-text><b>{{ messages.status }}</b></ion-text>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="air_quality == 'harmful'">
+      <div *ngFor="let messages of aq_messages.harmful">
+        <div class="AQColor" [ngStyle]="{'background-color': messages.color}"></div>
+        <ion-text><b>{{ messages.status }}</b></ion-text>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="air_quality == 'toxic'">
+      <div *ngFor="let messages of aq_messages.toxic">
+        <div class="AQColor" [ngStyle]="{'background-color': messages.color}"></div>
+        <ion-text><b>{{ messages.status }}</b></ion-text>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="air_quality == 'hazardous'">
+      <div *ngFor="let messages of aq_messages.hazardous">
+        <div class="AQColor" [ngStyle]="{'background-color': messages.color}"></div>
+        <ion-text><b>{{ messages.status }}</b></ion-text>
+      </div>
+    </ng-container>
+
+  </ion-item>
+</div>
+
+
+
+<!-- if the segment tab is on TEMPERATURE -->
+<div *ngIf="selectTabs == 'temperature'">
+  <ion-item-divider class="ion-text-center">
+    <div style="width: 100%; text-align: center; color:#1F1F1F; font-weight: 500;">AIRCONS</div>
+  </ion-item-divider>
+
+<div class="outerDiv">
+  <ion-item-sliding>
+  <ion-card class="card1">
+    <ion-card-header color="primary">
+      
+      <ion-item lines="none" color="transparent" class="deviceHeader">
+        <ion-label>
+          <ion-card-subtitle>Window-Type</ion-card-subtitle>
+          <ion-card-title>CARRIER</ion-card-title>
+          <p class="model">WCARZ006EC</p>
+        </ion-label>
+        <ion-toggle [(ngModel)]="aircon" color="tertiary" slot="end"></ion-toggle>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option (click)="deleteAircon()" color="danger">
+          <ion-icon slot="icon-only" name="trash" color="light"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+        
+    
+
+    </ion-card-header>
+
+    <div *ngIf="aircon" class="tempSettings">
+    <div class="circle1">
+      <div class="circle2">
+        <ion-img *ngIf="fan" class="fan" src="assets/fan_white.png" slot="start"></ion-img>
+        <ion-img *ngIf="eco" class="eco" src="assets/eco_white.png" slot="start"></ion-img>
+        <ion-img *ngIf="auto" class="auto" src="assets/auto_white.png" slot="start"></ion-img>
+
+      <p class="tempNumber">{{rangeVal}}<span class="unit">°C</span></p>
+    </div>
+    </div>
+
+
+    <div class="tempRange">
+      <ion-range [(ngModel)]="rangeVal" min="16" max="27" step="1" snaps color="primary" (ionChange)="rangeFocused($event)">
+        <ion-icon slot="start" color="tertiary" name="snow"></ion-icon>
+        <ion-icon slot="end" color="danger" name="thermometer"></ion-icon>
+      </ion-range>
+    </div>
+
+
+    <div class="settings">
+      <ion-item class="ecoMode" lines="none">
+        <ion-label color="primary" >Fan Mode</ion-label>
+        <ion-img class="fan" src="assets/fan.png" slot="start"></ion-img>
+        <ion-toggle [(ngModel)]="fan" color="tertiary" slot="end"></ion-toggle>
+      </ion-item>
+
+      <ion-item class="ecoMode" lines="none">
+        <ion-label color="primary" >Eco Mode</ion-label>
+        <ion-icon color="primary" name="leaf" slot="start"></ion-icon>
+        <ion-toggle [(ngModel)]="eco" color="tertiary" slot="end"></ion-toggle>
+      </ion-item>
+
+      <!-- <ion-item class="autoMode" lines="none">
+        <ion-label color="primary" >Auto Mode</ion-label>
+        <ion-img class="auto" src="assets/auto.png" slot="start"></ion-img>
+        <ion-toggle [(ngModel)]="auto" color="tertiary" slot="end"></ion-toggle>
+      </ion-item> -->
+    </div>
+
+    </div>
+
+    <!-- <button ion-button class="deleteAircon" (click)="deleteAircon()">
+    <ion-icon name="trash" slot="start"></ion-icon>
+    </button> -->
+
+
+  </ion-card>
+</ion-item-sliding>
+
+</div>
+
+  <!-- advanced settings/features-->
+
+  <ion-accordion-group>
+    <ion-accordion toggle-icon="caret-down">
+      <ion-item slot="header">
+        <ion-label>Show Advanced Settings</ion-label>
+      </ion-item>
+
+      <ion-list slot="content">
+
+        <!-- <ion-item lines="none">
+          <ion-img class="sleep" src="assets/settings/SleepIQ.png" slot="start"></ion-img>
+          <ion-label>Sleep IQ</ion-label>
+          <ion-toggle color="tertiary" slot="end"></ion-toggle>
+        </ion-item> -->
+
+        <!-- <ion-item lines="none">
+          <ion-img class="geofencing" src="assets/settings/geofencing.png" slot="start"></ion-img>
+          <ion-label>Geofencing</ion-label>
+          <ion-toggle color="tertiary" slot="end"></ion-toggle>
+        </ion-item> -->
+
+        <!-- <ion-item lines="none">
+          <ion-img class="fanDiss" src="assets/settings/fan_dissipation.png" slot="start"></ion-img>
+          <ion-label>Fan Dissipation</ion-label>
+          <ion-toggle color="tertiary" slot="end"></ion-toggle>
+        </ion-item> -->
+
+        <!-- <ion-item lines="none">
+          <ion-img class="dehumidify" src="assets/settings/dehumidify.png" slot="start"></ion-img>
+          <ion-label>Dehumidify</ion-label>
+          <ion-toggle color="tertiary" slot="end"></ion-toggle>
+        </ion-item> -->
+
+        <!-- <ion-item lines="none">
+          <ion-img class="DSM" src="assets/settings/DSM.png" slot="start"></ion-img>
+          <ion-label>DSM</ion-label>
+          <ion-toggle color="tertiary" slot="end"></ion-toggle>
+        </ion-item> -->
+
+        <ion-item lines="none">
+          <ion-img class="HVAC" src="assets/settings/HVAC.png" slot="start"></ion-img>
+          <ion-label>HVAC Zoning</ion-label>
+          <ion-toggle color="tertiary" slot="end"></ion-toggle>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-img class="airQuality" src="assets/settings/AQ.png" slot="start"></ion-img>
+          <ion-label>Air Quality</ion-label>
+          <ion-toggle color="tertiary" slot="end" checked></ion-toggle>
+        </ion-item>
+
+        <!-- <ion-item lines="none">
+          <ion-img class="linkWear" src="assets/settings/LinkWear.png" slot="start"></ion-img>
+          <ion-label>Link Wear</ion-label>
+          <ion-toggle color="tertiary" slot="end"></ion-toggle>
+        </ion-item> -->
+
+      </ion-list>
+    </ion-accordion>
+  </ion-accordion-group>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
+    <ion-fab-button color="tertiary" (click)="addAirconModal()">
+      <ion-icon name="add" color="light"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+
+</div>
+
+<!-- segment tab TEMPERATURE end -->
+
+
+
+
+<!-- if the segment tab is on SCHEDULE -->
+
+<div  *ngIf="selectTabs == 'schedule'">
+  
+  <div class="listSched">
+    <ion-item-divider class="ion-text-center">
+      <div style="width: 100%; text-align: center; color:#1F1F1F; font-weight: 500;">SCHEDULE</div>
+    </ion-item-divider>
+    
+  <ion-list>
+
+    <ion-item-sliding>
+    <ion-item class="sched">
+      <ion-label>
+      <p class="day">Every Monday</p>
+      <p class="setTemp">18 °C</p>
+      <h1>Sched Name</h1>
+      <p class="time">10:00 AM - 12:00 PM</p>
+    </ion-label>
+      <ion-toggle color="tertiary" slot="end"></ion-toggle>
+    </ion-item>
+    <ion-item-options side="end">
+      <ion-item-option (click)="deleteSched(item)" color="danger">
+        <ion-icon slot="icon-only" name="trash-bin" color="light"></ion-icon>
+      </ion-item-option>
+
+      <ion-item-option (click)="editSchedModal()" color="tertiary">
+        <ion-icon slot="icon-only" name="create" color="light"></ion-icon>
+      </ion-item-option>
+
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <!-- for design purpose only -->
+  <ion-item-sliding>
+    <ion-item class="sched">
+      <ion-label>
+      <p class="day">Every Monday</p>
+      <p class="setTemp">18 °C</p>
+      <h1>Sched Name</h1>
+      <p class="time">10:00 AM - 12:00 PM</p>
+    </ion-label>
+      <ion-toggle color="tertiary" slot="end"></ion-toggle>
+    </ion-item>
+    <ion-item-options side="end">
+      <ion-item-option (click)="delete(item)" color="danger">
+        <ion-icon slot="icon-only" name="trash-bin" color="light"></ion-icon>
+      </ion-item-option>
+
+      <ion-item-option (click)="delete(item)" color="tertiary">
+        <ion-icon slot="icon-only" name="create" color="light"></ion-icon>
+      </ion-item-option>
+
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-item-sliding>
+    <ion-item class="sched">
+      <ion-label>
+      <p class="day">Every Monday</p>
+      <p class="setTemp">18 °C</p>
+      <h1>Sched Name</h1>
+      <p class="time">10:00 AM - 12:00 PM</p>
+    </ion-label>
+      <ion-toggle color="tertiary" slot="end"></ion-toggle>
+    </ion-item>
+    <ion-item-options side="end">
+      <ion-item-option (click)="delete(item)" color="danger">
+        <ion-icon slot="icon-only" name="trash-bin" color="light"></ion-icon>
+      </ion-item-option>
+
+      <ion-item-option (click)="delete(item)" color="tertiary">
+        <ion-icon slot="icon-only" name="create" color="light"></ion-icon>
+      </ion-item-option>
+
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-item-sliding>
+    <ion-item class="sched">
+      <ion-label>
+      <p class="day">Every Monday</p>
+      <p class="setTemp">18 °C</p>
+      <h1>Sched Name</h1>
+      <p class="time">10:00 AM - 12:00 PM</p>
+    </ion-label>
+      <ion-toggle color="tertiary" slot="end"></ion-toggle>
+    </ion-item>
+    <ion-item-options side="end">
+      <ion-item-option (click)="delete(item)" color="danger">
+        <ion-icon slot="icon-only" name="trash-bin" color="light"></ion-icon>
+      </ion-item-option>
+
+      <ion-item-option (click)="delete(item)" color="tertiary">
+        <ion-icon slot="icon-only" name="create" color="light"></ion-icon>
+      </ion-item-option>
+
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-item-sliding>
+    <ion-item class="sched">
+      <ion-label>
+      <p class="day">Every Monday</p>
+      <p class="setTemp">18 °C</p>
+      <h1>Sched Name</h1>
+      <p class="time">10:00 AM - 12:00 PM</p>
+    </ion-label>
+      <ion-toggle color="tertiary" slot="end"></ion-toggle>
+    </ion-item>
+    <ion-item-options side="end">
+      <ion-item-option (click)="delete(item)" color="danger">
+        <ion-icon slot="icon-only" name="trash-bin" color="light"></ion-icon>
+      </ion-item-option>
+
+      <ion-item-option (click)="delete(item)" color="tertiary">
+        <ion-icon slot="icon-only" name="create" color="light"></ion-icon>
+      </ion-item-option>
+
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-item-sliding>
+    <ion-item class="sched">
+      <ion-label>
+      <p class="day">Every Monday</p>
+      <p class="setTemp">18 °C</p>
+      <h1>Sched Name</h1>
+      <p class="time">10:00 AM - 12:00 PM</p>
+    </ion-label>
+      <ion-toggle color="tertiary" slot="end"></ion-toggle>
+    </ion-item>
+    <ion-item-options side="end">
+      <ion-item-option (click)="delete(item)" color="danger">
+        <ion-icon slot="icon-only" name="trash-bin" color="light"></ion-icon>
+      </ion-item-option>
+
+      <ion-item-option (click)="delete(item)" color="tertiary">
+        <ion-icon slot="icon-only" name="create" color="light"></ion-icon>
+      </ion-item-option>
+
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-item-sliding>
+    <ion-item class="sched">
+      <ion-label>
+      <p class="day">Every Monday</p>
+      <p class="setTemp">18 °C</p>
+      <h1>Sched Name</h1>
+      <p class="time">10:00 AM - 12:00 PM</p>
+    </ion-label>
+      <ion-toggle color="tertiary" slot="end"></ion-toggle>
+    </ion-item>
+    <ion-item-options side="end">
+      <ion-item-option (click)="delete(item)" color="danger">
+        <ion-icon slot="icon-only" name="trash-bin" color="light"></ion-icon>
+      </ion-item-option>
+
+      <ion-item-option (click)="edit(item)" color="tertiary">
+        <ion-icon slot="icon-only" name="create" color="light"></ion-icon>
+      </ion-item-option>
+
+    </ion-item-options>
+  </ion-item-sliding>
+  <!-- for design purpose only end -->
+  </ion-list>
+
+</div>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed" >
+  <ion-fab-button color="tertiary" (click)="addSchedModal()">
+    <ion-icon name="add" color="light"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+
+
+</div>
+<!-- segment tab SCHEDULE end -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </ion-content>

@@ -1,0 +1,27 @@
+ion-header ion-toolbar {
+  --background: $darkblue;
+}
+
+ion-content .addSchedForm .days ion-item {
+  height: 45px;
+  line-height: 45px;
+  width: auto;
+}
+
+ion-content .addSchedForm .addSchedBtns {
+  padding: 1rem;
+}
+
+ion-content .addSchedForm .addSchedBtns .setBtn {
+  position: absolute;
+  width: 70%;
+  height: 40px;
+  border-radius: 8px;
+  background: #52AAB5;
+  font-style: normal;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 40px;
+  color: #F5F5F5;
+}
+/*# sourceMappingURL=add-sched-modal.page.css.map */

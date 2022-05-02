@@ -1,0 +1,47 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>splashScreen</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+<img class="bed" src="assets/bed.jpg">
+<img class="logoBLK" src="assets/coldsmartlogoBLK.png">
+
+
+<p class="introText">Save energy while maintaing <br>a good rest</p>
+
+<div class="buttons">
+  <button ion-button class="getStarted" [routerLink]="['/signup']">Get Started</button>
+
+
+  <div class="signUpOptions">
+    <button ion-button class="google" color="medium" routerLink="#">
+      <ion-icon name="logo-google" slot="start"></ion-icon>
+      Sign up with Google
+    </button>
+
+  <button ion-button class="facebook" color="medium" routerLink="#">
+    <ion-icon name="logo-facebook" slot="start"></ion-icon>
+    Sign up with Facebook
+  </button>
+  </div>
+    
+  <p class="login">I already have an account. <a [routerLink]="['/login']">Login</a></p>
+    
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ion-content>

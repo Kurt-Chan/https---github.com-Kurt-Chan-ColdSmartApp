@@ -1,0 +1,17 @@
+ion-content form ion-list .addSchedBtns {
+  padding: 1rem;
+}
+
+ion-content form ion-list .addSchedBtns .setBtn {
+  position: absolute;
+  width: 70%;
+  height: 40px;
+  border-radius: 8px;
+  background: #52AAB5;
+  font-style: normal;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 40px;
+  color: #F5F5F5;
+}
+/*# sourceMappingURL=edit-profile-page.page.css.map */

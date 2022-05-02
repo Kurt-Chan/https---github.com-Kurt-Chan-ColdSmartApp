@@ -1,0 +1,130 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>New Schedule</ion-title>
+    <ion-buttons slot="end">
+    <ion-button slot="icon-only" class="close" (click)="dismissModal()"><ion-icon name="close-outline"></ion-icon></ion-button>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+<div class="addSchedForm">
+  <!-- <ion-card class="form1"> -->
+    <form action="">
+      <ion-card-header>
+        <ion-input type="text" placeholder="Enter Schedule Name"></ion-input>
+      </ion-card-header>
+
+      <div class="days">
+        <ion-list lines="none">
+          <ion-item-divider>
+            <ion-label>Select Day</ion-label>
+          </ion-item-divider>
+
+          <ion-item>
+            <ion-label>Everyday </ion-label>
+            <ion-checkbox checked (click)="masterCheck()" slot="end"></ion-checkbox>
+          </ion-item>
+          
+          <div *ngIf="everyday == true" class="otherDays">
+          <ion-item>
+            <ion-label>Every Monday</ion-label>
+            <ion-checkbox slot="end"></ion-checkbox>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Every Tuesday</ion-label>
+            <ion-checkbox  slot="end"></ion-checkbox>
+          </ion-item>
+
+          <ion-item>
+            <ion-label >Every Wednesday</ion-label>
+            <ion-checkbox  slot="end"></ion-checkbox>
+          </ion-item>
+
+          <ion-item>
+            <ion-label >Every Thursday</ion-label>
+            <ion-checkbox  slot="end"></ion-checkbox>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Every Friday</ion-label>
+            <ion-checkbox   slot="end"></ion-checkbox>
+          </ion-item>
+
+          <ion-item>
+            <ion-label >Every Saturday</ion-label>
+            <ion-checkbox slot="end"></ion-checkbox>
+          </ion-item>
+
+          <ion-item>
+            <ion-label >Every Sunday</ion-label>
+            <ion-checkbox slot="end"></ion-checkbox>
+          </ion-item>
+        </div>
+
+        </ion-list>
+      </div>
+
+      <div class="time">
+        <ion-list>
+          <ion-item-divider>
+            <ion-label>Select Time</ion-label>
+          </ion-item-divider>
+
+          <ion-item>
+              <ion-label>Start Time</ion-label>
+              <ion-datetime displayFormat="hh:mm A" presentation="time"></ion-datetime>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>End Time</ion-label>
+            <ion-datetime displayFormat="hh:mm A" presentation="time" ></ion-datetime>
+          </ion-item>
+
+        </ion-list>
+      </div>
+
+
+
+      <div class="tempRange">
+          <ion-item lines="none">
+            <ion-label>Temperature</ion-label>
+            <ion-select placeholder="24 °C">
+              <ion-select-option value="18">18 °C</ion-select-option>
+              <ion-select-option value="19">19 °C</ion-select-option>
+              <ion-select-option value="20">20 °C</ion-select-option>
+              <ion-select-option value="21">21 °C</ion-select-option>
+              <ion-select-option value="22">22 °C</ion-select-option>
+              <ion-select-option value="23">23 °C</ion-select-option>
+              <ion-select-option value="24">24 °C</ion-select-option>
+              <ion-select-option value="25">25 °C</ion-select-option>
+              <ion-select-option value="26">26 °C</ion-select-option>
+              <ion-select-option value="27">27 °C</ion-select-option>
+            </ion-select>
+          </ion-item>
+      </div>
+
+      <ion-item class="addSchedBtns" lines="none">
+        <button slot="end" ion-button class="setBtn"  type="submit" expand="block" >Add</button>
+        <!-- <button slot="end" ion-button class="cancelBtn" (click)="dismissModal()" color="danger">Cancel</button> -->
+      </ion-item>
+
+      
+
+    </form>
+  <!-- </ion-card> -->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+</ion-content>

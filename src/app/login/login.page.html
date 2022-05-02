@@ -1,0 +1,39 @@
+<img src="assets/headerbg.png" alt="">
+<p class="introText">Save energy while maintaing <br>a good rest with</p>
+<img class="coldsmartType" src="assets/logotypeLGHTBLUE.png" alt="">
+
+<ion-content>
+
+  <p class="textHeader">Welcome<br>Back!</p>
+
+  <form action="">
+    <ion-item class="username">
+      <ion-icon name="person-circle-outline" slot="start" style="color: #0E2B3D;"></ion-icon>
+      <ion-input type="text" placeholder="Username or Email"></ion-input>
+    </ion-item>
+    <ion-item class="password">
+      <ion-icon name="lock-closed-outline" slot="start" style="color: #0E2B3D;"></ion-icon>
+    <ion-input type="password" placeholder="Password"></ion-input>
+  </ion-item>
+  <p class="forgotPass"><a href="" style="color: #0E2B3D;">Forgot Password</a> </p>
+
+
+  <button class="loginBtn" ion-button type="submit" (click)="login()">Login</button>
+
+</form>
+
+  <div class="loginOptions">
+    <button ion-button class="google" color="medium" routerLink="#">
+      <ion-icon name="logo-google" slot="start"></ion-icon>
+      Login with Google
+    </button>
+
+  <button ion-button class="facebook" color="medium">
+    <ion-icon name="logo-facebook" slot="start"></ion-icon>
+    Login with Facebook
+  </button>
+  </div>
+    
+  <p class="signUp">I don't have an account. <a routerLink="/signup">Sign up</a></p>
+
+</ion-content>
