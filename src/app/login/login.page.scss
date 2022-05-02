@@ -61,6 +61,27 @@ ion-content{
         left: 58px;
         top: 132px;
 
+        .validation-errors-required{
+            .error-message-required{
+                color: red;
+                font-size: 16px;
+            }
+        }
+
+        .validation-errors{
+            position: relative;
+            top: 35%;
+
+            .error-message
+            {
+              color: red;
+              font-size: 12px;
+            //   margin-left: 10px;
+              margin-top: 10px;
+              text-align: center;
+            }
+        }
+        
         .username{
             --border-width: 1px;
             --border-color: $black;
@@ -101,7 +122,10 @@ ion-content{
             font-weight: 200;
             line-height: 16px;
             color: $white;
+
         }
+
+  
     }
 
     .loginOptions{

@@ -6,19 +6,37 @@
 
   <p class="textHeader">Welcome<br>Back!</p>
 
-  <form action="">
+  <form [formGroup]="validations_form" (ngSubmit)="onSubmit(validations_form.value)">
     <ion-item class="username">
       <ion-icon name="person-circle-outline" slot="start" style="color: #0E2B3D;"></ion-icon>
-      <ion-input type="text" placeholder="Username or Email"></ion-input>
+      <ion-input type="text" formControlName="email" placeholder="Email Address"></ion-input>
+      <div class="validation-errors-required">
+        <ng-container *ngFor="let validation of validation_messages.email">
+          <div class="error-message-required" *ngIf="validation.type == 'required' && validations_form.get('email').hasError(validation.type) && (validations_form.get('email').dirty || validations_form.get('email').touched)">
+            <ion-icon name="alert-circle"></ion-icon>
+          </div>
+        </ng-container>
+      </div>
     </ion-item>
+
+
     <ion-item class="password">
       <ion-icon name="lock-closed-outline" slot="start" style="color: #0E2B3D;"></ion-icon>
-    <ion-input type="password" placeholder="Password"></ion-input>
+    <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
+    <div class="validation-errors-required">
+      <ng-container *ngFor="let validation of validation_messages.password">
+        <div class="error-message-required" *ngIf="validation.type == 'required' && validations_form.get('password').hasError(validation.type) && (validations_form.get('password').dirty || validations_form.get('password').touched)">
+          <ion-icon name="alert-circle"></ion-icon>
+        </div>
+      </ng-container>
+    </div>
   </ion-item>
-  <p class="forgotPass"><a href="" style="color: #0E2B3D;">Forgot Password</a> </p>
 
 
-  <button class="loginBtn" ion-button type="submit" (click)="login()">Login</button>
+  <!-- <p class="forgotPass"><a href="" style="color: #0E2B3D;">Forgot Password</a> </p> -->
+
+
+  <button class="loginBtn" ion-button [disabled]="!validations_form.valid" type="submit" >Login</button>
 
 </form>
 
@@ -34,6 +52,6 @@
   </button>
   </div>
     
-  <p class="signUp">I don't have an account. <a routerLink="/signup">Sign up</a></p>
+  <p class="signUp">I don't have an account. <a [routerLink]="['/signup']">Sign up</a></p>
 
 </ion-content>

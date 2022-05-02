@@ -9,6 +9,15 @@ $lightblue: #52AAB5;
 ion-content{
 
     .addAirconForm{
+
+        form{
+            .error-message-required{
+                color: red;
+                font-size: 16px;
+            }
+
+        }
+        
         .information{
             position: relative;
             width: 90%;
@@ -21,7 +30,7 @@ ion-content{
             line-height: 20px;
             font-size: 16px;
 
-            ion-icon{
+            .help_icon{
                 line-height: 20px;
                 font-size: 25px;
 

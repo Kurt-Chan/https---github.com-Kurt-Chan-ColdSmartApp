@@ -14,7 +14,7 @@
       <div class="validation-errors-required">
         <ng-container *ngFor="let validation of validation_messages.name">
           <div class="error-message-required" *ngIf="validation.type == 'required' && validations_form.get('name').hasError(validation.type) && (validations_form.get('name').dirty || validations_form.get('name').touched)">
-            <ion-icon name="information-circle-outline"></ion-icon>
+            <ion-icon name="alert-circle"></ion-icon>
           </div>
         </ng-container>
       </div>
@@ -27,7 +27,7 @@
       <div class="validation-errors-required">
         <ng-container *ngFor="let validation of validation_messages.username">
           <div class="error-message-required" *ngIf="validation.type == 'required' && validations_form.get('username').hasError(validation.type) && (validations_form.get('username').dirty || validations_form.get('username').touched)">
-            <ion-icon name="information-circle-outline"></ion-icon>
+            <ion-icon name="alert-circle"></ion-icon>
           </div>
         </ng-container>
       </div>
@@ -40,7 +40,7 @@
       <div class="validation-errors-required">
         <ng-container *ngFor="let validation of validation_messages.email">
           <div class="error-message-required" *ngIf="validation.type == 'required' && validations_form.get('email').hasError(validation.type) && (validations_form.get('email').dirty || validations_form.get('email').touched)">
-            <ion-icon name="information-circle-outline"></ion-icon>
+            <ion-icon name="alert-circle"></ion-icon>
           </div>
         </ng-container>
       </div>
@@ -52,49 +52,41 @@
       <ion-item class="contact">
         <ion-icon name="call" slot="start" style="color: #0E2B3D;"></ion-icon>
         <ion-input type="text" formControlName="phone" placeholder="Contact No."></ion-input>
+        <div class="validation-errors-required">
+          <ng-container *ngFor="let validation of validation_messages.phone">
+            <div class="error-message-required" *ngIf="validation.type == 'required' && validations_form.get('country_phone').get('phone').hasError(validation.type) && (validations_form.get('country_phone').get('phone').dirty || validations_form.get('country_phone').get('phone').touched)">
+              <ion-icon name="alert-circle"></ion-icon>
+            </div>
+          </ng-container>
+        </div>
       </ion-item>
-      <!-- <div class="validation-errors">
-        <ng-container *ngFor="let validation of validation_messages.phone">
-          <div class="error-message" *ngIf="validations_form.get('country_phone').get('phone').hasError(validation.type) && (validations_form.get('country_phone').get('phone').dirty || validations_form.get('country_phone').get('phone').touched)">
-            <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
-          </div>
-        </ng-container>
-      </div> -->
     </div>
 
     <div formGroupName="matching_passwords">
       <ion-item class="password">
         <ion-icon name="lock-closed-outline" slot="start" style="color: #0E2B3D;"></ion-icon>
       <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
-      </ion-item>
-      <!-- <div class="validation-errors">
+      <div class="validation-errors-required">
         <ng-container *ngFor="let validation of validation_messages.password">
-          <div class="error-message" *ngIf="validations_form.get('matching_passwords').get('password').hasError(validation.type) && (validations_form.get('matching_passwords').get('password').dirty || validations_form.get('matching_passwords').get('password').touched)">
-            <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+          <div class="error-message-required" *ngIf="validation.type == 'required' && validations_form.get('matching_passwords').get('password').hasError(validation.type) && (validations_form.get('matching_passwords').get('password').dirty || validations_form.get('matching_passwords').get('password').touched)">
+            <ion-icon name="alert-circle"></ion-icon>
           </div>
         </ng-container>
-      </div> -->
+      </div>
+      </ion-item>
 
         <ion-item class="confirmPass">
         <ion-icon name="lock-closed" slot="start" style="color: #0E2B3D;"></ion-icon>
       <ion-input type="password" formControlName="confirm_password" placeholder="Confirm Password"></ion-input>
-      </ion-item>
-      <!-- <div class="validation-errors">
+      <div class="validation-errors-required">
         <ng-container *ngFor="let validation of validation_messages.confirm_password">
-          <div class="error-message" *ngIf="validations_form.get('matching_passwords').get('confirm_password').hasError(validation.type) && (validations_form.get('matching_passwords').get('confirm_password').dirty || validations_form.get('matching_passwords').get('confirm_password').touched)">
-            <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+          <div class="error-message-required" *ngIf="validation.type == 'required' && validations_form.get('matching_passwords').get('confirm_password').hasError(validation.type) && (validations_form.get('matching_passwords').get('confirm_password').dirty || validations_form.get('matching_passwords').get('confirm_password').touched)">
+            <ion-icon name="alert-circle"></ion-icon>
           </div>
         </ng-container>
-      </div> -->
+      </div>
+      </ion-item>
     </div>
-     <!-- These validations are for the form group matching passwords -->
-    <!-- <div class="validation-errors">
-      <ng-container *ngFor="let validation of validation_messages.matching_passwords">
-        <div class="error-message" *ngIf="validations_form.get('matching_passwords').hasError(validation.type) && (validations_form.get('matching_passwords').get('confirm_password').dirty || validations_form.get('matching_passwords').get('confirm_password').touched)">
-          <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
-        </div>
-      </ng-container>
-    </div> -->
 
     <button class="signUpBtn" ion-button [disabled]="!validations_form.valid" type="submit" >Create</button>
 
@@ -103,7 +95,7 @@
 
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validation_messages.username">
-        <div class="error-message" *ngIf="validation.type == 'pattern' || validation.type == 'minlength' || validation.type == 'maxlength' || validation.type == 'validUsername' && validations_form.get('username').hasError(validation.type) && (validations_form.get('username').dirty || validations_form.get('username').touched)">
+        <div class="error-message" *ngIf="validation.type != 'required' && validations_form.get('username').hasError(validation.type) && (validations_form.get('username').dirty || validations_form.get('username').touched)">
           <ion-icon name="information-circle-outline"></ion-icon> {{validation.message}}
         </div>
       </ng-container>
@@ -119,7 +111,7 @@
 
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validation_messages.phone">
-        <div class="error-message" *ngIf="validations_form.get('country_phone').get('phone').hasError(validation.type) && (validations_form.get('country_phone').get('phone').dirty || validations_form.get('country_phone').get('phone').touched)">
+        <div class="error-message" *ngIf="validation.type != 'required' && validations_form.get('country_phone').get('phone').hasError(validation.type) && (validations_form.get('country_phone').get('phone').dirty || validations_form.get('country_phone').get('phone').touched)">
           <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
         </div>
       </ng-container>
@@ -127,7 +119,7 @@
 
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validation_messages.password">
-        <div class="error-message" *ngIf="validations_form.get('matching_passwords').get('password').hasError(validation.type) && (validations_form.get('matching_passwords').get('password').dirty || validations_form.get('matching_passwords').get('password').touched)">
+        <div class="error-message" *ngIf="validation.type != 'required' && validations_form.get('matching_passwords').get('password').hasError(validation.type) && (validations_form.get('matching_passwords').get('password').dirty || validations_form.get('matching_passwords').get('password').touched)">
           <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
         </div>
       </ng-container>
@@ -135,7 +127,7 @@
 
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validation_messages.confirm_password">
-        <div class="error-message" *ngIf="validations_form.get('matching_passwords').get('confirm_password').hasError(validation.type) && (validations_form.get('matching_passwords').get('confirm_password').dirty || validations_form.get('matching_passwords').get('confirm_password').touched)">
+        <div class="error-message" *ngIf="validation.type != 'required' && validations_form.get('matching_passwords').get('confirm_password').hasError(validation.type) && (validations_form.get('matching_passwords').get('confirm_password').dirty || validations_form.get('matching_passwords').get('confirm_password').touched)">
           <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
         </div>
       </ng-container>
@@ -164,7 +156,7 @@
     </button>
   </div>
 
-  <p class="login">I already have an account. <a routerLink="/login">Login</a></p>
+  <p class="login">I already have an account. <a [routerLink]="['/login']">Login</a></p>
 
 
 

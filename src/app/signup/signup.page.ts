@@ -74,8 +74,7 @@ export class SignupPage implements OnInit {
       { type: 'required', message: 'Username is required.' },
       { type: 'minlength', message: 'Username must be at least 5 characters long.' },
       { type: 'maxlength', message: 'Username cannot be more than 25 characters long.' },
-      { type: 'pattern', message: 'Must contain numbers and letters only.' },
-      { type: 'validUsername', message: 'Your username has already been taken.' }
+      { type: 'pattern', message: 'Must contain numbers and letters only.' }
     ],
     'name': [
       { type: 'required', message: 'Name is required.' }
