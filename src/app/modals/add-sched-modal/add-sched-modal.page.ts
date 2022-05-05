@@ -93,9 +93,11 @@ export class AddSchedModalPage implements OnInit {
     let d1 = tm1.split('T')[1];
     let d2 = tm2.split('T')[1];
 
+    /* Getting the hour of the time. */
     let m1 = d1.split(':')[0];
     let m2 = d2.split(':')[0];
 
+    /* Getting the minutes of the time. */
     let n1 = d1.split(':')[1];
     let n2 = d2.split(':')[1];
 
@@ -105,7 +107,7 @@ export class AddSchedModalPage implements OnInit {
     m1 = (m1 % 12) || 12;
     m2 = (m2 % 12) || 12;
 
-    var strt = m1 + ":" + n2 + " " + AmOrPm1; //will display hour and mins only
+    var strt = m1 + ":" + n1 + " " + AmOrPm1; //will display hour and mins only
     var end = m2 + ":" + n2 + " " + AmOrPm2; //will display hour and mins only
 
     console.log(value, value.startTime = strt, value.endTime = end);

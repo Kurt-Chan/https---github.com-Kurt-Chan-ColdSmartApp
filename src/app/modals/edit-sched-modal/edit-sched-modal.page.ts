@@ -90,7 +90,7 @@ export class EditSchedModalPage implements OnInit {
     m1 = (m1 % 12) || 12;
     m2 = (m2 % 12) || 12;
 
-    var strt = m1 + ":" + n2 + " " + AmOrPm1; //will display hour and mins only
+    var strt = m1 + ":" + n1 + " " + AmOrPm1; //will display hour and mins only
     var end = m2 + ":" + n2 + " " + AmOrPm2; //will display hour and mins only
 
     console.log(value, value.startTime = strt, value.endTime = end);
