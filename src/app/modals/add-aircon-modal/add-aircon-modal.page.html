@@ -72,12 +72,17 @@
       <div style="width: 100%; text-align: center; color:#1F1F1F; font-weight: 500;">MODES</div>
     </ion-item-divider>
 
-    <div formGroupName="checkboxArrayList">
-      <ion-item *ngFor="let mode of modes">
+    <ion-item-group *ngFor = "let mode of Mode; let i = index">
+
+      <ion-item>
         <ion-label>{{mode.name}}</ion-label>
-        <ion-checkbox formControlName="mode.value" slot="end" [value]="mode.value" [checked]="mode.checked"></ion-checkbox>
+        <ion-checkbox [value]="mode.value" (ionChange)="onCheckboxChange($event)"></ion-checkbox>
       </ion-item>
-    </div>
+    </ion-item-group>
+
+    <p class="error" *ngIf="this.addAirconForm.controls['acmodes'].errors?.['required']">
+      <ion-icon name="information-circle"></ion-icon> Select atleast one mode.
+    </p>
 
     </ion-list>
 

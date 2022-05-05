@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { Validators, FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-aircon-modal',
@@ -11,18 +11,18 @@ import { Validators, FormBuilder, FormGroup, FormControl, FormArray } from '@ang
 export class AddAirconModalPage implements OnInit {
 
   addAirconForm: FormGroup
-  checkboxArrayList: FormGroup
+  // checkboxArrayList: FormGroup
+
+  Mode: Array<any> = [
+    {name: 'Fan Mode', value: 'fan'},
+    {name: 'Eco Mode', value: 'eco'},
+    {name: 'Auto Mode', value: 'auto'},
+  ];
 
   constructor(
     private modalCtrl: ModalController,
     public formBuilder: FormBuilder,
-  ) { 
-
-    // this.addAirconForm = this.formBuilder.group({
-    //   checkboxArrayList: this.formBuilder.array([], [Validators.required])
-    // });
-
-  }
+  ) {   }
 
   ngOnInit() {
 
@@ -34,10 +34,8 @@ export class AddAirconModalPage implements OnInit {
       remoteModel: new FormControl('', Validators.required),
       minTemp: new FormControl('', Validators.required),
       maxTemp: new FormControl('', Validators.required),
-      checkboxArrayList: this.formBuilder.group({
-        //list of the modes
-      })
-    });
+      acmodes: this.formBuilder.array([], [Validators.required])
+    });;
   }
 
   validation_messages = {
@@ -64,31 +62,21 @@ export class AddAirconModalPage implements OnInit {
     ],
   };
 
-  modes = [
-    {name: 'Fan Mode', value: 'fan', checked: true},
-    {name: 'Eco Mode', value: 'eco'},
-    {name: 'Power Mode', value: 'power'},
-    {name: 'Auto Mode', value: 'Power'},
-  ];
-
-  // updateCheckControl(cal, o) {
-  //   if (o.checked) {
-  //     cal.push(new FormControl(o.value));
-  //   } else {
-  //     cal.controls.forEach((item: FormControl, index) => {
-  //       if (item.value == o.value) {
-  //         cal.removeAt(index);
-  //         return;
-  //       }
-  //     });
-  //   }
-  // }
-
-  // onSelectionChange(e, i) {
-  //   const checkboxArrayList: FormArray = this.addAirconForm.get('checkboxArrayList') as FormArray;
-  //   this.modes[i].checked = e.target.checked;
-
-  // }
+  onCheckboxChange(e) {
+    const acmodes: FormArray = this.addAirconForm.get('acmodes') as FormArray;
+    if (e.target.checked) {
+      acmodes.push(new FormControl(e.target.value));
+    } else {
+      let i: number = 0;
+      acmodes.controls.forEach((item: FormControl) => {
+        if (item.value == e.target.value) {
+          acmodes.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
+  }
 
   addAircon(value){
     console.log(value);
