@@ -8,6 +8,29 @@ $lightblue: #52AAB5;
 
 ion-content{
     form{
+
+        .validation-errors-required{
+            .error-message-required{
+                color: red;
+                font-size: 16px;
+            }
+        }
+
+        .validation-errors{
+            position: relative;
+            top: 35%;
+
+            .error-message
+            {
+              color: red;
+              font-size: 12px;
+            //   margin-left: 10px;
+              margin-top: 10px;
+              text-align: center;
+            }
+        }
+
+        
         ion-list{
             .addSchedBtns{
                 padding: 1rem;

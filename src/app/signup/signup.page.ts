@@ -53,7 +53,7 @@ export class SignupPage implements OnInit {
 
     this.validations_form = this.formBuilder.group({
       username: new FormControl('', Validators.compose([
-        UsernameValidator.validUsername,
+        // UsernameValidator.validUsername,
         Validators.maxLength(25),
         Validators.minLength(5),
         Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$'),

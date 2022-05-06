@@ -12,45 +12,99 @@
     <div style="width: 100%; text-align: center; color:#1F1F1F; font-weight: 500;">EDIT PROFILE</div>
   </ion-item-divider>
 
-  <form action="">
+  <form [formGroup]="validations_form" (ngSubmit)="onSubmit(validations_form.value)">
   <ion-list>
 
     <ion-item>
-      <ion-label position="stacked">Full Name:</ion-label>
-      <ion-input type="text" placeholder="Enter Full name"></ion-input>
+      <ion-label position="stacked" >Full Name:</ion-label>
+      <ion-input type="text" formControlName="name" placeholder="Enter Full name"></ion-input>
+      <div class="validation-errors-required">
+        <ng-container *ngFor="let validation of validation_messages.name">
+          <div class="error-message-required" *ngIf="validation.type == 'required' && validations_form.get('name').hasError(validation.type) && (validations_form.get('name').dirty || validations_form.get('name').touched)">
+            <ion-icon name="alert-circle"></ion-icon> {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
     </ion-item>
 
     <ion-item>
       <ion-label position="stacked">Username:</ion-label>
-      <ion-input type="text" placeholder="Enter Username" ></ion-input>
+      <ion-input type="text" formControlName="username" placeholder="Enter Username" ></ion-input>
+      <div class="validation-errors-required">
+        <ng-container *ngFor="let validation of validation_messages.username">
+          <div class="error-message-required" *ngIf="validation.type == 'required' && validations_form.get('username').hasError(validation.type) && (validations_form.get('username').dirty || validations_form.get('username').touched)">
+            <ion-icon name="alert-circle"></ion-icon> {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
     </ion-item>
 
     <ion-item>
       <ion-label position="stacked">Email Address:</ion-label>
-      <ion-input type="text" placeholder="Enter Email Address"></ion-input>
+      <ion-input type="text" formControlName="email" placeholder="Enter Email Address"></ion-input>
+      <div class="validation-errors-required">
+        <ng-container *ngFor="let validation of validation_messages.email">
+          <div class="error-message-required" *ngIf="validation.type == 'required' && validations_form.get('email').hasError(validation.type) && (validations_form.get('email').dirty || validations_form.get('email').touched)">
+            <ion-icon name="alert-circle"></ion-icon> {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
     </ion-item>
 
     <ion-item>
       <ion-label position="stacked">Home Address:</ion-label>
-      <ion-input type="text" placeholder="Enter Home Address"></ion-input>
+      <ion-input type="text" formControlName="address" placeholder="Enter Home Address"></ion-input>
     </ion-item>
 
+    <div formGroupName="country_phone">
     <ion-item>
       <ion-label position="stacked">Contact Number:</ion-label>
-      <ion-input type="text" placeholder="Enter Contact Number"></ion-input>
+      <ion-input type="text" formControlName="phone" placeholder="Enter Contact Number"></ion-input>
+      <div class="validation-errors-required">
+        <ng-container *ngFor="let validation of validation_messages.phone">
+          <div class="error-message-required" *ngIf="validation.type == 'required' && validations_form.get('country_phone').get('phone').hasError(validation.type) && (validations_form.get('country_phone').get('phone').dirty || validations_form.get('country_phone').get('phone').touched)">
+            <ion-icon name="alert-circle"></ion-icon> {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
     </ion-item>
+  </div>
 
     <ion-item detail (click)="changePasswordModal()">
       <ion-label>Change Password</ion-label>
     </ion-item>
 
     <ion-item class="addSchedBtns" lines="none">
-      <button slot="end" ion-button class="setBtn"  type="submit" expand="block" >Save</button>
+      <button slot="end" ion-button class="setBtn" [disabled]="!validations_form.valid" expand="block" >Save</button>
       <!-- <button slot="end" ion-button class="cancelBtn" (click)="dismissModal()" color="danger">Cancel</button> -->
     </ion-item>
-
-
   </ion-list>
+
+  <!-- validation error messages -->
+
+  <div class="validation-errors">
+    <ng-container *ngFor="let validation of validation_messages.username">
+      <div class="error-message" *ngIf="validation.type != 'required' && validations_form.get('username').hasError(validation.type) && (validations_form.get('username').dirty || validations_form.get('username').touched)">
+        <ion-icon name="information-circle-outline"></ion-icon> {{validation.message}}
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="validation-errors">
+    <ng-container *ngFor="let validation of validation_messages.email">
+      <div class="error-message" *ngIf="validation.type == 'pattern' && validations_form.get('email').hasError(validation.type) && (validations_form.get('email').dirty || validations_form.get('email').touched)">
+        <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="validation-errors">
+    <ng-container *ngFor="let validation of validation_messages.phone">
+      <div class="error-message" *ngIf="validation.type != 'required' && validations_form.get('country_phone').get('phone').hasError(validation.type) && (validations_form.get('country_phone').get('phone').dirty || validations_form.get('country_phone').get('phone').touched)">
+        <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+      </div>
+    </ng-container>
+  </div>
 
   
 </form>
