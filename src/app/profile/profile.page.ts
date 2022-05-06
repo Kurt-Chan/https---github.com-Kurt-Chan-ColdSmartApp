@@ -3,8 +3,12 @@ import { PopoverPage } from '../modals/popover/popover.page';
 import { ModalController, PopoverController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
+import { first, map } from 'rxjs/operators';
+import firebase from 'firebase/compat/app'
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AuthService } from '../services/auth.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-
+import { Contact } from 'src/app/models/user';
 
 @Component({
   selector: 'app-profile',
@@ -12,15 +16,30 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
- 
+  
+  userData: Contact[];
 
   constructor(
-    private modalCtrl: ModalController,
     private popoverCtrl: PopoverController,
-    private router: Router
+    private angularFire: AngularFirestore,
+    private authService: AuthService, 
   ) { }
 
   ngOnInit() {
+    let uid= this.authService.getUid();
+    /* This is a function that is called when the user is logged in. It gets the user's document from
+    the firestore database and assigns the user's data to the userData variable. */
+    firebase.auth().onAuthStateChanged( async user =>{
+      if(user){
+      /* Getting the user's document from the firestore database. */
+      const result=  this.angularFire.collection('users').doc(await uid);
+       var userprofile = result.valueChanges();
+       /* Assigning the user's data to the userData variable. */
+       userprofile.pipe(first()).toPromise().then(user =>{
+         this.userData = [user];
+        })
+      }
+    })
   }
 
   async openMenuPopover(ev: any){

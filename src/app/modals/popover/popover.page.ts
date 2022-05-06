@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController, PopoverController } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-popover',
@@ -12,6 +13,7 @@ export class PopoverPage implements OnInit {
   constructor(
     private router: Router,
     private popoverCtrl: PopoverController,
+    private authService: AuthService, 
   ) { }
 
   ngOnInit() {
@@ -22,7 +24,13 @@ export class PopoverPage implements OnInit {
   }
 
   logout(){
-    this.router.navigate(["/login"]);
+    this.authService.doLogout()
+    .then(res => {
+     localStorage.setItem('authenticated', '0');
+     this.router.navigateByUrl("/");
+    }, err => {
+      console.log(err);
+    })
     this.dismissModal();
   }
 

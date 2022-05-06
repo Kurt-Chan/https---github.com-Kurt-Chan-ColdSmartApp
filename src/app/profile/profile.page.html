@@ -8,7 +8,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngFor = "let user of userData">
 
   <div class="userCard">
     
@@ -25,18 +25,18 @@
         
       <ion-title>
         <div class="username">
-          USERNAME
+          {{user.username}}
         </div>
       </ion-title>
       <ion-label>
-        <p class="email">username@gmail.com</p> 
+        <p class="email">{{user.email}}</p> 
       </ion-label>
     </ion-card-header>
 
 
       <ion-card-content>
-        <p class="address">Carig Sur, Tuguegarao City</p>
-        <p class="contact">(+63) 912 345 6789</p>
+        <p class="address">{{user.address}}</p>
+        <p class="contact">{{user.country_phone.phone}}</p>
 
         <!-- if the user is DSM Registered -->
         <div class="dsmVerified"> 

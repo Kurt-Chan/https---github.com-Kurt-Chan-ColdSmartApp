@@ -18,7 +18,7 @@ export class LoginPage implements OnInit {
 
   validations_form: FormGroup;
   errorMessage: string;
-  
+  loginurl = '';
 
   constructor(
     private router : Router,
@@ -30,6 +30,8 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.loginurl = this.activatedRoute.snapshot.queryParamMap.get('returnto') || 'login';
 
     this.validations_form = this.formBuilder.group({
       email: new FormControl('', Validators.compose([
@@ -54,53 +56,29 @@ export class LoginPage implements OnInit {
     ]
   };
 
-
-  async presentToast() {
+  async errorToast() {
     const toast = await this.toastController.create({
-      message: 'User Not Found',
-      duration: 1500
-    });
-    toast.present();
-  }
-
-  async userNotFound() {
-    const toast = await this.toastController.create({
-      message: 'User not found',
-      duration: 2000
-    });
-    toast.present();
-  }
-
-  
-  async wrongPass() {
-    const toast = await this.toastController.create({
-      message: 'Wrong Password',
+      message: 'Incorrect Email or Password',
       duration: 2000
     });
     toast.present();
   }
 
   onSubmit(value){
-    // console.log(values);
-    // // this.router.navigate(["/login"]);
-    // this.presentToast();
-    // // this.validations_form.reset();
+    this.authService.doLogin(value).then(async res => {
+      localStorage.setItem('authenticated', '1');
+      this.router.navigateByUrl(this.loginurl);
 
-    this.authService.doLogin(value)
-    .then(async res => {
-      // localStorage.setItem('authenticated', '1');
-      // this.router.navigateByUrl(this.loginurl);
-      console.log("Sign in successful");
-      console.log("Logged In", await this.authService.getUid()) // logs user uid
-       this.validations_form.reset();
-       this.router.navigate(["/home"]);
+      /* Getting the user id of the user that is logged in. */
+      console.log("Logged In", res.user.uid),
+      this.validations_form.reset();
+      this.router.navigate(["/home"]);
     }, err => {
-      //this.errorMessage = err.message;
       if(err.code == "auth/user-not-found"){
-        this.userNotFound();
+        this.errorToast();
       }
       else if(err.code == "auth/wrong-password"){
-        this.wrongPass();
+        this.errorToast();
       }
     })
 

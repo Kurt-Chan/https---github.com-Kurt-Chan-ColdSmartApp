@@ -113,9 +113,6 @@ export class SignupPage implements OnInit {
   };
 
   onSubmit(value){
-    // console.log(values);
-    // // this.router.navigate(["/login"]);
-    // this.validations_form.reset();
 
     this.authService.doRegister({email: value.email, password: value.matching_passwords.password})
     .then(res => {
@@ -130,7 +127,7 @@ export class SignupPage implements OnInit {
                /* A spread operator. It is used to spread the values of an object into another object. */
                ...value
              });
-      // this.validations_form.reset()
+      this.validations_form.reset()
     }}, err => {
       console.log(err);
       this.errorMessage = err.message;
