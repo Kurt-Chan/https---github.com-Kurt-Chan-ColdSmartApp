@@ -157,20 +157,9 @@
         <ion-icon color="primary" name="leaf" slot="start"></ion-icon>
         <ion-toggle [(ngModel)]="eco" color="tertiary" slot="end"></ion-toggle>
       </ion-item>
-
-      <!-- <ion-item class="autoMode" lines="none">
-        <ion-label color="primary" >Auto Mode</ion-label>
-        <ion-img class="auto" src="assets/auto.png" slot="start"></ion-img>
-        <ion-toggle [(ngModel)]="auto" color="tertiary" slot="end"></ion-toggle>
-      </ion-item> -->
     </div>
 
     </div>
-
-    <!-- <button ion-button class="deleteAircon" (click)="deleteAircon()">
-    <ion-icon name="trash" slot="start"></ion-icon>
-    </button> -->
-
 
   </ion-card>
 </ion-item-sliding>
@@ -187,36 +176,6 @@
 
       <ion-list slot="content">
 
-        <!-- <ion-item lines="none">
-          <ion-img class="sleep" src="assets/settings/SleepIQ.png" slot="start"></ion-img>
-          <ion-label>Sleep IQ</ion-label>
-          <ion-toggle color="tertiary" slot="end"></ion-toggle>
-        </ion-item> -->
-
-        <!-- <ion-item lines="none">
-          <ion-img class="geofencing" src="assets/settings/geofencing.png" slot="start"></ion-img>
-          <ion-label>Geofencing</ion-label>
-          <ion-toggle color="tertiary" slot="end"></ion-toggle>
-        </ion-item> -->
-
-        <!-- <ion-item lines="none">
-          <ion-img class="fanDiss" src="assets/settings/fan_dissipation.png" slot="start"></ion-img>
-          <ion-label>Fan Dissipation</ion-label>
-          <ion-toggle color="tertiary" slot="end"></ion-toggle>
-        </ion-item> -->
-
-        <!-- <ion-item lines="none">
-          <ion-img class="dehumidify" src="assets/settings/dehumidify.png" slot="start"></ion-img>
-          <ion-label>Dehumidify</ion-label>
-          <ion-toggle color="tertiary" slot="end"></ion-toggle>
-        </ion-item> -->
-
-        <!-- <ion-item lines="none">
-          <ion-img class="DSM" src="assets/settings/DSM.png" slot="start"></ion-img>
-          <ion-label>DSM</ion-label>
-          <ion-toggle color="tertiary" slot="end"></ion-toggle>
-        </ion-item> -->
-
         <ion-item lines="none">
           <ion-img class="HVAC" src="assets/settings/HVAC.png" slot="start"></ion-img>
           <ion-label>HVAC Zoning</ion-label>
@@ -228,12 +187,6 @@
           <ion-label>Air Quality</ion-label>
           <ion-toggle color="tertiary" slot="end" checked></ion-toggle>
         </ion-item>
-
-        <!-- <ion-item lines="none">
-          <ion-img class="linkWear" src="assets/settings/LinkWear.png" slot="start"></ion-img>
-          <ion-label>Link Wear</ion-label>
-          <ion-toggle color="tertiary" slot="end"></ion-toggle>
-        </ion-item> -->
 
       </ion-list>
     </ion-accordion>
@@ -285,140 +238,6 @@
 
     </ion-item-options>
   </ion-item-sliding>
-
-  <!-- for design purpose only -->
-  <ion-item-sliding>
-    <ion-item class="sched">
-      <ion-label>
-      <p class="day">Every Monday</p>
-      <p class="setTemp">18 °C</p>
-      <h1>Sched Name</h1>
-      <p class="time">10:00 AM - 12:00 PM</p>
-    </ion-label>
-      <ion-toggle color="tertiary" slot="end"></ion-toggle>
-    </ion-item>
-    <ion-item-options side="end">
-      <ion-item-option (click)="delete(item)" color="danger">
-        <ion-icon slot="icon-only" name="trash-bin" color="light"></ion-icon>
-      </ion-item-option>
-
-      <ion-item-option (click)="delete(item)" color="tertiary">
-        <ion-icon slot="icon-only" name="create" color="light"></ion-icon>
-      </ion-item-option>
-
-    </ion-item-options>
-  </ion-item-sliding>
-
-  <ion-item-sliding>
-    <ion-item class="sched">
-      <ion-label>
-      <p class="day">Every Monday</p>
-      <p class="setTemp">18 °C</p>
-      <h1>Sched Name</h1>
-      <p class="time">10:00 AM - 12:00 PM</p>
-    </ion-label>
-      <ion-toggle color="tertiary" slot="end"></ion-toggle>
-    </ion-item>
-    <ion-item-options side="end">
-      <ion-item-option (click)="delete(item)" color="danger">
-        <ion-icon slot="icon-only" name="trash-bin" color="light"></ion-icon>
-      </ion-item-option>
-
-      <ion-item-option (click)="delete(item)" color="tertiary">
-        <ion-icon slot="icon-only" name="create" color="light"></ion-icon>
-      </ion-item-option>
-
-    </ion-item-options>
-  </ion-item-sliding>
-
-  <ion-item-sliding>
-    <ion-item class="sched">
-      <ion-label>
-      <p class="day">Every Monday</p>
-      <p class="setTemp">18 °C</p>
-      <h1>Sched Name</h1>
-      <p class="time">10:00 AM - 12:00 PM</p>
-    </ion-label>
-      <ion-toggle color="tertiary" slot="end"></ion-toggle>
-    </ion-item>
-    <ion-item-options side="end">
-      <ion-item-option (click)="delete(item)" color="danger">
-        <ion-icon slot="icon-only" name="trash-bin" color="light"></ion-icon>
-      </ion-item-option>
-
-      <ion-item-option (click)="delete(item)" color="tertiary">
-        <ion-icon slot="icon-only" name="create" color="light"></ion-icon>
-      </ion-item-option>
-
-    </ion-item-options>
-  </ion-item-sliding>
-
-  <ion-item-sliding>
-    <ion-item class="sched">
-      <ion-label>
-      <p class="day">Every Monday</p>
-      <p class="setTemp">18 °C</p>
-      <h1>Sched Name</h1>
-      <p class="time">10:00 AM - 12:00 PM</p>
-    </ion-label>
-      <ion-toggle color="tertiary" slot="end"></ion-toggle>
-    </ion-item>
-    <ion-item-options side="end">
-      <ion-item-option (click)="delete(item)" color="danger">
-        <ion-icon slot="icon-only" name="trash-bin" color="light"></ion-icon>
-      </ion-item-option>
-
-      <ion-item-option (click)="delete(item)" color="tertiary">
-        <ion-icon slot="icon-only" name="create" color="light"></ion-icon>
-      </ion-item-option>
-
-    </ion-item-options>
-  </ion-item-sliding>
-
-  <ion-item-sliding>
-    <ion-item class="sched">
-      <ion-label>
-      <p class="day">Every Monday</p>
-      <p class="setTemp">18 °C</p>
-      <h1>Sched Name</h1>
-      <p class="time">10:00 AM - 12:00 PM</p>
-    </ion-label>
-      <ion-toggle color="tertiary" slot="end"></ion-toggle>
-    </ion-item>
-    <ion-item-options side="end">
-      <ion-item-option (click)="delete(item)" color="danger">
-        <ion-icon slot="icon-only" name="trash-bin" color="light"></ion-icon>
-      </ion-item-option>
-
-      <ion-item-option (click)="delete(item)" color="tertiary">
-        <ion-icon slot="icon-only" name="create" color="light"></ion-icon>
-      </ion-item-option>
-
-    </ion-item-options>
-  </ion-item-sliding>
-
-  <ion-item-sliding>
-    <ion-item class="sched">
-      <ion-label>
-      <p class="day">Every Monday</p>
-      <p class="setTemp">18 °C</p>
-      <h1>Sched Name</h1>
-      <p class="time">10:00 AM - 12:00 PM</p>
-    </ion-label>
-      <ion-toggle color="tertiary" slot="end"></ion-toggle>
-    </ion-item>
-    <ion-item-options side="end">
-      <ion-item-option (click)="delete(item)" color="danger">
-        <ion-icon slot="icon-only" name="trash-bin" color="light"></ion-icon>
-      </ion-item-option>
-
-      <ion-item-option (click)="edit(item)" color="tertiary">
-        <ion-icon slot="icon-only" name="create" color="light"></ion-icon>
-      </ion-item-option>
-
-    </ion-item-options>
-  </ion-item-sliding>
-  <!-- for design purpose only end -->
   </ion-list>
 
 </div>

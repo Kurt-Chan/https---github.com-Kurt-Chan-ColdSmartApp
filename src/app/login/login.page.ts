@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute ,Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AuthService } from '../services/auth.service';
+
+
 
 
 @Component({
@@ -12,11 +17,16 @@ import { ToastController } from '@ionic/angular';
 export class LoginPage implements OnInit {
 
   validations_form: FormGroup;
+  errorMessage: string;
+  
 
   constructor(
     private router : Router,
     public toastController: ToastController,
     private formBuilder: FormBuilder,
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
+    private auth: AngularFireAuth,
   ) { }
 
   ngOnInit() {
@@ -53,12 +63,49 @@ export class LoginPage implements OnInit {
     toast.present();
   }
 
+  async userNotFound() {
+    const toast = await this.toastController.create({
+      message: 'User not found',
+      duration: 2000
+    });
+    toast.present();
+  }
 
-  onSubmit(values){
-    console.log(values);
-    // this.router.navigate(["/login"]);
-    this.presentToast();
-    // this.validations_form.reset();
+  
+  async wrongPass() {
+    const toast = await this.toastController.create({
+      message: 'Wrong Password',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  onSubmit(value){
+    // console.log(values);
+    // // this.router.navigate(["/login"]);
+    // this.presentToast();
+    // // this.validations_form.reset();
+
+    this.authService.doLogin(value)
+    .then(async res => {
+      // localStorage.setItem('authenticated', '1');
+      // this.router.navigateByUrl(this.loginurl);
+      console.log("Sign in successful");
+      console.log("Logged In", await this.authService.getUid()) // logs user uid
+       this.validations_form.reset();
+       this.router.navigate(["/home"]);
+    }, err => {
+      //this.errorMessage = err.message;
+      if(err.code == "auth/user-not-found"){
+        this.userNotFound();
+      }
+      else if(err.code == "auth/wrong-password"){
+        this.wrongPass();
+      }
+    })
+
+    
+
   }
 
 }

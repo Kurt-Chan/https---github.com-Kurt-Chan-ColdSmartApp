@@ -8,7 +8,8 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+   /* It redirects the user to the login page if the user is not logged in. */
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {

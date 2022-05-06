@@ -1,10 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { UsernameValidator } from '../validators/username.validator';
+
 import { PhoneValidator } from '../validators/phone.validator';
 import { PasswordValidator } from '../validators/password.validator';
 import { CountryPhone } from './country-phone.model';
 import { Router } from '@angular/router';
+
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AuthService } from '../services/auth.service';
+
+
 
 @Component({
   selector: 'app-signup',
@@ -16,13 +22,19 @@ export class SignupPage implements OnInit {
   validations_form: FormGroup;
   matching_passwords_group: FormGroup;
   country_phone_group: FormGroup;
+
+  errorMessage: string = '';
+  successMessage: string = '';
   
 
   countries: Array<CountryPhone>;
 
   constructor(
     public formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
+    private auth: AngularFireAuth,
+    private afFirestore: AngularFirestore,
   ) { }
 
   ngOnInit() {
@@ -100,10 +112,31 @@ export class SignupPage implements OnInit {
     ],
   };
 
-  onSubmit(values){
-    console.log(values);
-    // this.router.navigate(["/login"]);
-    this.validations_form.reset();
+  onSubmit(value){
+    // console.log(values);
+    // // this.router.navigate(["/login"]);
+    // this.validations_form.reset();
+
+    this.authService.doRegister({email: value.email, password: value.matching_passwords.password})
+    .then(res => {
+      console.log(value);
+      this.errorMessage = "";
+      this.router.navigate(["/login"]);
+      if (res && res.user) {
+           /* Creating a new collection in the firestore database. */
+           this.afFirestore.collection("users").doc(res.user.uid)
+             .set({
+               uid: res.user.uid,
+               /* A spread operator. It is used to spread the values of an object into another object. */
+               ...value
+             });
+      // this.validations_form.reset()
+    }}, err => {
+      console.log(err);
+      this.errorMessage = err.message;
+      this.successMessage = "";
+    })
+
   }
 
 
