@@ -37,53 +37,53 @@
   </ion-item-divider>
   <ion-item lines="none">
     <ion-label>Temperature</ion-label>
-    <ion-text><b>35 °C</b></ion-text>
+    <ion-text><b>{{temp}} °C</b></ion-text>
   </ion-item>
 
   <ion-item lines="none">
     <ion-label>Humidity</ion-label>
-    <ion-text><b>32 AH</b></ion-text>
+    <ion-text><b>{{humid}} AH</b></ion-text>
   </ion-item>
   
   <ion-item button (click)="airQualityInfoPop()" lines="none">
     <ion-label>Air Quality</ion-label>
 
-    <ng-container *ngIf="air_quality == 'normal'">
+    <ng-container *ngIf="air_quality_message == 'normal'">
       <div *ngFor="let messages of aq_messages.normal">
         <div class="AQColor" [ngStyle]="{'background-color': messages.color}"></div>
         <ion-text><b>{{ messages.status }}</b></ion-text>
       </div>
     </ng-container>
 
-    <ng-container *ngIf="air_quality == 'adequate'">
+    <ng-container *ngIf="air_quality_message == 'adequate'">
       <div *ngFor="let messages of aq_messages.adequate">
         <div class="AQColor" [ngStyle]="{'background-color': messages.color}"></div>
         <ion-text><b>{{ messages.status }}</b></ion-text>
       </div>
     </ng-container>
 
-    <ng-container *ngIf="air_quality == 'unhealthy'">
+    <ng-container *ngIf="air_quality_message == 'unhealthy'">
       <div *ngFor="let messages of aq_messages.unhealthy">
         <div class="AQColor" [ngStyle]="{'background-color': messages.color}"></div>
         <ion-text><b>{{ messages.status }}</b></ion-text>
       </div>
     </ng-container>
 
-    <ng-container *ngIf="air_quality == 'harmful'">
+    <ng-container *ngIf="air_quality_message == 'harmful'">
       <div *ngFor="let messages of aq_messages.harmful">
         <div class="AQColor" [ngStyle]="{'background-color': messages.color}"></div>
         <ion-text><b>{{ messages.status }}</b></ion-text>
       </div>
     </ng-container>
 
-    <ng-container *ngIf="air_quality == 'toxic'">
+    <ng-container *ngIf="air_quality_message == 'toxic'">
       <div *ngFor="let messages of aq_messages.toxic">
         <div class="AQColor" [ngStyle]="{'background-color': messages.color}"></div>
         <ion-text><b>{{ messages.status }}</b></ion-text>
       </div>
     </ng-container>
 
-    <ng-container *ngIf="air_quality == 'hazardous'">
+    <ng-container *ngIf="air_quality_message == 'hazardous'">
       <div *ngFor="let messages of aq_messages.hazardous">
         <div class="AQColor" [ngStyle]="{'background-color': messages.color}"></div>
         <ion-text><b>{{ messages.status }}</b></ion-text>

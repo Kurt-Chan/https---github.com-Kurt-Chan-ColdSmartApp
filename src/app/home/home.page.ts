@@ -7,6 +7,8 @@ import { PopoverPage } from '../modals/popover/popover.page';
 import { AirQualityInfoPopPage } from '../modals/air-quality-info-pop/air-quality-info-pop.page';
 import { ModalController, PopoverController } from '@ionic/angular';
 
+import { DataService } from '../services/data.service';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +18,12 @@ import { ModalController, PopoverController } from '@ionic/angular';
 export class HomePage {
   selectTabs = 'temperature';
   rangeVal: string;
-  air_quality: string;
+  air_quality_message: string;
+  aqNum: number;
+  temp: any;
+  humid: any;
+  motionSens: number;
+  carbonSens: number;
   current_temp: number = 24;
 
   aq_messages = {
@@ -55,35 +62,79 @@ export class HomePage {
     public platform: Platform,
     private modalCtrl: ModalController,
     private popoverCtrl: PopoverController,
+    private dataService: DataService,
+    private angularFire: AngularFirestore
   ) {
     this.platform.ready().then(()=>{
       this.rangeVal = "24";
-    })
-
+    })  
     
-      //air quality msgs
-      let aqNum = 88; //this will be changed event
+  }
 
-      if(aqNum >=0 && aqNum <=50){
-        this.air_quality = "normal";
-      }
-      else if (aqNum >=51 && aqNum <=100){
-        this.air_quality = "adequate";
-      }
-      else if (aqNum >=101 && aqNum <=150){
-        this.air_quality = "unhealthy";
-      }
-      else if (aqNum >=151 && aqNum <=200){
-        this.air_quality = "harmful";
-      }
-      else if (aqNum >=201 && aqNum <=300){
-        this.air_quality = "toxic";
-      }
-      else if (aqNum >=301 && aqNum <=500){
-        this.air_quality = "hazardous";
-      }
-  
-    
+  ngOnInit(){
+
+    //air Quality status
+      
+      let aqRef = this.dataService.getAirQualityStat()
+      aqRef.subscribe((result)=>{
+
+        this.aqNum = result.aqi2_5;
+        var lastUpdate = result.last_updated;
+        console.log("Air Quality: ", this.aqNum)
+        console.log("Last updated: ", lastUpdate)
+
+        if(this.aqNum >=0 && this.aqNum <=50){
+          this.air_quality_message = "normal";
+        }
+        else if (this.aqNum >=51 && this.aqNum <=100){
+          this.air_quality_message = "adequate";
+        }
+        else if (this.aqNum >=101 && this.aqNum <=150){
+          this.air_quality_message = "unhealthy";
+        }
+        else if (this.aqNum >=151 && this.aqNum <=200){
+          this.air_quality_message = "harmful";
+        }
+        else if (this.aqNum >=201 && this.aqNum <=300){
+          this.air_quality_message = "toxic";
+        }
+        else if (this.aqNum >=301 && this.aqNum <=500){
+          this.air_quality_message = "hazardous";
+        }
+      })
+
+      //temp and humidity
+      let tempHumidRef = this.dataService.getTempAndHumidityStat()
+      tempHumidRef.subscribe((result)=>{
+        this.temp = result.temperature
+        this.humid = result.humidity
+        
+        console.log('Temperature: ', this.temp)
+        console.log('Humidity: ', this.humid)
+        console.log('Last Updated: ', result.last_updated)
+      })
+
+      //motion sensor
+      let motionSensRef = this.dataService.getMotionSensor()
+      motionSensRef.subscribe((result)=>{
+        this.motionSens = result.motion
+
+        if (this.motionSens == 1){
+          console.log("Room Occupied!")
+        }
+        else{
+          console.log("Room Vacant!")
+        }
+      })
+
+      //carbon sensor
+      let carbonSensRef = this.dataService.getCarbonSensor()
+      carbonSensRef.subscribe((result)=>{
+        this.carbonSens = result.eco2
+        console.log('ECO2: ', this.carbonSens)
+      })
+
+     
   }
 
   async addAirconModal(){
