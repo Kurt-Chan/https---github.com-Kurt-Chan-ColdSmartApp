@@ -46,7 +46,7 @@ export class DataService {
     return path
   }
 
-  getCurrentPower(){
+  getCurrentAcSettings(){
     let path = this.angularFire.collection('devices').doc('testing00').valueChanges()
     return path
   }

@@ -19,7 +19,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 })
 export class HomePage {
   selectTabs = 'temperature';
-  acMode = 'MODE_COOL'
+  acMode: string;
 
   rangeVal: number;
   air_quality_message: string;
@@ -31,7 +31,7 @@ export class HomePage {
   carbonSens: number;
 
   current_temp: number = 24;
-  aircon: boolean = true;
+  aircon: boolean;
 
   city: string;
   weather: string;
@@ -75,25 +75,46 @@ export class HomePage {
     private dataService: DataService,
     private firebaseService: FirebaseService
   ) {
-    this.platform.ready().then(()=>{
-      this.rangeVal = 24;
-    })  
+    let acTemp = this.dataService.getCurrentAcSettings()
+    acTemp.subscribe((result: any)=>{
+      this.platform.ready().then(()=>{
+        this.rangeVal = result.temp_setting;
+      })  
+    })
+    
     
   }
 
   ngOnInit(){
 
-  /* This is a subscription to the current power status of the aircon. */
-    let switchRef = this.dataService.getCurrentPower()
-    switchRef.subscribe((result)=>{
-      console.log(result)
-            
+    
+    let switchRef = this.dataService.getCurrentAcSettings()
+    switchRef.subscribe((result: any)=>{
+      // this.acMode = result.mode
+      let acMode = result.mode
+      if(acMode == "COOL"){
+        this.acMode = "MODE_COOL"
+      }
+      else if(acMode == "FAN"){
+        this.acMode = "MODE_FAN"
+      }
+      else if(acMode == "ECO" || acMode == "AUTO"){
+        this.acMode == "MODE_AUTO"
+      }
+
+
+
+
+      let acPower = result.power //gets the current ac power(on/off)
+
+      console.log(acPower)
+      if(acPower == "ON"){
+        this.aircon = true
+      }
+      else if(acPower == "OFF"){
+        this.aircon = false
+      }
     })
-
-
-    //current aircon status
-    console.log("Power: ", this.aircon)
-    console.log("Mode: ",this.acMode)
 
     //air Quality status
       
@@ -237,10 +258,31 @@ export class HomePage {
   }
 
   switchPower(value){
+    if(this.aircon == true){
+      value = "SWITCH_ON"
+      console.log(value)
+      this.firebaseService.switchPower(value)
+    }
+    else if(this.aircon == false){
+      value = "SWITCH_OFF"
+      console.log(value)
+      this.firebaseService.switchPower(value)
+    }
     // let switchRef = this.dataService.getCurrentPower()
-    // switchRef.subscribe((result)=>{
-    //   console.log(result)
-            
+    // switchRef.subscribe((result: any)=>{
+    //   let acPower = result.power
+    //   console.log(acPower)
+      
+    //   if(acPower == "ON"){
+    //     value = "SWITCH_ON"
+    //     this.aircon = true
+    //     this.firebaseService.switchPower(value)
+    //   }
+    //   else if(acPower == "OFF"){
+    //     value = "SWITCH_OFF"
+    //     this.aircon = false
+    //     this.firebaseService.switchPower(value)
+    //   }
     // })
 
 
