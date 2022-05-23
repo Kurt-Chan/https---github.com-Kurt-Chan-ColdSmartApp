@@ -9,7 +9,7 @@ import { ModalController, PopoverController } from '@ionic/angular';
 
 import { DataService } from '../services/data.service';
 import { FirebaseService } from '../services/firebase.service'
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+
 
 
 @Component({
@@ -75,6 +75,8 @@ export class HomePage {
     private dataService: DataService,
     private firebaseService: FirebaseService
   ) {
+
+/* Getting the current temperature setting from the database. */
     let acTemp = this.dataService.getCurrentAcSettings()
     acTemp.subscribe((result: any)=>{
       this.platform.ready().then(()=>{
@@ -86,12 +88,12 @@ export class HomePage {
   }
 
   ngOnInit(){
-
     
+    /* Getting the current AC settings from the database. */
     let switchRef = this.dataService.getCurrentAcSettings()
     switchRef.subscribe((result: any)=>{
-      // this.acMode = result.mode
-      let acMode = result.mode
+      /* Getting the current AC mode from the database. */
+      let acMode = result.mode 
       if(acMode == "COOL"){
         this.acMode = "MODE_COOL"
       }
@@ -102,11 +104,8 @@ export class HomePage {
         this.acMode == "MODE_AUTO"
       }
 
-
-
-
-      let acPower = result.power //gets the current ac power(on/off)
-
+      /* Getting the current AC power status from the database. */
+      let acPower = result.power 
       console.log(acPower)
       if(acPower == "ON"){
         this.aircon = true
@@ -116,8 +115,7 @@ export class HomePage {
       }
     })
 
-    //air Quality status
-      
+      /* This is getting the air quality status from the database. */
       let aqRef = this.dataService.getAirQualityStat()
       aqRef.subscribe((result)=>{
 
@@ -146,7 +144,7 @@ export class HomePage {
         }
       })
 
-      //room temp and humidity
+      /* This is getting the temperature and humidity status from the database. */
       let tempHumidRef = this.dataService.getTempAndHumidityStat()
       tempHumidRef.subscribe((result)=>{
         this.temp = result.temperature
@@ -157,7 +155,7 @@ export class HomePage {
         console.log('Last Updated: ', result.last_updated)
       })
 
-      //weather forecast
+      /* This is getting the current weather from the database. */
       let weatherRef = this.dataService.getCurrentWeather()
       weatherRef.subscribe((result)=>{
         this.city = result.name + ", " + result.sys.country
@@ -170,10 +168,6 @@ export class HomePage {
         console.log(this.cityTemp)
         console.log(this.cityHumid)
       })
-
-
-
-
      
   }
 
@@ -224,17 +218,14 @@ export class HomePage {
   }
 
   rangeFocused(event){
-    // console.log(event.detail.value)
+    /* Getting the new value of the range slider. */
     var new_temp = event.detail.value
-    // console.log(event)
     
     if(new_temp !=0){
       let prevTemp;
       let action;
       let change;
       prevTemp = this.current_temp;
-
-      // console.log('prev temp:',prevTemp);
 
       if(new_temp > prevTemp){
         change = new_temp - prevTemp;
@@ -251,12 +242,22 @@ export class HomePage {
     
   }
 
+  /**
+   * It takes the value of the selected radio button and passes it to the firebase service
+   * @param value - The value of the selected option.
+   */
   airconMode(value){
     console.log(value)
     this.firebaseService.changeMode(value)
 
   }
 
+ /**
+  * The function takes in a value, and if the aircon is on, it will send the value "SWITCH_ON" to the
+  * firebase database, and if the aircon is off, it will send the value "SWITCH_OFF" to the firebase
+  * database
+  * @param value - the value that will be sent to the firebase database
+  */
   switchPower(value){
     if(this.aircon == true){
       value = "SWITCH_ON"
@@ -268,35 +269,6 @@ export class HomePage {
       console.log(value)
       this.firebaseService.switchPower(value)
     }
-    // let switchRef = this.dataService.getCurrentPower()
-    // switchRef.subscribe((result: any)=>{
-    //   let acPower = result.power
-    //   console.log(acPower)
-      
-    //   if(acPower == "ON"){
-    //     value = "SWITCH_ON"
-    //     this.aircon = true
-    //     this.firebaseService.switchPower(value)
-    //   }
-    //   else if(acPower == "OFF"){
-    //     value = "SWITCH_OFF"
-    //     this.aircon = false
-    //     this.firebaseService.switchPower(value)
-    //   }
-    // })
-
-
-    // if(value == true){
-    //   value = "SWITCH_ON"
-    //   console.log(value)
-    //   this.firebaseService.switchPower(value)
-    // }
-    // else if(value == false)
-    // {
-    //   value = "SWITCH_OFF"
-    //   console.log(value)
-    //   this.firebaseService.switchPower(value)
-    // }
   }
 
 
