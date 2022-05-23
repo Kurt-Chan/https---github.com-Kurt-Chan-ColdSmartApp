@@ -21,4 +21,27 @@ export class FirebaseService {
     this.snapshotChangesSubscription.unsubscribe();
   }
 
+  changeTemp(value){
+    this.afs.collection("devices").doc("testing00").collection("commands").doc("command")
+    .set({
+      command: value
+    })
+  }
+
+  changeMode(value){
+    this.afs.collection("devices").doc("testing00").collection("commands").doc("command")
+    .set({
+      command:value
+    })
+  }
+
+  switchPower(value){
+    this.afs.collection("devices").doc("testing00").collection("commands").doc("command")
+    .set({
+      command:value
+    })
+  }
+
+  
+
 }

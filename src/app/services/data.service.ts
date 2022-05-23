@@ -41,14 +41,15 @@ export class DataService {
     return path
   }
 
-
-
-
-
-  addSchedule(){
-    
+  getCurrentWeather(){
+    let path = this.angularFire.collection('devices').doc('testing00').collection('data').doc('weather_api').valueChanges()
+    return path
   }
 
+  getCurrentPower(){
+    let path = this.angularFire.collection('devices').doc('testing00').valueChanges()
+    return path
+  }
 
 
 }

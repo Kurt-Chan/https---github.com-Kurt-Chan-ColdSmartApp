@@ -8,7 +8,9 @@ import { AirQualityInfoPopPage } from '../modals/air-quality-info-pop/air-qualit
 import { ModalController, PopoverController } from '@ionic/angular';
 
 import { DataService } from '../services/data.service';
+import { FirebaseService } from '../services/firebase.service'
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+
 
 @Component({
   selector: 'app-home',
@@ -17,14 +19,25 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 })
 export class HomePage {
   selectTabs = 'temperature';
-  rangeVal: string;
+  acMode = 'MODE_COOL'
+
+  rangeVal: number;
   air_quality_message: string;
+
   aqNum: number;
   temp: any;
   humid: any;
   motionSens: number;
   carbonSens: number;
+
   current_temp: number = 24;
+  aircon: boolean = true;
+
+  city: string;
+  weather: string;
+  cityTemp: number;
+  cityHumid: number;
+   
 
   aq_messages = {
     'normal' :[
@@ -53,25 +66,34 @@ export class HomePage {
 
   };
 
-  public aircon: boolean = true;
-  public fan: boolean = false;
-  public eco: boolean = false;
-  public auto: boolean = false;
+
 
   constructor(
     public platform: Platform,
     private modalCtrl: ModalController,
     private popoverCtrl: PopoverController,
     private dataService: DataService,
-    private angularFire: AngularFirestore
+    private firebaseService: FirebaseService
   ) {
     this.platform.ready().then(()=>{
-      this.rangeVal = "24";
+      this.rangeVal = 24;
     })  
     
   }
 
   ngOnInit(){
+
+  /* This is a subscription to the current power status of the aircon. */
+    let switchRef = this.dataService.getCurrentPower()
+    switchRef.subscribe((result)=>{
+      console.log(result)
+            
+    })
+
+
+    //current aircon status
+    console.log("Power: ", this.aircon)
+    console.log("Mode: ",this.acMode)
 
     //air Quality status
       
@@ -103,7 +125,7 @@ export class HomePage {
         }
       })
 
-      //temp and humidity
+      //room temp and humidity
       let tempHumidRef = this.dataService.getTempAndHumidityStat()
       tempHumidRef.subscribe((result)=>{
         this.temp = result.temperature
@@ -114,25 +136,22 @@ export class HomePage {
         console.log('Last Updated: ', result.last_updated)
       })
 
-      //motion sensor
-      let motionSensRef = this.dataService.getMotionSensor()
-      motionSensRef.subscribe((result)=>{
-        this.motionSens = result.motion
+      //weather forecast
+      let weatherRef = this.dataService.getCurrentWeather()
+      weatherRef.subscribe((result)=>{
+        this.city = result.name + ", " + result.sys.country
+        this.weather = result.weather[0].description
+        this.cityTemp = Math.round(result.main.temp - 273.15)
+        this.cityHumid = result.main.humidity
 
-        if (this.motionSens == 1){
-          console.log("Room Occupied!")
-        }
-        else{
-          console.log("Room Vacant!")
-        }
+        console.log(this.city)
+        console.log(this.weather)
+        console.log(this.cityTemp)
+        console.log(this.cityHumid)
       })
 
-      //carbon sensor
-      let carbonSensRef = this.dataService.getCarbonSensor()
-      carbonSensRef.subscribe((result)=>{
-        this.carbonSens = result.eco2
-        console.log('ECO2: ', this.carbonSens)
-      })
+
+
 
      
   }
@@ -198,19 +217,44 @@ export class HomePage {
 
       if(new_temp > prevTemp){
         change = new_temp - prevTemp;
-        action = "TEMP_UP";
+        action = "TEMP_"+(this.current_temp + change);
       }
       else if(new_temp < prevTemp){
         change = prevTemp - new_temp;
-        action = "TEMP_DOWN";
+        action = "TEMP_"+(this.current_temp - change);
       }
-      for(let i = 1; i <= change; i++)
-          console.log(action);
-
       this.current_temp = new_temp;
+      console.log(action)
+      this.firebaseService.changeTemp(action)
     }
-
     
+  }
+
+  airconMode(value){
+    console.log(value)
+    this.firebaseService.changeMode(value)
+
+  }
+
+  switchPower(value){
+    // let switchRef = this.dataService.getCurrentPower()
+    // switchRef.subscribe((result)=>{
+    //   console.log(result)
+            
+    // })
+
+
+    // if(value == true){
+    //   value = "SWITCH_ON"
+    //   console.log(value)
+    //   this.firebaseService.switchPower(value)
+    // }
+    // else if(value == false)
+    // {
+    //   value = "SWITCH_OFF"
+    //   console.log(value)
+    //   this.firebaseService.switchPower(value)
+    // }
   }
 
 

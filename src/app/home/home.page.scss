@@ -136,12 +136,12 @@ ion-content{
       box-shadow: 4px 10px 3px #3A7880;
 
       .fan{
-        width: 23px;
-        height: 23px;
-        position: absolute;
-        left: 50%;
-        top: 30%;
-        transform: translate(-50%, -50%);
+        width: 10px;
+        height: 10px;
+        // position: absolute;
+        // left: 50%;
+        // top: 10%;
+        // transform: translate(-50%, -50%);
       }
 
       .auto{
@@ -171,7 +171,7 @@ ion-content{
         color: $white;
         position: absolute;
         left: 50%;
-        top: 25.5%;
+        top: 27.5%;
         transform: translate(-50%, -50%);
       }
 
@@ -200,18 +200,23 @@ ion-content{
 
   .settings{
     position: relative;
-    top: 50px;
-    width: 250px;
+    top: 30px;
+    width: 80%;
     left: 50%;
     transform: translate(-50%, -50%);
     margin-bottom: 1rem;
 
-    ion-label{
-      font-style: normal;
-      font-weight: 200;
-      font-size: 16px;
-      line-height: 16px;
+    button{
+      padding: 0.5rem 1rem;
+
+      ion-label{
+        font-style: normal;
+        font-weight: 200;
+        font-size: 16px;
+        line-height: 16px;
+      }
     }
+
 
     .fan{
       width: 23px;
