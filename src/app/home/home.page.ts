@@ -106,7 +106,7 @@ export class HomePage {
 
       /* Getting the current AC power status from the database. */
       let acPower = result.power 
-      console.log(acPower)
+      // console.log(acPower)
       if(acPower == "ON"){
         this.aircon = true
       }
@@ -121,8 +121,8 @@ export class HomePage {
 
         this.aqNum = result.aqi2_5;
         var lastUpdate = result.last_updated;
-        console.log("Air Quality: ", this.aqNum)
-        console.log("Last updated: ", lastUpdate)
+        // console.log("Air Quality: ", this.aqNum)
+        // console.log("Last updated: ", lastUpdate)
 
         if(this.aqNum >=0 && this.aqNum <=50){
           this.air_quality_message = "normal";
@@ -150,9 +150,9 @@ export class HomePage {
         this.temp = result.temperature
         this.humid = result.humidity
         
-        console.log('Temperature: ', this.temp)
-        console.log('Humidity: ', this.humid)
-        console.log('Last Updated: ', result.last_updated)
+        // console.log('Temperature: ', this.temp)
+        // console.log('Humidity: ', this.humid)
+        // console.log('Last Updated: ', result.last_updated)
       })
 
       /* This is getting the current weather from the database. */
@@ -163,10 +163,10 @@ export class HomePage {
         this.cityTemp = Math.round(result.main.temp - 273.15)
         this.cityHumid = result.main.humidity
 
-        console.log(this.city)
-        console.log(this.weather)
-        console.log(this.cityTemp)
-        console.log(this.cityHumid)
+        // console.log(this.city)
+        // console.log(this.weather)
+        // console.log(this.cityTemp)
+        // console.log(this.cityHumid)
       })
      
   }

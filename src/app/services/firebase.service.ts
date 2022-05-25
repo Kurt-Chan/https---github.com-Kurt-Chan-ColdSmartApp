@@ -42,6 +42,16 @@ export class FirebaseService {
     })
   }
 
+  addSchedule(value, time){
+    this.afs.collection("devices").doc("testing00").collection("smart_schedule")
+    .add({
+      days: {...value.setDays},
+      time: time,
+      type: value.type,
+      value: value.type == 'PREFERRED_TEMP' ? value.prefTemp : value.switch
+    })
+  }
+
   
 
 }

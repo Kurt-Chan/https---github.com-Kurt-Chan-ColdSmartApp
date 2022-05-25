@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
-
+import { FirebaseService } from '../../services/firebase.service'
 
 
 @Component({
@@ -12,6 +12,8 @@ import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@ang
 export class AddSchedModalPage implements OnInit {
   
   addSchedForm: FormGroup
+  aircMode: string
+  // type: string
 
   Days: Array<any> = [
     {name: 'Monday', value: 'Monday'},
@@ -23,16 +25,24 @@ export class AddSchedModalPage implements OnInit {
     {name: 'Sunday', value: 'Sunday'},
   ];
 
+  mode = [
+    {name: 'Cool Mode', value: 'COOL_MODE'},
+    {name: 'Fan Mode', value: 'FAN_MODE'},
+    {name: 'Auto Mode', value: 'ECO_MODE'},
+  ]
+
+  power =[
+    {name: 'On', value: 'SWITCH_ON', type:'POWER'},
+    {name: 'Off', value: 'SWITCH_OFF', type:'POWER'}
+  ]
+
 
   constructor(
     private modalCtrl: ModalController,
     public formBuilder: FormBuilder,
+    private firebaseService: FirebaseService
     
     ) {  }
-
-     
-
-
 
   ngOnInit() {
 
@@ -40,10 +50,23 @@ export class AddSchedModalPage implements OnInit {
       schedName: new FormControl('', Validators.required),
       setDays: this.formBuilder.array([], [Validators.required]),
       startTime: new FormControl('', Validators.required),
-      endTime: new FormControl('', Validators.required),
-      prefTemp: new FormControl('', Validators.required)
+      type: new FormControl('', Validators.required),
+      prefTemp: new FormControl(''),
+      switch: new FormControl('')
+    })
+    this.addSchedForm.get('type').valueChanges.subscribe(result =>{
+      if(result == 'POWER' || result == 'ECO_MODE' || result == 'FAN_MODE'){
+        this.addSchedForm.get('switch').setValidators(Validators.required);
+        this.addSchedForm.get('prefTemp').clearValidators();
+      }
+      else if(result == 'PREFERRED_TEMP'){
+        this.addSchedForm.get('prefTemp').setValidators(Validators.required);
+        this.addSchedForm.get('switch').clearValidators();
+      }
     })
   }
+
+  
 
 
   validation_messages = {
@@ -56,11 +79,11 @@ export class AddSchedModalPage implements OnInit {
     'startTime': [
       { type: 'required', message: 'Aircon Brand is required.' }
     ],
-    'endTime': [
-      { type: 'required', message: 'Aircon Type is required.' }
-    ],
     'prefTemp': [
       { type: 'required', message: 'Remote Model is required.' }
+    ],
+    'airconMode': [
+      { type: 'required', message: 'Aircon Mode is required.' }
     ],
    };
 
@@ -88,29 +111,24 @@ export class AddSchedModalPage implements OnInit {
 
   addSchedule(value){
     var tm1 = value.startTime
-    var tm2 = value.endTime
 
     let d1 = tm1.split('T')[1];
-    let d2 = tm2.split('T')[1];
 
     /* Getting the hour of the time. */
     let m1 = d1.split(':')[0];
-    let m2 = d2.split(':')[0];
 
     /* Getting the minutes of the time. */
     let n1 = d1.split(':')[1];
-    let n2 = d2.split(':')[1];
 
-    var AmOrPm1 = m1 >= 12 ? 'pm' : 'am';
-    var AmOrPm2 = m2 >= 12 ? 'pm' : 'am';
+    var AmOrPm1 = m1 >= 12 ? 'PM' : 'AM';
 
     m1 = (m1 % 12) || 12;
-    m2 = (m2 % 12) || 12;
 
     var strt = m1 + ":" + n1 + " " + AmOrPm1; //will display hour and mins only
-    var end = m2 + ":" + n2 + " " + AmOrPm2; //will display hour and mins only
 
-    console.log(value, value.startTime = strt, value.endTime = end);
+    console.log(value, value.startTime = strt);
+    this.firebaseService.addSchedule(value, strt)
+    this.dismissModal()
   }
 
 }
