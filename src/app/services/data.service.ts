@@ -3,9 +3,7 @@ import firebase from 'firebase/compat/app'
 import { FirebaseService } from './firebase.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
-import { first } from 'rxjs/operators';
-import { observable, Observable } from "rxjs";
-import { runInThisContext } from "vm";
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +15,7 @@ export class DataService {
   constructor(
     private firebaseService: FirebaseService,
     private angularFire: AngularFirestore,
+    private auth: AuthService,
   ){}
 
 
@@ -49,6 +48,12 @@ export class DataService {
   getCurrentAcSettings(){
     let path = this.angularFire.collection('devices').doc('testing00').valueChanges()
     return path
+  }
+
+   getSchedule(){
+    // let uid = await this.auth.getUid()
+   let path = this.angularFire.collection("devices").doc("testing00").collection("smart_schedule").valueChanges()
+   return path
   }
 
 

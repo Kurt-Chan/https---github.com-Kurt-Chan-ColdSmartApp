@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { AddSchedModalPage } from '../modals/add-sched-modal/add-sched-modal.page';
 import { AddAirconModalPage } from '../modals/add-aircon-modal/add-aircon-modal.page';
@@ -6,10 +6,11 @@ import { EditSchedModalPage } from '../modals/edit-sched-modal/edit-sched-modal.
 import { PopoverPage } from '../modals/popover/popover.page';
 import { AirQualityInfoPopPage } from '../modals/air-quality-info-pop/air-quality-info-pop.page';
 import { ModalController, PopoverController } from '@ionic/angular';
-
+import { IonAccordionGroup } from '@ionic/angular';
 import { DataService } from '../services/data.service';
 import { FirebaseService } from '../services/firebase.service'
-
+import { IonSlides } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
 
 
 @Component({
@@ -19,6 +20,8 @@ import { FirebaseService } from '../services/firebase.service'
 })
 export class HomePage {
   selectTabs = 'temperature';
+  statusTabs = 'room_status';
+  defaultDay: string;
   acMode: string;
 
   rangeVal: number;
@@ -30,13 +33,19 @@ export class HomePage {
   motionSens: number;
   carbonSens: number;
 
-  current_temp: number = 24;
+  current_temp: number
   aircon: boolean;
+
+  activeIndex: any
 
   city: string;
   weather: string;
   cityTemp: number;
   cityHumid: number;
+
+  userSched:any[] = [];
+
+  day_schedules = [];
    
 
   aq_messages = {
@@ -66,14 +75,27 @@ export class HomePage {
 
   };
 
+  schedDays: Array<string> = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Satruday',
+    'Sunday'
+  ]
 
+
+
+  @ViewChild('slide') slide: IonSlides;
 
   constructor(
     public platform: Platform,
     private modalCtrl: ModalController,
     private popoverCtrl: PopoverController,
     private dataService: DataService,
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private auth: AuthService
   ) {
 
 /* Getting the current temperature setting from the database. */
@@ -81,13 +103,34 @@ export class HomePage {
     acTemp.subscribe((result: any)=>{
       this.platform.ready().then(()=>{
         this.rangeVal = result.temp_setting;
+        this.current_temp = result.temp_setting;
       })  
     })
-    
+
+    this.defaultDay = this.schedDays[0];
     
   }
 
-  ngOnInit(){
+  async ngOnInit(){
+    
+    let schedRef = this.dataService.getSchedule()
+    schedRef.subscribe((result: any)=>{
+      // console.log(result)
+    
+      // result.forEach(doc => {
+      //   console.log(doc.uid)
+      //   if(doc.uid == uid){
+           this.userSched = result;
+            console.log(this.userSched);
+
+      //   }
+           
+        
+      // })
+      
+      
+    })
+    
     
     /* Getting the current AC settings from the database. */
     let switchRef = this.dataService.getCurrentAcSettings()
@@ -168,8 +211,36 @@ export class HomePage {
         // console.log(this.cityTemp)
         // console.log(this.cityHumid)
       })
+
      
   }
+
+  async segmentSelected(item: string, index: number){
+    // console.log(item, index)
+    let uid = await this.auth.getUid()
+    this.slide.slideTo(index)
+    this.day_schedules = [];
+    this.userSched.forEach(i => {
+      if(i.uid == uid){
+        for (const k in i.days) {
+          if(i.days[k] == item ) {
+            this.day_schedules.push(i);
+          }
+        }
+      }
+    });
+    console.log(this.day_schedules);
+  }
+
+  ionSlideDidChange(event: any){
+    this.slide.getActiveIndex().then(index =>{
+      // console.log(index),
+      this.defaultDay = this.schedDays[index]
+    })
+  }
+
+
+  
 
   async addAirconModal(){
     const modal = await this.modalCtrl.create({

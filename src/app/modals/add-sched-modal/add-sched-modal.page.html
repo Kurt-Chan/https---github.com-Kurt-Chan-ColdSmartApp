@@ -12,12 +12,7 @@
 <div class="addSchedForm">
   <!-- <ion-card class="form1"> -->
     <form [formGroup]="addSchedForm" (ngSubmit)="addSchedule(addSchedForm.value)">
-      <ion-card-header>
-        <ion-item>
-          <ion-label position="stacked">Schedule Name: </ion-label>
-          <ion-input formControlName="schedName" type="text" placeholder="Work From Home Schedule"></ion-input>
-        </ion-item>
-      </ion-card-header>
+
 
       <div class="days">
         <ion-list lines="none">
@@ -71,13 +66,43 @@
                   <ion-select-option value="POWER">Power (On/Off)</ion-select-option>
                   <ion-select-option value="PREFERRED_TEMP">Set temperature</ion-select-option>
                   <ion-select-option value="ECO_MODE">Eco Mode</ion-select-option>
-                  <ion-select-option value="FAN_MODE">Fan Mode</ion-select-option>
+                  <ion-select-option value="MODE">Mode</ion-select-option>
                 </ion-select>
               </ion-item>
             </div>
 
-            <div *ngIf="addSchedForm.get('type').touched && addSchedForm.value.type == 'POWER' || addSchedForm.value.type == 'ECO_MODE' || addSchedForm.value.type == 'FAN_MODE'">
+            <div *ngIf="addSchedForm.get('type').touched && addSchedForm.value.type == 'POWER'">
             <ion-radio-group formControlName="switch">
+              <ion-item>
+                <ion-label>ON</ion-label>
+                <ion-radio slot="end" value="ON"></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-label>OFF</ion-label>
+                <ion-radio slot="end" value="OFF"></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </div>
+
+          <div *ngIf="addSchedForm.get('type').touched && addSchedForm.value.type == 'MODE'">
+            <ion-radio-group formControlName="airconMode">
+              <ion-item>
+                <ion-label>Cool Mode</ion-label>
+                <ion-radio slot="end" value="COOL"></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-label>Fan Mode</ion-label>
+                <ion-radio slot="end" value="FAN"></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-label>Auto Mode</ion-label>
+                <ion-radio slot="end" value="AUTO"></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </div>
+
+          <div *ngIf="addSchedForm.get('type').touched && addSchedForm.value.type == 'ECO_MODE'">
+            <ion-radio-group formControlName="ecoMode">
               <ion-item>
                 <ion-label>ON</ion-label>
                 <ion-radio slot="end" value="true"></ion-radio>

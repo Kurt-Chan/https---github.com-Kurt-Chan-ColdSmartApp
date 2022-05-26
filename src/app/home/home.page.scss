@@ -233,8 +233,7 @@ ion-content{
 
   ion-accordion-group{
     position: relative;
-    width: 90%;
-    left: 5%;
+    width: 100%;
 
 
     ion-accordion {
@@ -242,10 +241,10 @@ ion-content{
       
       ion-list{
         position: relative;
-        width: 85%;
+        width: 100%;
         // left: 50%;
         // transform: translate(-50%, -50%);
-        margin: 5px auto;
+        margin: 1px auto;
       }
     }
     
@@ -257,18 +256,18 @@ ion-content{
 
     ion-accordion.accordion-collapsing ion-item[slot="header"],
     ion-accordion.accordion-collapsed ion-item[slot="header"]{
-      --color: #F5F5F5;
-      text-align: center;
-      --background: #0E2B3D;
-      border-radius: 8px 8px 8px 8px;
+      --color: #0E2B3D;
+      font-weight: 500;
+      --background: #f4f4f4;
+      
       
     }
 
     ion-accordion.accordion-expanding ion-item[slot="header"],
     ion-accordion.accordion-expanded ion-item[slot="header"] {
-      --color: #F5F5F5;
-      text-align: center;
-      --background: #0E2B3D;
+      --color: #0E2B3D;
+      font-weight: 500;
+      --background: #f4f4f4;
       border-radius: 8px 8px 0px 0px;
     }
 
@@ -354,8 +353,16 @@ ion-content{
 
 
   // schedule
+ 
+
 
   .listSched{
+
+    ion-slides{
+      width: 100%;
+
+    }
+
     p{
       font-weight: 100;
       font-style: normal;

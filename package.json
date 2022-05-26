@@ -29,6 +29,7 @@
     "@capacitor/status-bar": "1.0.8",
     "@ionic/angular": "^6.0.0",
     "@ionic/pwa-elements": "^3.1.1",
+    "animate.css": "^4.1.1",
     "firebase": "^9.7.0",
     "google-libphonenumber": "^3.2.27",
     "rxjs": "~6.6.0",

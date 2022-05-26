@@ -25,17 +25,6 @@ export class AddSchedModalPage implements OnInit {
     {name: 'Sunday', value: 'Sunday'},
   ];
 
-  mode = [
-    {name: 'Cool Mode', value: 'COOL_MODE'},
-    {name: 'Fan Mode', value: 'FAN_MODE'},
-    {name: 'Auto Mode', value: 'ECO_MODE'},
-  ]
-
-  power =[
-    {name: 'On', value: 'SWITCH_ON', type:'POWER'},
-    {name: 'Off', value: 'SWITCH_OFF', type:'POWER'}
-  ]
-
 
   constructor(
     private modalCtrl: ModalController,
@@ -47,21 +36,38 @@ export class AddSchedModalPage implements OnInit {
   ngOnInit() {
 
     this.addSchedForm = this.formBuilder.group({
-      schedName: new FormControl('', Validators.required),
       setDays: this.formBuilder.array([], [Validators.required]),
       startTime: new FormControl('', Validators.required),
       type: new FormControl('', Validators.required),
       prefTemp: new FormControl(''),
-      switch: new FormControl('')
+      switch: new FormControl(''),
+      airconMode: new FormControl(''),
+      ecoMode: new FormControl(''),
     })
     this.addSchedForm.get('type').valueChanges.subscribe(result =>{
-      if(result == 'POWER' || result == 'ECO_MODE' || result == 'FAN_MODE'){
+      if(result == 'POWER'){
         this.addSchedForm.get('switch').setValidators(Validators.required);
         this.addSchedForm.get('prefTemp').clearValidators();
+        this.addSchedForm.get('airconMode').clearValidators();
+        this.addSchedForm.get('ecoMode').clearValidators();
       }
       else if(result == 'PREFERRED_TEMP'){
         this.addSchedForm.get('prefTemp').setValidators(Validators.required);
         this.addSchedForm.get('switch').clearValidators();
+        this.addSchedForm.get('airconMode').clearValidators();
+        this.addSchedForm.get('ecoMode').clearValidators();
+      }
+      else if(result == 'MODE'){
+        this.addSchedForm.get('airconMode').setValidators(Validators.required);
+        this.addSchedForm.get('prefTemp').clearValidators();
+        this.addSchedForm.get('switch').clearValidators();
+        this.addSchedForm.get('ecoMode').clearValidators();
+      }
+      else if(result == 'ECO_MODE'){
+        this.addSchedForm.get('ecoMode').setValidators(Validators.required);
+        this.addSchedForm.get('airconMode').clearValidators();
+        this.addSchedForm.get('switch').clearValidators();
+        this.addSchedForm.get('prefTemp').clearValidators();
       }
     })
   }
@@ -92,7 +98,7 @@ export class AddSchedModalPage implements OnInit {
     if (e.target.checked) {
       setDays.push(new FormControl(e.target.value));
     } else {
-      let i: number = 0;
+      let i: number
       setDays.controls.forEach((item: FormControl) => {
         if (item.value == e.target.value) {
           setDays.removeAt(i);

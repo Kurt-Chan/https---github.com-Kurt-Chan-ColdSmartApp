@@ -11,7 +11,7 @@ import { first } from 'rxjs/operators';
 export class AuthService {
 
   constructor(
-    private firebaseService: FirebaseService,
+   
     public afAuth: AngularFireAuth
   ){}
 
