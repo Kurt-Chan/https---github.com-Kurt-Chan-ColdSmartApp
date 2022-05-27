@@ -12,24 +12,18 @@
 <div class="addSchedForm">
   <!-- <ion-card class="form1"> -->
     <form [formGroup]="editSchedForm" (ngSubmit)="updateSchedule(editSchedForm.value)">
-      <ion-card-header>
-        <ion-label position="stacked">Schedule Name: </ion-label>
-          <ion-input formControlName="schedName" type="text" placeholder="Work From Home Schedule"></ion-input>
-      </ion-card-header>
 
       <div class="days">
         <ion-list lines="none">
           <ion-item-divider>
             <ion-label>Select Day</ion-label>
           </ion-item-divider>
-          
-          <ion-item-group class="otherDays" *ngFor="let day of Days; let i=index">
 
+          <ion-item-group class="otherDays" *ngFor="let day of Days; let i=index">
             <ion-item>
               <ion-label>{{day.name}}</ion-label>
               <ion-checkbox [value]="day.value" (ionChange)="onCheckboxChange($event)"></ion-checkbox>
             </ion-item>
-
           </ion-item-group>
 
         </ion-list>
@@ -42,24 +36,91 @@
           </ion-item-divider>
 
           <ion-item>
-              <ion-label>Start Time</ion-label>
-              <ion-datetime formControlName="startTime" displayFormat="hh:mm" presentation="time"></ion-datetime>
+              <ion-label>Time</ion-label>
+              <ion-datetime formControlName="startTime" presentation="time"></ion-datetime>
           </ion-item>
 
-          <ion-item>
+          <!-- <ion-item>
             <ion-label>End Time</ion-label>
             <ion-datetime formControlName="endTime" displayFormat="hh:mm" presentation="time" ></ion-datetime>
-          </ion-item>
+          </ion-item> -->
+          <!-- <ion-item-divider>
+            <ion-label>Power</ion-label>
+          </ion-item-divider>
+          <ion-radio-group formControlName="airconPower">
+            <ion-item *ngFor="let power of power">
+              <ion-label>{{power.name}}</ion-label>
+              <ion-radio slot="end" [value]="power.value" (click)="airconPower(power.value)"></ion-radio>
+            </ion-item> -->
+            <ion-item-divider>
+              <ion-label>Settings</ion-label>
+            </ion-item-divider>
+            
+            <div class="tempRange">
+              <ion-item>
+                <ion-label position="stacked">Type</ion-label>
+                <ion-select formControlName="type" placeholder="Power(On/Off)">
+                  <ion-select-option value="POWER">Power (On/Off)</ion-select-option>
+                  <ion-select-option value="PREFERRED_TEMP">Set temperature</ion-select-option>
+                  <ion-select-option value="ECO_MODE">Eco Mode</ion-select-option>
+                  <ion-select-option value="MODE">Mode</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            
+            <div *ngIf="editSchedForm.value.type == 'POWER'">
+            <ion-radio-group formControlName="switch">
+              <ion-item>
+                <ion-label>ON</ion-label>
+                <ion-radio slot="end" value="ON"></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-label>OFF</ion-label>
+                <ion-radio slot="end" value="OFF"></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </div>
 
+          <div *ngIf="editSchedForm.value.type == 'MODE'">
+            <ion-radio-group formControlName="airconMode">
+              <ion-item>
+                <ion-label>Cool Mode</ion-label>
+                <ion-radio slot="end" value="COOL"></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-label>Fan Mode</ion-label>
+                <ion-radio slot="end" value="FAN"></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-label>Auto Mode</ion-label>
+                <ion-radio slot="end" value="AUTO"></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </div>
+
+          <div *ngIf="editSchedForm.value.type == 'ECO_MODE'">
+            <ion-radio-group formControlName="ecoMode">
+              <ion-item>
+                <ion-label>ON</ion-label>
+                <ion-radio slot="end" value="true"></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-label>OFF</ion-label>
+                <ion-radio slot="end" value="false"></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </div>
         </ion-list>
       </div>
 
+      
 
-
-      <div class="tempRange">
+      <div class="tempRange" *ngIf="editSchedForm.value.type == 'PREFERRED_TEMP'">
           <ion-item lines="none">
             <ion-label>Temperature</ion-label>
             <ion-select formControlName="prefTemp" placeholder="24 °C">
+              <ion-select-option value="16">16 °C</ion-select-option>
+              <ion-select-option value="17">17 °C</ion-select-option>
               <ion-select-option value="18">18 °C</ion-select-option>
               <ion-select-option value="19">19 °C</ion-select-option>
               <ion-select-option value="20">20 °C</ion-select-option>

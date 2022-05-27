@@ -34,6 +34,16 @@ ion-header{
 
 ion-content{
 
+  ion-skeleton-text {
+    line-height: 13px;
+    --background-rgb: 230,40,50;
+    --border-radius: 20px;
+  }
+  
+  .custom-skeleton ion-skeleton-text:last-child {
+    margin-bottom: 5px;
+  }
+
   .status{
     padding-bottom: 1rem;
 
@@ -158,7 +168,7 @@ ion-content{
         height: 23px;
         position: absolute;
         left: 50%;
-        top: 30%;
+        top: 33%;
         transform: translate(-50%, -50%);
         margin-bottom: 1rem;
       }

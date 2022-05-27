@@ -116,24 +116,24 @@ export class AddSchedModalPage implements OnInit {
 
 
   addSchedule(value){
-    var tm1 = value.startTime
+    // var tm1 = value.startTime
 
-    let d1 = tm1.split('T')[1];
+    // let d1 = tm1.split('T')[1];
 
-    /* Getting the hour of the time. */
-    let m1 = d1.split(':')[0];
+    // /* Getting the hour of the time. */
+    // let m1 = d1.split(':')[0];
 
-    /* Getting the minutes of the time. */
-    let n1 = d1.split(':')[1];
+    // /* Getting the minutes of the time. */
+    // let n1 = d1.split(':')[1];
 
-    var AmOrPm1 = m1 >= 12 ? 'PM' : 'AM';
+    // var AmOrPm1 = m1 >= 12 ? 'PM' : 'AM';
 
-    m1 = (m1 % 12) || 12;
+    // m1 = (m1 % 12) || 12;
 
-    var strt = m1 + ":" + n1 + " " + AmOrPm1; //will display hour and mins only
+    // var strt = m1 + ":" + n1 + " " + AmOrPm1; //will display hour and mins only
 
-    console.log(value, value.startTime = strt);
-    this.firebaseService.addSchedule(value, strt)
+    // console.log(value, value.startTime = strt);
+    this.firebaseService.addSchedule(value)
     this.dismissModal()
   }
 

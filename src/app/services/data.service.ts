@@ -52,7 +52,12 @@ export class DataService {
 
    getSchedule(){
     // let uid = await this.auth.getUid()
-   let path = this.angularFire.collection("devices").doc("testing00").collection("smart_schedule").valueChanges()
+   let path = this.angularFire.collection("devices").doc("testing00").collection("smart_schedule").valueChanges({idField: 'schedId'})
+   return path
+  }
+
+  getSelectedSchedule(schedId){
+    let path = this.angularFire.collection("devices").doc("testing00").collection("smart_schedule").doc(schedId).valueChanges()
    return path
   }
 
