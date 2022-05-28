@@ -51,7 +51,7 @@ export class FirebaseService {
     this.afs.collection("devices").doc("testing00").collection("smart_schedule")
     .add({
       uid: uid,
-      days: {...value.setDays},
+      days: value.setDays,
       time: value.startTime,
       type: value.type,
       value: value.type == 'PREFERRED_TEMP' ? value.prefTemp : (value.type == 'POWER' ? value.switch : (value.type == 'MODE' ? value.airconMode : value.ecoMode)) 

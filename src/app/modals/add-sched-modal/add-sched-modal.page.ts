@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { FirebaseService } from '../../services/firebase.service'
+import { setDay } from 'date-fns';
 
 
 @Component({
@@ -94,9 +95,12 @@ export class AddSchedModalPage implements OnInit {
    };
 
    onCheckboxChange(e) {
-    const setDays: FormArray = this.addSchedForm.get('setDays') as FormArray;
+    let setDays: FormArray = this.addSchedForm.get('setDays') as FormArray;
+
     if (e.target.checked) {
       setDays.push(new FormControl(e.target.value));
+      console.log(setDays)
+
     } else {
       let i: number
       setDays.controls.forEach((item: FormControl) => {
