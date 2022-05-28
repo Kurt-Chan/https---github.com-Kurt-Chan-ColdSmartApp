@@ -60,6 +60,10 @@ const routes: Routes = [
     path: 'change-password-modal',
     loadChildren: () => import('./modals/change-password-modal/change-password-modal.module').then( m => m.ChangePasswordModalPageModule)
   },
+  {
+    path: 'faqs',
+    loadChildren: () => import('./faqs/faqs.module').then( m => m.FaqsPageModule)
+  },
  
 
 ];

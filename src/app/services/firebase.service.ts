@@ -46,13 +46,13 @@ export class FirebaseService {
     })
   }
 
-  async addSchedule(value){ // add schedule to the firebase
+  async addSchedule(value, time){ // add schedule to the firebase
     let uid = await this.auth.getUid()
     this.afs.collection("devices").doc("testing00").collection("smart_schedule")
     .add({
       uid: uid,
       days: value.setDays,
-      time: value.startTime,
+      time: time,
       type: value.type,
       value: value.type == 'PREFERRED_TEMP' ? value.prefTemp : (value.type == 'POWER' ? value.switch : (value.type == 'MODE' ? value.airconMode : value.ecoMode)) 
     })
