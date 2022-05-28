@@ -49,6 +49,8 @@ export class HomePage {
   cityHumid: number;
   currentDayTab: any;
 
+  formattedTime: any;
+
 
   userSched:any[] = [];
 
@@ -208,9 +210,6 @@ export class HomePage {
     this.day_schedules = [];
     this.userSched.forEach(i => {
       if(i.uid == uid){
-        // let formatToTime = format(parseISO(i.time), 'hh:mm a')
-        // i.time = formatToTime //still bugging
-        // console.log(i.time)
         for (const k in i.days) {
           if(i.days[k] == item ) {
             this.day_schedules.push(i);

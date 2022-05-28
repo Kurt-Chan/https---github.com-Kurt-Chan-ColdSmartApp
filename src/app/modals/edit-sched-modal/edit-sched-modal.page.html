@@ -37,7 +37,7 @@
 
           <ion-item>
               <ion-label>Time</ion-label>
-              <ion-datetime formControlName="startTime" presentation="time"></ion-datetime>
+              <ion-input formControlName="startTime" type="time"></ion-input>
           </ion-item>
 
           <!-- <ion-item>
@@ -135,14 +135,15 @@
           </ion-item>
       </div>
 
-      <ion-item class="addSchedBtns" lines="none">
-        <button slot="end" ion-button class="setBtn" [disabled]="!editSchedForm.valid" expand="block" >Done</button>
-        <!-- <button slot="end" ion-button class="cancelBtn" (click)="dismissModal()" color="danger">Cancel</button> -->
+      <ion-item-group class="addSchedBtns">
+      <ion-item lines="none">
+        <button slot="end" ion-button class="setBtn" [disabled]="!editSchedForm.valid" expand="block">Update</button>
       </ion-item>
-
+    </ion-item-group>
       
 
     </form>
+      <button slot="end" ion-button class="delBtn" expand="block" (click)="deleteSchedule()">Delete</button>
   <!-- </ion-card> -->
 </div>
 

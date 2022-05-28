@@ -5,6 +5,7 @@ import { FirebaseService } from '../../services/firebase.service'
 import { DataService } from '../../services/data.service';
 import { Data } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { ProtractorBrowser } from 'protractor';
 
 @Component({
   selector: 'app-edit-sched-modal',
@@ -40,21 +41,21 @@ export class EditSchedModalPage implements OnInit {
 
     // console.log(this.schedId)
     let schedRef = this.dataService.getSelectedSchedule(this.schedId)
-    schedRef.subscribe((res: any)=>{
-    //   console.log(res)
+    schedRef.pipe(first()).toPromise().then((res)=>{
+      // console.log(res.days)
+
     this.editSchedForm = this.formBuilder.group({
       setDays: this.formBuilder.array([], [Validators.required]), //array to ng selected days, need dapat makuha yung nakasave na days sa firebase
       startTime: new FormControl(res.time, Validators.required), //nag bubug yung time, minsan nadedetect yung time sa firestore, minsan yung computer time
       type: new FormControl(res.type, Validators.required),
-      prefTemp: new FormControl(''),
-      switch: new FormControl(''),
-      airconMode: new FormControl(''),
-      ecoMode: new FormControl(''),
+      prefTemp: new FormControl(res.type == 'PREFERRED_TEMP' ? res.value : ''),
+      switch: new FormControl(res.type == 'POWER' ? res.value : ''),
+      airconMode: new FormControl(res.type == 'MODE' ? res.value : ''),
+      ecoMode: new FormControl(res.type == 'ECO_MODE' ? res.value : ''),
     })
 
     this.editSchedForm.get('type').valueChanges.subscribe(result =>{
       if(result == 'POWER'){
-        this.editSchedForm.get('switch').setValue(res.value);
         this.editSchedForm.get('switch').setValidators(Validators.required);
         this.editSchedForm.get('prefTemp').clearValidators();
         this.editSchedForm.get('airconMode').clearValidators();
@@ -62,21 +63,18 @@ export class EditSchedModalPage implements OnInit {
       }
       else if(result == 'PREFERRED_TEMP'){
         this.editSchedForm.get('prefTemp').setValidators(Validators.required);
-        this.editSchedForm.get('prefTemp').setValue(res.value);
         this.editSchedForm.get('switch').clearValidators();
         this.editSchedForm.get('airconMode').clearValidators();
         this.editSchedForm.get('ecoMode').clearValidators();
       }
       else if(result == 'MODE'){
         this.editSchedForm.get('airconMode').setValidators(Validators.required);
-        this.editSchedForm.get('airconMode').setValue(res.value);
         this.editSchedForm.get('prefTemp').clearValidators();
         this.editSchedForm.get('switch').clearValidators();
         this.editSchedForm.get('ecoMode').clearValidators();
       }
       else if(result == 'ECO_MODE'){
         this.editSchedForm.get('ecoMode').setValidators(Validators.required);
-        this.editSchedForm.get('ecoMode').setValue(res.value);
         this.editSchedForm.get('airconMode').clearValidators();
         this.editSchedForm.get('switch').clearValidators();
         this.editSchedForm.get('prefTemp').clearValidators();
@@ -149,6 +147,12 @@ export class EditSchedModalPage implements OnInit {
 
   dismissModal(){
     this.modalCtrl.dismiss()
+  }
+
+  deleteSchedule(){
+    this.firebaseService.deleteSchedule(this.schedId)
+    console.log(this.schedId," deleted")
+    this.dismissModal()
   }
   
 }

@@ -34,13 +34,9 @@
 
       <div class="time">
         <ion-list>
-          <ion-item-divider>
-            <ion-label>Select Time</ion-label>
-          </ion-item-divider>
-
           <ion-item>
               <ion-label>Time</ion-label>
-              <ion-datetime formControlName="startTime" displayFormat="hh:mm" presentation="time"></ion-datetime>
+              <ion-input formControlName="startTime" type="time"></ion-input>
           </ion-item>
 
           <!-- <ion-item>
@@ -139,7 +135,7 @@
       </div>
 
       <ion-item class="addSchedBtns" lines="none">
-        <button slot="end" ion-button class="setBtn"  [disabled]="!addSchedForm.valid" expand="block" >Add</button>
+        <button slot="end" ion-button class="setBtn" [disabled]="!addSchedForm.valid" expand="block" >Add</button>
       </ion-item>
 
       

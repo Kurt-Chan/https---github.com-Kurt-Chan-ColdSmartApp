@@ -58,10 +58,12 @@ export class FirebaseService {
     })
   }
 
-
-
   editSchedule(){
     //obviously
+  }
+
+  deleteSchedule(schedId){
+    this.afs.collection("devices").doc("testing00").collection("smart_schedule").doc(schedId).delete()
   }
   
 

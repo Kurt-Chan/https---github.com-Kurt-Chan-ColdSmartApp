@@ -41,6 +41,19 @@ ion-content{
             }
             
         }
+        .delBtn{
+            position: absolute;
+            width: 55%;
+            height: 40px;
+            left: 21.8%;
+            border-radius: 8px;
+            background: #F16262;
+            font-style: normal;
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 40px;
+            color: $white;
+        }
 
     }
 

@@ -99,8 +99,6 @@ export class AddSchedModalPage implements OnInit {
 
     if (e.target.checked) {
       setDays.push(new FormControl(e.target.value));
-      console.log(setDays)
-
     } else {
       let i: number
       setDays.controls.forEach((item: FormControl) => {
@@ -138,6 +136,7 @@ export class AddSchedModalPage implements OnInit {
 
     // console.log(value, value.startTime = strt);
     this.firebaseService.addSchedule(value)
+    
     this.dismissModal()
   }
 
