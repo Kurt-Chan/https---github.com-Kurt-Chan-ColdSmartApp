@@ -1,8 +1,17 @@
-<img src="assets/headerbg.png" alt="">
-<p class="introText">Save energy while maintaing <br>a good rest with</p>
-<img class="coldsmartType" src="assets/logotypeLGHTBLUE.png" alt="">
+<!-- <img src="assets/headerbg.png" alt=""> -->
+<!-- <div class="header"> -->
+<!-- <p class="introText">Save energy while maintaing <br>a good rest with</p>
+<img class="coldsmartType" src="assets/logotypeLGHTBLUE.png" alt=""> -->
+<!-- </div> -->
 
 <ion-content>
+
+  <div class="header">
+    <p class="introText">Save energy while maintaing <br>a good rest with</p>
+    <p class="coldsmartType">coldsmart</p>
+    <!-- <img class="coldsmartType" src="assets/logotypeLGHTBLUE.png" alt=""> -->
+  </div>
+
 
   <p class="textHeader">Welcome<br>Back!</p>
 
@@ -35,9 +44,9 @@
 
   <!-- <p class="forgotPass"><a href="" style="color: #0E2B3D;">Forgot Password</a> </p> -->
 
-
+  <div class="btn">
   <button class="loginBtn" ion-button [disabled]="!validations_form.valid" type="submit" >Login</button>
-
+  </div>
 </form>
     
   <p class="signUp">I don't have an account. <a [routerLink]="['/signup']">Sign up</a></p>

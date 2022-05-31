@@ -13,6 +13,7 @@ import { FirebaseService } from '../services/firebase.service'
 import { IonSlides } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { format, parseISO } from 'date-fns';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { EditAirconModalPage } from '../modals/edit-aircon-modal/edit-aircon-modal.page';
 
 
@@ -144,7 +145,7 @@ export class HomePage {
       // console.log(res[0].id)
       let selectedAircon = this.dataService.getSelectedAircon(res[0].id)
       selectedAircon.subscribe((ac:any)=>{
-        console.log(ac)
+        // console.log(ac)
         this.airconList = ac
       })
     })
@@ -202,6 +203,7 @@ export class HomePage {
           // console.log(this.aqNum)
           if(this.aqNum >=0 && this.aqNum <=50){
             this.air_quality_message = "normal";
+
           }
           else if (this.aqNum >=51 && this.aqNum <=100){
             this.air_quality_message = "adequate";
@@ -233,7 +235,8 @@ export class HomePage {
           }
           else if (this.aqNum10 >=101 && this.aqNum10 <=150){
             this.air_quality_message = "unhealthy";
-            this.presentAlert(this.air_quality_message)
+            this.presentAlert(this.air_quality_message);
+            
           }
           else if (this.aqNum10 >=151 && this.aqNum10 <=200){
             this.air_quality_message = "harmful";
@@ -347,16 +350,21 @@ export class HomePage {
   }
 
   async presentAlert(message) {
+    const hapticsVibrate = async () => {
+      await Haptics.vibrate();
+      console.log('vibration...')
+    };
+
     const alert = await this.alertCtrl.create({
       cssClass: '',
       backdropDismiss: false,
       header: 'You are at risk!',
       subHeader: 'Indoor air is '+ message + '.',
       message: 'Your current air is ' + message + '. It is unsafe to inhale harmful particles in the air. Open your windows now.',
-      buttons: ['Okay']
+      buttons: ['Okay'],
     });
-
     await alert.present();
+    await hapticsVibrate();
   }
 
 

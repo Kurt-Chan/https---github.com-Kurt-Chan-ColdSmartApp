@@ -1,8 +1,9 @@
-<img src="assets/headerbg.png" alt="">
-<p class="introText">Start your day with the right <br>temperature with</p>
-<img class="coldsmartType" src="assets/logotypeLGHTBLUE.png" alt="">
-
 <ion-content>
+  <div class="header">
+    <p class="introText">Save energy while maintaing <br>a good rest with</p>
+    <p class="coldsmartType">coldsmart</p>
+    <!-- <img class="coldsmartType" src="assets/logotypeLGHTBLUE.png" alt=""> -->
+  </div>
 
   <p class="textHeader">Create Your<br>Account</p>
 
@@ -88,8 +89,9 @@
       </ion-item>
     </div>
 
+    <div class="btn">
     <button class="signUpBtn" ion-button [disabled]="!validations_form.valid" type="submit" >Create</button>
-
+    </div>
     <!-- validation error messages -->
 
 
@@ -143,18 +145,6 @@
 
 
   </form>
-
-  <p class="signUpOptions">sign up with:</p>
-  
-  <div class="signUpOptBtn">
-      <button ion-button class="google" color="medium" routerLink="#">
-        <ion-icon name="logo-google" slot="start"></ion-icon>
-      </button>
-  
-    <button ion-button class="facebook" color="medium" routerLink="#">
-      <ion-icon name="logo-facebook" slot="start"></ion-icon>
-    </button>
-  </div>
 
   <p class="login">I already have an account. <a [routerLink]="['/login']">Login</a></p>
 
