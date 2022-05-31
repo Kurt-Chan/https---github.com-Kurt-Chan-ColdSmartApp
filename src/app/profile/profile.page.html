@@ -13,10 +13,7 @@
   <div class="userCard">
     
       <div class="circle">
-        <div class="editPic">
-          <ion-icon name="pencil-sharp" (click)="changePic()"></ion-icon>
-        </div>
-        <img class="userPic" src="assets/78-785827_user-profile-avatar-login-account-male-user-icon.png">
+        <img class="userPic" (click)="changePic()" src="assets/78-785827_user-profile-avatar-login-account-male-user-icon.png">
         <!-- <ion-icon name="person-circle-outline"></ion-icon> -->
       </div>
 
@@ -35,25 +32,30 @@
 
 
       <ion-card-content>
-        <p class="address">{{user.address}}</p>
+        <p class="address">{{location}}</p>
         <p class="contact">{{user.country_phone.phone}}</p>
 
         <!-- if the user is DSM Registered -->
         <div class="dsmVerified"> 
           <ion-label>
             <!-- <ion-icon slot="start" name="checkmark-circle"></ion-icon> -->
-            <a href="#">Register to DSM</a> 
+            <!-- <a href="#">Register to DSM</a>  -->
           </ion-label>
         </div>
         <!-- if the user is DSM Registered -->
 
+        <div class="dsmVerified"> 
+          <ion-label>
+            Visit ColdSmart website
+            <a href="http://ofastph.com/coldsmart/"> here</a>
+          </ion-label>
+        </div>
 
-
-        <button class="editProfileBtn" ion-button routerLink="/edit-profile-page">
-          <!-- <ion-icon slot="end" name="create"></ion-icon> -->
+        <!-- <button class="editProfileBtn" ion-button routerLink="/edit-profile-page">
           Edit Profile
-        </button>
+        </button> -->
       </ion-card-content>
+     
    
 
 

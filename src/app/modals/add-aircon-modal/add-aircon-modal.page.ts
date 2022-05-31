@@ -30,11 +30,9 @@ export class AddAirconModalPage implements OnInit {
       raspId: new FormControl('', Validators.required),
       rasPassword: new FormControl('', Validators.required),
       acBrand: new FormControl('', Validators.required),
-      acType: new FormControl('', Validators.required),
       remoteModel: new FormControl('', Validators.required),
       minTemp: new FormControl('', Validators.required),
-      maxTemp: new FormControl('', Validators.required),
-      acmodes: this.formBuilder.array([], [Validators.required])
+      maxTemp: new FormControl('', Validators.required)
     });;
   }
 
@@ -48,9 +46,9 @@ export class AddAirconModalPage implements OnInit {
     'acBrand': [
       { type: 'required', message: 'Aircon Brand is required.' }
     ],
-    'acType': [
-      { type: 'required', message: 'Aircon Type is required.' }
-    ],
+    // 'acType': [
+    //   { type: 'required', message: 'Aircon Type is required.' }
+    // ],
     'remoteModel': [
       { type: 'required', message: 'Remote Model is required.' }
     ],
@@ -62,24 +60,25 @@ export class AddAirconModalPage implements OnInit {
     ],
   };
 
-  onCheckboxChange(e) {
-    const acmodes: FormArray = this.addAirconForm.get('acmodes') as FormArray;
-    if (e.target.checked) {
-      acmodes.push(new FormControl(e.target.value));
-    } else {
-      let i: number = 0;
-      acmodes.controls.forEach((item: FormControl) => {
-        if (item.value == e.target.value) {
-          acmodes.removeAt(i);
-          return;
-        }
-        i++;
-      });
-    }
-  }
+  // onCheckboxChange(e) {
+  //   const acmodes: FormArray = this.addAirconForm.get('acmodes') as FormArray;
+  //   if (e.target.checked) {
+  //     acmodes.push(new FormControl(e.target.value));
+  //   } else {
+  //     let i: number = 0;
+  //     acmodes.controls.forEach((item: FormControl) => {
+  //       if (item.value == e.target.value) {
+  //         acmodes.removeAt(i);
+  //         return;
+  //       }
+  //       i++;
+  //     });
+  //   }
+  // }
 
   addAircon(value){
     console.log(value);
+    this.dismissModal()
   }
 
   dismissModal(){

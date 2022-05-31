@@ -64,6 +64,18 @@ const routes: Routes = [
     path: 'faqs',
     loadChildren: () => import('./faqs/faqs.module').then( m => m.FaqsPageModule)
   },
+  {
+    path: 'about',
+    loadChildren: () => import('./about/about.module').then( m => m.AboutPageModule)
+  },
+  {
+    path: 'feedback',
+    loadChildren: () => import('./feedback/feedback.module').then( m => m.FeedbackPageModule)
+  },
+  {
+    path: 'edit-aircon-modal',
+    loadChildren: () => import('./modals/edit-aircon-modal/edit-aircon-modal.module').then( m => m.EditAirconModalPageModule)
+  },
  
 
 ];

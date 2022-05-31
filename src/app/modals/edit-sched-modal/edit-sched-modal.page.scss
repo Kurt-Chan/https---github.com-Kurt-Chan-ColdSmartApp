@@ -26,26 +26,27 @@ ion-content{
     
         .addSchedBtns{
             padding: 1rem;
-            .setBtn{
-                position: absolute;
-                width: 70%;
-                height: 40px;
-                // left: 10%;
-                border-radius: 8px;
-                background: $lightblue;
-                font-style: normal;
-                font-size: 16px;
-                font-weight: 300;
-                line-height: 40px;
-                color: $white;
-            }
-            
+        
+
+        }
+        .setBtn{
+            position: absolute;
+            width: 60%;
+            height: 40px;
+            left: 7%;
+            border-radius: 8px;
+            background: $lightblue;
+            font-style: normal;
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 40px;
+            color: $white;
         }
         .delBtn{
             position: absolute;
             width: 55%;
             height: 40px;
-            left: 21.8%;
+            left: 10%;
             border-radius: 8px;
             background: #F16262;
             font-style: normal;
@@ -54,6 +55,7 @@ ion-content{
             line-height: 40px;
             color: $white;
         }
+
 
     }
 

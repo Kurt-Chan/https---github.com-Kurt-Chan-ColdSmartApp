@@ -10,6 +10,8 @@ import { AuthService } from '../services/auth.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Contact } from 'src/app/models/user';
 
+import { DataService } from '../services/data.service';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -18,14 +20,21 @@ import { Contact } from 'src/app/models/user';
 export class ProfilePage implements OnInit {
   
   userData: Contact[];
+  location: string;
 
   constructor(
     private popoverCtrl: PopoverController,
     private angularFire: AngularFirestore,
-    private authService: AuthService, 
+    private authService: AuthService,
+    private dataService: DataService,
   ) { }
 
   ngOnInit() {
+    let airconDataRef = this.dataService.getAirconData()
+    airconDataRef.subscribe(result =>{
+      this.location = result.location
+    })
+
     let uid= this.authService.getUid();
     /* This is a function that is called when the user is logged in. It gets the user's document from
     the firestore database and assigns the user's data to the userData variable. */
@@ -40,6 +49,8 @@ export class ProfilePage implements OnInit {
         })
       }
     })
+
+
   }
 
   async openMenuPopover(ev: any){

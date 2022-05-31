@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title> <img class="coldsmartType" src="assets/logotypeLGHTBLUE.png" alt=""></ion-title>
+    <ion-buttons slot="end">
+      <ion-button slot="icon-only" class="profile" [routerLink]="['/home']"><ion-icon name="home"></ion-icon></ion-button>
+      <ion-button slot="icon-only" class="menu" (click)="openMenuPopover($event)"> <ion-icon name="menu-outline" ></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- <p class="textHeader">How was your experience?</p>
+  <p class="textSubtitle">Help us to improve our service. Give us a feedback!</p> -->
+
+  <div class="form" *ngIf="showFeedback">
+    <p class="textHeader">How was your experience?</p>
+  <p class="textSubtitle">Help us to improve our service. Give us a feedback!</p>
+    <form [formGroup]="feedbackForm" (ngSubmit)="onSubmit(feedbackForm.value)">
+
+      <ion-list lines="none">
+
+        <ion-item>
+          <ion-label position="stacked">Name:</ion-label>
+          <ion-input formControlName="name" type="text" placeholder="Enter Name" value="{{userInfo.name}}"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Email:</ion-label>
+          <ion-input formControlName="email" type="text" placeholder="Enter Email" value="{{userInfo.email}}"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Message:</ion-label>
+          <ion-textarea formControlName="message" placeholder="Enter message" ></ion-textarea>
+        </ion-item>
+
+      </ion-list>
+      <ion-button color="tertiary" type="submit" expand="block" shape="round" [disabled]="!feedbackForm.valid && !disableButton">
+        Submit
+      </ion-button>
+
+    </form>  
+  </div>
+
+  <div class="textSubtitle" *ngIf="!showFeedback">
+    <h1><strong>We have received your feedback!</strong>
+      <br><span style="font-size: 16px;">Thank you for your patronage!</span> </h1>
+    <a href="/home">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+      Go to Home
+    </a>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+</ion-content>

@@ -39,18 +39,6 @@
   <button class="loginBtn" ion-button [disabled]="!validations_form.valid" type="submit" >Login</button>
 
 </form>
-
-  <div class="loginOptions">
-    <button ion-button class="google" color="medium" routerLink="#">
-      <ion-icon name="logo-google" slot="start"></ion-icon>
-      Login with Google
-    </button>
-
-  <button ion-button class="facebook" color="medium">
-    <ion-icon name="logo-facebook" slot="start"></ion-icon>
-    Login with Facebook
-  </button>
-  </div>
     
   <p class="signUp">I don't have an account. <a [routerLink]="['/signup']">Sign up</a></p>
 

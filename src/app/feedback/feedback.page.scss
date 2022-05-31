@@ -1,0 +1,73 @@
+$font: 'Metropolis';
+$white: #F5F5F5;
+$gray: #E6E6E6;
+$black: #1F1F1F;
+$darkblue: #0E2B3D;
+$blue: #174866;
+$lightblue: #52AAB5;
+
+
+
+
+ion-header{
+    ion-toolbar{
+      --background: $darkblue;
+      .coldsmartType{
+        width: 146px;
+        height: 27px;
+        left: 31px;
+        top: 67px;
+      }
+  
+      ion-segment{
+        // --background: $darkblue;
+        // color: #52AAB5;
+        
+  
+        ::part(indicator-background) {
+          background-color: #52AAB5;
+          color: #52AAB5;
+  
+        }
+      }
+  
+    }
+  
+}
+
+ion-content{
+    .textHeader{
+        position: relative;
+        height: 20px;
+        width: 250px;
+        left: 30px;
+        top: -70px;
+
+        font-style: normal;
+        font-family: $font;
+        font-size: 32px;
+        font-weight: 800;
+        line-height: 32px;
+    }
+    .textSubtitle{
+        position: absolute;
+        height: 20px;
+        width: 250px;
+        left: 30px;
+        top: 30px;
+
+        font-style: normal;
+        font-family: $font;
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 18px;
+    }
+
+    .form{
+        position: absolute;
+        top: 70px;
+        width: 85vw;
+        height: 300px;
+        left: 30px;
+    }
+}

@@ -18,6 +18,21 @@ export class DataService {
     private auth: AuthService,
   ){}
 
+  getAirconList(){
+    let path = this.angularFire.collection("devices").valueChanges()
+   return path
+  }
+
+  getSelectedAircon(deviceId){
+   let path = this.angularFire.collection("devices").doc(deviceId).valueChanges()
+   return path
+  }
+
+  getSelectedAirconInfo(deviceId){
+    let path = this.angularFire.collection("devices").doc(deviceId).collection('configs').doc('config').valueChanges()
+    return path
+   }
+
 
   getAirQualityStat(){
       let path = this.angularFire.collection('devices').doc('testing00').collection('data').doc('sds011').valueChanges()
@@ -47,6 +62,11 @@ export class DataService {
 
   getCurrentAcSettings(){
     let path = this.angularFire.collection('devices').doc('testing00').valueChanges()
+    return path
+  }
+
+  getAirconData(){
+    let path = this.angularFire.collection('devices').doc('testing00').collection('configs').doc('config').valueChanges()
     return path
   }
 

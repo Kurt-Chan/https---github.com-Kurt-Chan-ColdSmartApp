@@ -7,12 +7,13 @@ import { PopoverPage } from '../modals/popover/popover.page';
 import { AirQualityInfoPopPage } from '../modals/air-quality-info-pop/air-quality-info-pop.page';
 import { ModalController, PopoverController } from '@ionic/angular';
 import { IonAccordionGroup } from '@ionic/angular';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
 import { DataService } from '../services/data.service';
 import { FirebaseService } from '../services/firebase.service'
 import { IonSlides } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { format, parseISO } from 'date-fns';
+import { EditAirconModalPage } from '../modals/edit-aircon-modal/edit-aircon-modal.page';
 
 
 
@@ -31,6 +32,7 @@ export class HomePage {
   air_quality_message: string;
 
   aqNum: number;
+  aqNum10: number;
   temp: any;
   humid: any;
   motionSens: number;
@@ -48,13 +50,18 @@ export class HomePage {
   cityTemp: number;
   cityHumid: number;
   currentDayTab: any;
-
+  acBrand: string;
+  minTemp: number;
+  maxTemp: number;
+  remoteModel: string;
   formattedTime: any;
-
+  roomOccupancy: string;
 
   userSched:any[] = [];
 
   day_schedules = [];
+
+  airconList = []
    
 
   aq_messages = {
@@ -97,6 +104,7 @@ export class HomePage {
 
 
   @ViewChild('slide') slide: IonSlides;
+  
 
   constructor(
     public platform: Platform,
@@ -105,7 +113,8 @@ export class HomePage {
     private dataService: DataService,
     private firebaseService: FirebaseService,
     private auth: AuthService,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    private alertCtrl: AlertController
   ) {
 
 /* Getting the current temperature setting from the database. */
@@ -118,20 +127,34 @@ export class HomePage {
     })
 
     this.defaultDay = this.schedDays[0];
+
+    let acData = this.dataService.getAirconData()
+    acData.subscribe((result: any)=>{
+      this.acBrand = result.brand.toUpperCase()
+      this.minTemp = result.min_temp
+      this.maxTemp = result.max_temp
+    })
     
   }
 
   ngOnInit(){
-    
+
+    let airconList = this.dataService.getAirconList()
+    airconList.subscribe((res:any) =>{
+      // console.log(res[0].id)
+      let selectedAircon = this.dataService.getSelectedAircon(res[0].id)
+      selectedAircon.subscribe((ac:any)=>{
+        console.log(ac)
+        this.airconList = ac
+      })
+    })
+
     /* This is getting the schedule from the database. */
     let schedRef = this.dataService.getSchedule()
       schedRef.subscribe((result: any)=>{
        this.userSched = result;
-
       })
-  
-    
-    
+      
     /* Getting the current AC settings from the database. */
     let switchRef = this.dataService.getCurrentAcSettings()
     switchRef.subscribe((result: any)=>{
@@ -156,6 +179,15 @@ export class HomePage {
       else if(acPower == "OFF"){
         this.aircon = false
       }
+
+      /* Getting the current room occupancy status from the database. */
+      let acOccupancy = result.occupied
+      if(acOccupancy == true){
+        this.roomOccupancy = "Occupied"
+      }
+      else{
+        this.roomOccupancy = "Vacant"
+      }
     })
 
       /* This is getting the air quality status from the database. */
@@ -163,25 +195,58 @@ export class HomePage {
       aqRef.subscribe((result)=>{
 
         this.aqNum = result.aqi2_5;
+        this.aqNum10 = result.aqi10
         var lastUpdate = result.last_updated;
 
-        if(this.aqNum >=0 && this.aqNum <=50){
-          this.air_quality_message = "normal";
+        if(this.aqNum > this.aqNum10){
+          // console.log(this.aqNum)
+          if(this.aqNum >=0 && this.aqNum <=50){
+            this.air_quality_message = "normal";
+          }
+          else if (this.aqNum >=51 && this.aqNum <=100){
+            this.air_quality_message = "adequate";
+          }
+          else if (this.aqNum >=101 && this.aqNum <=150){
+            this.air_quality_message = "unhealthy";
+            this.presentAlert(this.air_quality_message)
+          }
+          else if (this.aqNum >=151 && this.aqNum <=200){
+            this.air_quality_message = "harmful";
+            this.presentAlert(this.air_quality_message)
+          }
+          else if (this.aqNum >=201 && this.aqNum <=300){
+            this.air_quality_message = "toxic";
+            this.presentAlert(this.air_quality_message)
+          }
+          else if (this.aqNum >=301 && this.aqNum <=500){
+            this.air_quality_message = "hazardous";
+            this.presentAlert(this.air_quality_message)
+          }
         }
-        else if (this.aqNum >=51 && this.aqNum <=100){
-          this.air_quality_message = "adequate";
-        }
-        else if (this.aqNum >=101 && this.aqNum <=150){
-          this.air_quality_message = "unhealthy";
-        }
-        else if (this.aqNum >=151 && this.aqNum <=200){
-          this.air_quality_message = "harmful";
-        }
-        else if (this.aqNum >=201 && this.aqNum <=300){
-          this.air_quality_message = "toxic";
-        }
-        else if (this.aqNum >=301 && this.aqNum <=500){
-          this.air_quality_message = "hazardous";
+        else if(this.aqNum10 > this.aqNum){
+          // console.log(this.aqNum10)
+          if(this.aqNum10 >=0 && this.aqNum10 <=50){
+            this.air_quality_message = "normal";
+          }
+          else if (this.aqNum10 >=51 && this.aqNum10 <=100){
+            this.air_quality_message = "adequate";
+          }
+          else if (this.aqNum10 >=101 && this.aqNum10 <=150){
+            this.air_quality_message = "unhealthy";
+            this.presentAlert(this.air_quality_message)
+          }
+          else if (this.aqNum10 >=151 && this.aqNum10 <=200){
+            this.air_quality_message = "harmful";
+            this.presentAlert(this.air_quality_message)
+          }
+          else if (this.aqNum10 >=201 && this.aqNum10 <=300){
+            this.air_quality_message = "toxic";
+            this.presentAlert(this.air_quality_message)
+          }
+          else if (this.aqNum10 >=301 && this.aqNum10 <=500){
+            this.air_quality_message = "hazardous";
+            this.presentAlert(this.air_quality_message)
+          }
         }
       })
 
@@ -196,7 +261,7 @@ export class HomePage {
       let weatherRef = this.dataService.getCurrentWeather()
       weatherRef.subscribe((result)=>{
         this.city = result.name + ", " + result.sys.country
-        this.weather = result.weather[0].description
+        this.weather = result.weather[0].description.toUpperCase()
         this.cityTemp = Math.round(result.main.temp - 273.15)
         this.cityHumid = result.main.humidity
       })
@@ -281,6 +346,20 @@ export class HomePage {
     })
   }
 
+  async presentAlert(message) {
+    const alert = await this.alertCtrl.create({
+      cssClass: '',
+      backdropDismiss: false,
+      header: 'You are at risk!',
+      subHeader: 'Indoor air is '+ message + '.',
+      message: 'Your current air is ' + message + '. It is unsafe to inhale harmful particles in the air. Open your windows now.',
+      buttons: ['Okay']
+    });
+
+    await alert.present();
+  }
+
+
   
 
   async addAirconModal(){
@@ -288,6 +367,18 @@ export class HomePage {
       component: AddAirconModalPage,
       cssClass: 'small-modal',
     })
+    await modal.present();
+  }
+
+  async editAirconModal(slidingItem, deviceId){
+    const modal = await this.modalCtrl.create({
+      component: EditAirconModalPage,
+      cssClass: 'small-modal',
+      componentProps:{
+        deviceId: deviceId
+      }
+    })
+    slidingItem.close()
     await modal.present();
   }
 
@@ -324,7 +415,11 @@ export class HomePage {
   async airQualityInfoPop(ev: any){
     const modal = await this.modalCtrl.create({
       component: AirQualityInfoPopPage,
-      cssClass: 'medium-modal'
+      cssClass: 'medium-modal',
+      componentProps:{
+        pm2_5: this.aqNum,
+        pm10: this.aqNum10
+      }
     })
     await modal.present();
   }
@@ -366,12 +461,12 @@ export class HomePage {
 
   switchPower(value){
     if(value == true){
-      value = "SWITCH_ON"
+      value = "PWR_ON"
       console.log(value)
       this.firebaseService.switchPower(value)
     }
     else if(value == false){
-      value = "SWITCH_OFF"
+      value = "PWR_OFF"
       console.log(value)
       this.firebaseService.switchPower(value)
     }

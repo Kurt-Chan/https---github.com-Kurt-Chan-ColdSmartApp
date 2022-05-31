@@ -20,11 +20,6 @@ export class FirebaseService {
     
   ){}
 
-  unsubscribeOnLogOut(){
-    //remember to unsubscribe from the snapshotChanges
-    this.snapshotChangesSubscription.unsubscribe();
-  }
-
   changeTemp(value){
     this.afs.collection("devices").doc("testing00").collection("commands").doc("command")
     .set({
@@ -65,6 +60,16 @@ export class FirebaseService {
   deleteSchedule(schedId){
     this.afs.collection("devices").doc("testing00").collection("smart_schedule").doc(schedId).delete()
   }
+
+  sendFeedback(value, uid){
+    return this.afs.collection('messages').add({
+      uid: uid,
+      name: value.name,
+      email: value.email,
+      message: value.message
+    })
+  }
   
+
 
 }
