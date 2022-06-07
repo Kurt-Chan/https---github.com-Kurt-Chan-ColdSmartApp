@@ -29,6 +29,15 @@
 <!-- contentsss -->
 
 <ion-content [fullscreen]="true" class="ion-padding">
+  <!-- <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Loading...">
+    </ion-refresher-content>
+  </ion-refresher> -->
+
 
 <div class="status">
   <ion-segment [(ngModel)]="statusTabs">
@@ -128,14 +137,16 @@
 
 
 <!-- if the segment tab is on TEMPERATURE -->
+
 <div *ngIf="selectTabs == 'temperature'">
   <ion-item-divider class="ion-text-center">
     <div style="width: 100%; text-align: center; color:#1F1F1F; font-weight: 500;">AIRCONS</div>
   </ion-item-divider>
 
 <div class="outerDiv">
+
   <ion-item-sliding #slidingItem>
-  <ion-card class="card1">
+  <ion-card class="card1" >
     <ion-card-header color="primary">
       
       <ion-item lines="none" color="transparent" class="deviceHeader">
@@ -155,16 +166,11 @@
       </ion-item>
 
       <ion-item-options side="end">
-        <ion-item-option (click)="deleteAircon()" color="danger">
-          <ion-icon slot="icon-only" name="trash" color="light"></ion-icon>
-        </ion-item-option>
         <ion-item-option (click)="editAirconModal(slidingItem, airconList.id)" color="tertiary">
           <ion-icon slot="icon-only" name="pencil" color="light"></ion-icon>
         </ion-item-option>
       </ion-item-options>
-        
-    
-
+      
     </ion-card-header>
 
     <div *ngIf="aircon" class="tempSettings">
@@ -173,11 +179,12 @@
         <ion-img *ngIf="acMode == 'MODE_FAN'" class="eco" src="assets/fan_white.png" slot="start"></ion-img>
         <ion-img *ngIf="acMode == 'MODE_AUTO'" class="eco" src="assets/auto_white.png" slot="start"></ion-img>
         <ion-img *ngIf="acMode == 'MODE_COOL'" class="eco" src="assets/cool_white.png" slot="start"></ion-img>
+        <ion-img *ngIf="acMode == 'MODE_DRY'" class="eco" src="assets/sunny_white.png" slot="start"></ion-img>
 
-      <p class="tempNumber">{{rangeVal}}<span class="unit">°C</span></p>
+      <p class="tempNumber" *ngIf="acMode != 'MODE_FAN'">{{rangeVal}}<span class="unit">°C</span></p>
+      <p class="tempNumber" *ngIf="acMode == 'MODE_FAN'">--<span class="unit">°C</span></p>
     </div>
     </div>
-
 
     <div class="tempRange">
       <ion-range [(ngModel)]="rangeVal" min="{{minTemp}}" max="{{maxTemp}}" step="1" snaps color="primary" (ionChange)="rangeFocused($event)">
@@ -186,10 +193,8 @@
       </ion-range>
     </div>
 
-
     <div class="settings">
-  
-    <ion-segment [(ngModel)]="acMode">
+    <ion-segment [(ngModel)]="acMode" scrollable>
       <ion-segment-button value="MODE_COOL" (click)="airconMode('MODE_COOL')">
         <ion-img class="fan" src="assets/cool_blue.png"></ion-img>
         <ion-label>COOL</ion-label>
@@ -198,6 +203,10 @@
         <ion-img class="fan" src="assets/fan.png"></ion-img>
         <ion-label>FAN</ion-label>
       </ion-segment-button>
+      <ion-segment-button value="MODE_DRY" (click)="airconMode('MODE_DRY')">
+        <ion-img class="fan" src="assets/sunny_blue.png"></ion-img>
+        <ion-label>DRY</ion-label>
+      </ion-segment-button>
       <ion-segment-button value="MODE_AUTO" (click)="airconMode('MODE_AUTO')">
         <ion-img class="fan" src="assets/auto.png"></ion-img>
         <ion-label>AUTO</ion-label>
@@ -205,39 +214,16 @@
     </ion-segment>
 
     </div>
-
+      <ion-button class="swingBtn" slot="end" (click)="setSwing()">
+        <ion-icon slot="icon-only" name="swap-vertical-outline" style="margin-left: 1rem;"></ion-icon>
+         SWING
+      </ion-button>
     </div>
 
   </ion-card>
-</ion-item-sliding>
+  </ion-item-sliding>
 
 </div>
-
-  <!-- advanced settings/features-->
-
-  <!-- <ion-accordion-group>
-    <ion-accordion toggle-icon="caret-down">
-      <ion-item slot="header">
-        <ion-label>Show Advanced Settings</ion-label>
-      </ion-item>
-
-      <ion-list slot="content">
-
-        <ion-item lines="none">
-          <ion-img class="HVAC" src="assets/settings/HVAC.png" slot="start"></ion-img>
-          <ion-label>HVAC Zoning</ion-label>
-          <ion-toggle color="tertiary" slot="end"></ion-toggle>
-        </ion-item>
-
-        <ion-item lines="none">
-          <ion-img class="airQuality" src="assets/settings/AQ.png" slot="start"></ion-img>
-          <ion-label>Air Quality</ion-label>
-          <ion-toggle color="tertiary" slot="end" checked></ion-toggle>
-        </ion-item>
-
-      </ion-list>
-    </ion-accordion>
-  </ion-accordion-group> -->
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
     <ion-fab-button color="tertiary" (click)="addAirconModal()">

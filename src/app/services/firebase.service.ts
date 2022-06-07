@@ -11,8 +11,6 @@ import { map } from 'rxjs/operators';
 })
 export class FirebaseService {
 
-  private snapshotChangesSubscription: any;
-
   constructor(
     public afs: AngularFirestore,
     public afAuth: AngularFireAuth,
@@ -53,6 +51,24 @@ export class FirebaseService {
     })
   }
 
+  async addAircon(value){ // add schedule to the firebase
+    let uid = await this.auth.getUid()
+    this.afs.collection("devices", ref => ref.where("id", "==", value.id).where("password", "==", value.password)).snapshotChanges().subscribe((res) => {
+      if(res.length == 1) {
+        // the id and password is correct, set config and add uid on device
+        this.afs.collection('devices').doc(value.id).collection('configs').doc('config').update({
+          brand: value.brand,
+          remote_model: value.remote_model,
+          min_temp: value.min_temp,
+          max_temp: value.max_temp
+        });
+        this.afs.collection('devices').doc(value.id).update({
+          uid: uid
+        })
+      }
+    });
+  }
+
   editSchedule(){
     //obviously
   }
@@ -70,6 +86,12 @@ export class FirebaseService {
     })
   }
   
+  setSwing(value){
+    this.afs.collection("devices").doc("testing00").collection("commands").doc("command")
+    .set({
+      command:value
+    })
+  }
 
 
 }

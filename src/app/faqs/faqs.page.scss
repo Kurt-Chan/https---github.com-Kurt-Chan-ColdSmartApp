@@ -39,8 +39,8 @@ ion-content{
     .textHeader{
         position: relative;
         height: 100px;
-        width: 200px;
-        left: 50px;
+        width: 90%;
+        left: 40px;
 
         font-style: normal;
         font-family: $font;
@@ -52,9 +52,9 @@ ion-content{
     .questions{
         position: relative;
         border-radius: 12px 12px 12px 12px;
-        width: 340px;
-        height: 80px;
-        left: 35px;
+        width: 90%;
+        height: 10%;
+        left: 30px;
         margin-top: 0.5rem;
         background-color: #52AAB5;
 
@@ -77,10 +77,10 @@ ion-content{
     .answers{
         position: relative;
         // border: solid 1px red;
-        width: 340px;
-        height: 70px;
+        width: 90%;
+        height: 13%;
         margin: -1rem 0rem 2rem 0rem;
-        left: 35px;
+        left: 30px;
         top: 10px;
 
         h1{

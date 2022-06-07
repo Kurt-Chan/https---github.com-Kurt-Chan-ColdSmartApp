@@ -16,6 +16,7 @@ export class EditSchedModalPage implements OnInit {
 
   editSchedForm: FormGroup
   aircMode: string
+  formatTime: string
 
   schedId; //sched id of the clicked item in the schedule
 
@@ -39,9 +40,19 @@ export class EditSchedModalPage implements OnInit {
 
   ngOnInit() {
 
+    this.editSchedForm = this.formBuilder.group({
+      setDays: this.formBuilder.array([], [Validators.required]), 
+      startTime: new FormControl('', Validators.required), 
+      type: new FormControl('', Validators.required),
+      prefTemp: new FormControl(''),
+      switch: new FormControl(''),
+      airconMode: new FormControl(''),
+      ecoMode: new FormControl(''),
+    })
+
     // console.log(this.schedId)
     let schedRef = this.dataService.getSelectedSchedule(this.schedId)
-    schedRef.pipe(first()).toPromise().then((res)=>{
+    schedRef.subscribe((res)=>{
       // console.log(res.days)
     var tm1 = res.time
     let m1 = tm1.split(':')[0];
@@ -52,37 +63,34 @@ export class EditSchedModalPage implements OnInit {
     var formatTime = removeAmPm + ":" + m2.trim(" ")[0] + m2.trim(" ")[1];
     // console.log(formatTime)
 
-    this.editSchedForm = this.formBuilder.group({
-      setDays: this.formBuilder.array([], [Validators.required]), //array to ng selected days, need dapat makuha yung nakasave na days sa firebase
-      startTime: new FormControl(formatTime, Validators.required), //nag bubug yung time, minsan nadedetect yung time sa firestore, minsan yung computer time
-      type: new FormControl(res.type, Validators.required),
-      prefTemp: new FormControl(res.type == 'PREFERRED_TEMP' ? res.value : ''),
-      switch: new FormControl(res.type == 'POWER' ? res.value : ''),
-      airconMode: new FormControl(res.type == 'MODE' ? res.value : ''),
-      ecoMode: new FormControl(res.type == 'ECO_MODE' ? res.value : ''),
-    })
-
+    this.editSchedForm.get('startTime').setValue(formatTime)
+    this.editSchedForm.get('type').setValue(res.type)
+   
     this.editSchedForm.get('type').valueChanges.subscribe(result =>{
       if(result == 'POWER'){
         this.editSchedForm.get('switch').setValidators(Validators.required);
+        this.editSchedForm.get('switch').setValue(res.value);
         this.editSchedForm.get('prefTemp').clearValidators();
         this.editSchedForm.get('airconMode').clearValidators();
         this.editSchedForm.get('ecoMode').clearValidators();
       }
       else if(result == 'PREFERRED_TEMP'){
         this.editSchedForm.get('prefTemp').setValidators(Validators.required);
+        this.editSchedForm.get('prefTemp').setValue(res.value);
         this.editSchedForm.get('switch').clearValidators();
         this.editSchedForm.get('airconMode').clearValidators();
         this.editSchedForm.get('ecoMode').clearValidators();
       }
       else if(result == 'MODE'){
         this.editSchedForm.get('airconMode').setValidators(Validators.required);
+        this.editSchedForm.get('airconMode').setValue(res.value);
         this.editSchedForm.get('prefTemp').clearValidators();
         this.editSchedForm.get('switch').clearValidators();
         this.editSchedForm.get('ecoMode').clearValidators();
       }
       else if(result == 'ECO_MODE'){
         this.editSchedForm.get('ecoMode').setValidators(Validators.required);
+        this.editSchedForm.get('ecoMode').setValue(res.value);
         this.editSchedForm.get('airconMode').clearValidators();
         this.editSchedForm.get('switch').clearValidators();
         this.editSchedForm.get('prefTemp').clearValidators();

@@ -30,10 +30,10 @@ export class ProfilePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    let airconDataRef = this.dataService.getAirconData()
-    airconDataRef.subscribe(result =>{
-      this.location = result.location
-    })
+    // let airconDataRef = this.dataService.getAirconData()
+    // airconDataRef.subscribe(result =>{
+    //   this.location = result.location
+    // })
 
     let uid= this.authService.getUid();
     /* This is a function that is called when the user is logged in. It gets the user's document from

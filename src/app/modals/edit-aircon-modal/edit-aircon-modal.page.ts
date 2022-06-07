@@ -25,20 +25,25 @@ export class EditAirconModalPage implements OnInit {
 
   ngOnInit() {
 
-    let selectedAircon = this.dataService.getSelectedAirconInfo(this.deviceId)
-    selectedAircon.subscribe((result:any) =>{
-      console.log(result)
     this.editAirconForm = this.formBuilder.group({
-      acBrand: new FormControl(result.brand),
-      remoteModel: new FormControl(result.remote_model),
-      minTemp: new FormControl(result.min_temp),
-      maxTemp: new FormControl(result.max_temp)
+      acBrand: new FormControl('', Validators.required),
+      remoteModel: new FormControl('', Validators.required),
+      minTemp: new FormControl('', Validators.required),
+      maxTemp: new FormControl('', Validators.required)
     });
-    this.editAirconForm.get('remoteModel').valueChanges.subscribe(res=>{
-      if(res == 'aircon'){
-        res.remote_conf_url = "https://raw.githubusercontent.com/Laurence33/coldsmart-remotes/main/panasonic/VEQ1100.lircd.conf"
-      }
-    })
+
+    let selectedAircon = this.dataService.getSelectedAirconInfo()
+    selectedAircon.subscribe((result:any) =>{
+      // console.log(result)
+      this.editAirconForm.get('acBrand').setValue(result.brand)
+      this.editAirconForm.get('remoteModel').setValue(result.remote_model)
+      this.editAirconForm.get('minTemp').setValue(result.min_temp)
+      this.editAirconForm.get('maxTemp').setValue(result.max_temp)
+      this.editAirconForm.get('remoteModel').valueChanges.subscribe(res=>{
+        if(res == 'carrier'){
+          res.remote_conf_url = "https://raw.githubusercontent.com/Laurence33/coldsmart-remotes/main/panasonic/VEQ1100.lircd.conf"
+        }
+      })
 
   })
   }

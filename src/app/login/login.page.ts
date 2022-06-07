@@ -30,7 +30,8 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    
+    
     this.loginurl = this.activatedRoute.snapshot.queryParamMap.get('returnto') || 'login';
 
     this.validations_form = this.formBuilder.group({

@@ -11,7 +11,6 @@ import { first } from 'rxjs/operators';
 export class AuthService {
 
   constructor(
-   
     public afAuth: AngularFireAuth,
     public afs: AngularFirestore
   ){}
@@ -29,6 +28,8 @@ export class AuthService {
     } else {
       // do something else
    }
+
+
  }
 
 
