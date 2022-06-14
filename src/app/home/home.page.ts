@@ -68,6 +68,7 @@ export class HomePage {
   swing: boolean;
    
   hvac_alert_timeout: any;
+  temp_change_timeout: any;
 
   aq_messages = {
     'normal' :[
@@ -498,6 +499,8 @@ export class HomePage {
     var new_temp = event.detail.value
     
     if(new_temp && new_temp !=0){
+      clearTimeout(this.temp_change_timeout)
+      this.temp_change_timeout = setTimeout(()=>{
       let prevTemp;
       let action;
       let change;
@@ -516,6 +519,7 @@ export class HomePage {
       if(!action) return;
       this.firebaseService.changeTemp(action)
       console.log(action)
+    },1000)
     }
     
   }
