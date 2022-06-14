@@ -1,7 +1,33 @@
 <ion-content class="ion-padding">
 
+  <ion-item-group>
+    <ion-item-divider class="ion-text-center">
+      <div style="width: 100%; text-align: center; color:#1F1F1F; font-weight: 700;">AIR QUALITY STATUS</div>
+    </ion-item-divider>
+  
+    <ion-item detail button href="https://www.health.ny.gov/environmental/indoors/air/pmq_a.htm#:~:text=Fine%20particulate%20matter%20(PM2.5,hazy%20when%20levels%20are%20elevated.">
+      <ion-label>
+        <h4>
+        Fine Particles <b>(PM 2.5)</b></h4>
+      </ion-label>
+      <ion-text>
+        <h5>{{pm2_5}}</h5>
+      </ion-text>
+    </ion-item>
+    <ion-item detail lines="none" button href="https://www.epa.gov/air-trends/particulate-matter-pm10-trends#:~:text=Using%20a%20nationwide%20network%20of,generally%2010%20micrometers%20and%20smaller.">
+      <ion-label>
+        <h4>
+          Particulate Matter <b>(PM 10)</b>
+        </h4>
+      </ion-label>
+      <ion-text>
+        <h5>{{pm10}}</h5>
+      </ion-text>
+    </ion-item>
+  </ion-item-group>
+
   <ion-item-divider class="ion-text-center">
-    <div style="width: 100%; text-align: center; color:#1F1F1F;">AIR QUALITY COLORS</div>
+    <div style="width: 100%; text-align: center; color:#1F1F1F; font-weight: 700;">AIR QUALITY COLORS</div>
   </ion-item-divider>
 
   <div class="content">

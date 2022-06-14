@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { FirebaseService } from '../../services/firebase.service'
+import { setDay } from 'date-fns';
 
 
 @Component({
@@ -94,7 +95,8 @@ export class AddSchedModalPage implements OnInit {
    };
 
    onCheckboxChange(e) {
-    const setDays: FormArray = this.addSchedForm.get('setDays') as FormArray;
+    let setDays: FormArray = this.addSchedForm.get('setDays') as FormArray;
+
     if (e.target.checked) {
       setDays.push(new FormControl(e.target.value));
     } else {
@@ -115,25 +117,15 @@ export class AddSchedModalPage implements OnInit {
   }
 
 
-  addSchedule(value){
-    // var tm1 = value.startTime
-
-    // let d1 = tm1.split('T')[1];
-
-    // /* Getting the hour of the time. */
-    // let m1 = d1.split(':')[0];
-
-    // /* Getting the minutes of the time. */
-    // let n1 = d1.split(':')[1];
-
-    // var AmOrPm1 = m1 >= 12 ? 'PM' : 'AM';
-
-    // m1 = (m1 % 12) || 12;
-
-    // var strt = m1 + ":" + n1 + " " + AmOrPm1; //will display hour and mins only
-
-    // console.log(value, value.startTime = strt);
-    this.firebaseService.addSchedule(value)
+  addSchedule(value){  
+    var tm1 = value.startTime
+    let m1 = tm1.split(':')[0];
+    let m2 = tm1.split(':')[1];
+    var AmOrPm1 = m1 >= 12 ? 'PM' : 'AM';
+    m1 = (m1 % 12) || 12;
+    var strt = m1 + ":" + m2 + " " + AmOrPm1;
+    // console.log(strt)
+    this.firebaseService.addSchedule(value,strt)
     this.dismissModal()
   }
 

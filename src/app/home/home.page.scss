@@ -168,7 +168,7 @@ ion-content{
         height: 23px;
         position: absolute;
         left: 50%;
-        top: 33%;
+        top: 30%;
         transform: translate(-50%, -50%);
         margin-bottom: 1rem;
       }
@@ -181,7 +181,7 @@ ion-content{
         color: $white;
         position: absolute;
         left: 50%;
-        top: 27.5%;
+        top: 26%;
         transform: translate(-50%, -50%);
       }
 
@@ -206,6 +206,15 @@ ion-content{
     width: 305px;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+
+  .swingBtn{
+    position: relative;
+    top: 2px;
+    width: 70%;
+    left: 15%;
+    // transform: translate(-50%, -50%);
+    margin-bottom: 1rem;
   }
 
   .settings{

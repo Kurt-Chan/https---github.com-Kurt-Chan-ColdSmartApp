@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import firebase from 'firebase/compat/app'
 import { FirebaseService } from './firebase.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { first } from 'rxjs/operators';
 
 @Injectable({
@@ -11,8 +11,8 @@ import { first } from 'rxjs/operators';
 export class AuthService {
 
   constructor(
-   
-    public afAuth: AngularFireAuth
+    public afAuth: AngularFireAuth,
+    public afs: AngularFirestore
   ){}
 
   isLoggedIn() { //checks if the user has logged in
@@ -28,6 +28,8 @@ export class AuthService {
     } else {
       // do something else
    }
+
+
  }
 
 

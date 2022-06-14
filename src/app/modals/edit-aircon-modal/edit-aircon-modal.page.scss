@@ -1,0 +1,89 @@
+$font: 'Metropolis';
+$white: #F5F5F5;
+$gray: #E6E6E6;
+$black: #1F1F1F;
+$darkblue: #0E2B3D;
+$blue: #174866;
+$lightblue: #52AAB5;
+
+ion-content{
+
+    .addAirconForm{
+
+        form{
+            .error-message-required{
+                color: red;
+                font-size: 16px;
+            }
+
+        }
+        
+        .information{
+            position: relative;
+            width: 90%;
+            // height: 100%;
+            left: 2%;
+            margin: 5px auto;
+
+            font-weight: 200;
+            font-style: normal;
+            line-height: 20px;
+            font-size: 16px;
+
+            .help_icon{
+                line-height: 20px;
+                font-size: 25px;
+
+                color: #52AAB5;
+            }
+            
+        }
+
+        .addSchedBtns{
+            padding: 1rem;
+            .setBtn{
+                position: absolute;
+                width: 90%;
+                height: 40px;
+                margin: 5px auto;
+                border-radius: 8px;
+                background: $lightblue;
+                font-style: normal;
+                font-size: 16px;
+                font-weight: 300;
+                line-height: 40px;
+                color: $white;
+            }
+            
+        }
+
+        .error{
+            text-align: center;
+            font-size: 14px;
+            color: red;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

@@ -31,6 +31,12 @@
 //     src: url('src/assets/fonts/Metropolis-Regular.otf');
 //   }
 
+.small-alert{
+    header{
+        color: red;
+    }
+}
+
 .extra-small-modal{
     &::part(content){
         width: 100%;

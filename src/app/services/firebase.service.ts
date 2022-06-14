@@ -11,19 +11,12 @@ import { map } from 'rxjs/operators';
 })
 export class FirebaseService {
 
-  private snapshotChangesSubscription: any;
-
   constructor(
     public afs: AngularFirestore,
     public afAuth: AngularFireAuth,
     private auth: AuthService,
     
   ){}
-
-  unsubscribeOnLogOut(){
-    //remember to unsubscribe from the snapshotChanges
-    this.snapshotChangesSubscription.unsubscribe();
-  }
 
   changeTemp(value){
     this.afs.collection("devices").doc("testing00").collection("commands").doc("command")
@@ -46,23 +39,59 @@ export class FirebaseService {
     })
   }
 
-  async addSchedule(value){ // add schedule to the firebase
+  async addSchedule(value, time){ // add schedule to the firebase
     let uid = await this.auth.getUid()
     this.afs.collection("devices").doc("testing00").collection("smart_schedule")
     .add({
       uid: uid,
-      days: {...value.setDays},
-      time: value.startTime,
+      days: value.setDays,
+      time: time,
       type: value.type,
       value: value.type == 'PREFERRED_TEMP' ? value.prefTemp : (value.type == 'POWER' ? value.switch : (value.type == 'MODE' ? value.airconMode : value.ecoMode)) 
     })
   }
 
-
+  async addAircon(value){ // add schedule to the firebase
+    let uid = await this.auth.getUid()
+    this.afs.collection("devices", ref => ref.where("id", "==", value.id).where("password", "==", value.password)).snapshotChanges().subscribe((res) => {
+      if(res.length == 1) {
+        // the id and password is correct, set config and add uid on device
+        this.afs.collection('devices').doc(value.id).collection('configs').doc('config').update({
+          brand: value.brand,
+          remote_model: value.remote_model,
+          min_temp: value.min_temp,
+          max_temp: value.max_temp
+        });
+        this.afs.collection('devices').doc(value.id).update({
+          uid: uid
+        })
+      }
+    });
+  }
 
   editSchedule(){
     //obviously
   }
+
+  deleteSchedule(schedId){
+    this.afs.collection("devices").doc("testing00").collection("smart_schedule").doc(schedId).delete()
+  }
+
+  sendFeedback(value, uid){
+    return this.afs.collection('messages').add({
+      uid: uid,
+      name: value.name,
+      email: value.email,
+      message: value.message
+    })
+  }
   
+  setSwing(value){
+    this.afs.collection("devices").doc("testing00").collection("commands").doc("command")
+    .set({
+      command:value
+    })
+  }
+
 
 }

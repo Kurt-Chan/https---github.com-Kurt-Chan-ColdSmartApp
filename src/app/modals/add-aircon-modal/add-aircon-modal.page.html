@@ -28,12 +28,12 @@
 
     <ion-item>
       <ion-label position="stacked">ID: </ion-label>
-      <ion-input type="text" formControlName="raspId" placeholder="Raspberry Pi ID"></ion-input>
+      <ion-input type="text" formControlName="id" placeholder="Raspberry Pi ID"></ion-input>
     </ion-item>
   
     <ion-item>
       <ion-label position="stacked">Password: </ion-label>
-      <ion-input type="password" formControlName="rasPassword" placeholder="Password"></ion-input>
+      <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
     </ion-item>
   </ion-list>
 
@@ -45,34 +45,37 @@
   
     <ion-item>
       <ion-label position="stacked">AC Brand: </ion-label>
-      <ion-input type="text" formControlName="acBrand" placeholder="Condura"></ion-input>
+      <ion-input type="text" formControlName="brand" placeholder="Condura"></ion-input>
     </ion-item>
   
-    <ion-item>
+    <!-- <ion-item>
       <ion-label position="stacked">AC Type: </ion-label>
       <ion-input type="text" formControlName="acType" placeholder="Split Type"></ion-input>
-    </ion-item>
+    </ion-item> -->
   
     <ion-item>
       <ion-label position="stacked">Remote Model </ion-label>
-      <ion-input type="text" formControlName="remoteModel" placeholder="WCARZ006EC"></ion-input>
+      <ion-select type="text" formControlName="remote_model" placeholder="Carrier">
+        <ion-select-option value="carrier">Carrier</ion-select-option>
+        <ion-select-option value="everest">Everest</ion-select-option>
+      </ion-select>
     </ion-item>
   
     <ion-item>
       <ion-label position="stacked">Minimum Temperature: </ion-label>
-      <ion-input type="number" formControlName="minTemp" placeholder="16"></ion-input>
+      <ion-input type="number" formControlName="min_temp" placeholder="16"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="stacked">Maximum Temperature: </ion-label>
-      <ion-input type="number" formControlName="maxTemp" placeholder="27"></ion-input>
+      <ion-input type="number" formControlName="max_temp" placeholder="27"></ion-input>
     </ion-item>
 
-    <ion-item-divider class="ion-text-center">
+    <!-- <ion-item-divider class="ion-text-center">
       <div style="width: 100%; text-align: center; color:#1F1F1F; font-weight: 500;">MODES</div>
-    </ion-item-divider>
+    </ion-item-divider> -->
 
-    <ion-item-group *ngFor = "let mode of Mode; let i = index">
+    <!-- <ion-item-group *ngFor = "let mode of Mode; let i = index">
 
       <ion-item>
         <ion-label>{{mode.name}}</ion-label>
@@ -82,7 +85,7 @@
 
     <p class="error" *ngIf="this.addAirconForm.controls['acmodes'].errors?.['required']">
       <ion-icon name="information-circle"></ion-icon> Select atleast one mode.
-    </p>
+    </p> -->
 
     </ion-list>
 

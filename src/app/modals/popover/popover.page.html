@@ -11,16 +11,13 @@
 
 <ion-content>
 <ion-list lines="none">
-  <ion-item detail [routerLink]="['/faqs']">
+  <ion-item detail (click)="gotoFaqsPage()">
     <ion-label> FAQ's</ion-label>
   </ion-item>
-  <ion-item detail [routerLink]="['/terms']">
-    <ion-label> Terms & Conditions</ion-label>
-  </ion-item>
-  <ion-item detail [routerLink]="['/about']">
+  <ion-item detail (click)="gotoAboutPage()">
     <ion-label> About</ion-label>
   </ion-item>
-  <ion-item detail [routerLink]="['/feedback']">
+  <ion-item detail (click)="gotoFeedbackPage()">
     <ion-label> Give a feedback</ion-label>
   </ion-item>
   <ion-item button (click)="logout()">

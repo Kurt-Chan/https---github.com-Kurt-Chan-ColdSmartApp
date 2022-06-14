@@ -1,0 +1,102 @@
+$font: 'Metropolis';
+$white: #F5F5F5;
+$gray: #E6E6E6;
+$black: #1F1F1F;
+$darkblue: #0E2B3D;
+$blue: #174866;
+$lightblue: #52AAB5;
+
+
+
+
+ion-header{
+    ion-toolbar{
+      --background: $darkblue;
+      .coldsmartType{
+        width: 146px;
+        height: 27px;
+        left: 31px;
+        top: 67px;
+      }
+  
+      ion-segment{
+        // --background: $darkblue;
+        // color: #52AAB5;
+        
+  
+        ::part(indicator-background) {
+          background-color: #52AAB5;
+          color: #52AAB5;
+  
+        }
+      }
+  
+    }
+  
+}
+
+ion-content{
+    .textHeader{
+        position: relative;
+        height: 100px;
+        width: 90%;
+        left: 40px;
+
+        font-style: normal;
+        font-family: $font;
+        font-size: 32px;
+        font-weight: 800;
+        line-height: 32px;
+    }
+
+    .questions{
+        position: relative;
+        border-radius: 12px 12px 12px 12px;
+        width: 90%;
+        height: 10%;
+        left: 30px;
+        margin-top: 0.5rem;
+        background-color: #52AAB5;
+
+        h1{
+            position: absolute;
+            font-size: 30px;
+            font-weight: 800;
+            display: inline;
+            vertical-align: top;
+            left: 5px;
+        }
+        p{
+            position: absolute;  
+            left: 75px;
+            display: inline;
+            vertical-align: top;
+        }
+    }
+
+    .answers{
+        position: relative;
+        // border: solid 1px red;
+        width: 90%;
+        height: 13%;
+        margin: -1rem 0rem 2rem 0rem;
+        left: 30px;
+        top: 10px;
+
+        h1{
+            position: absolute;
+            font-size: 25px;
+            font-weight: 800;
+            display: inline;
+            vertical-align: top;
+            left: 10px;
+        }
+        p{
+            position: absolute;  
+            left: 75px;
+            display: inline;
+            vertical-align: top;
+        }
+    }
+
+}

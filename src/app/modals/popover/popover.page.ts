@@ -23,6 +23,21 @@ export class PopoverPage implements OnInit {
     this.popoverCtrl.dismiss()
   }
 
+  gotoFaqsPage(){
+    this.router.navigate(['/faqs'])
+    this.dismissModal()
+  }
+
+  gotoAboutPage(){
+    this.router.navigate(['/about'])
+    this.dismissModal()
+  }
+
+  gotoFeedbackPage(){
+    this.router.navigate(['/feedback'])
+    this.dismissModal()
+  }
+
   logout(){
     this.authService.doLogout()
     .then(res => {
