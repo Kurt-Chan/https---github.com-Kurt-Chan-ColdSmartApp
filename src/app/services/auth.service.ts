@@ -1,71 +1,65 @@
-import { Injectable } from "@angular/core";
-import firebase from 'firebase/compat/app'
-import { FirebaseService } from './firebase.service';
+import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { first } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
+  constructor(public afAuth: AngularFireAuth, public afs: AngularFirestore) {}
 
-  constructor(
-    public afAuth: AngularFireAuth,
-    public afs: AngularFirestore
-  ){}
-
-  isLoggedIn() { //checks if the user has logged in
+  isLoggedIn() {
+    //checks if the user has logged in
     return this.afAuth.authState.pipe(first()).toPromise();
- }
+  }
 
-  async getUid() { //get the currently logged in user
-    const user = await this.isLoggedIn()
+  async getUid() {
+    //get the currently logged in user
+    const user = await this.isLoggedIn();
     if (user) {
-      const uid = user.uid
+      const uid = user.uid;
       return uid;
-       //console.log(user.uid, user.email)
+      //console.log(user.uid, user.email)
     } else {
       // do something else
-   }
-
-
- }
-
-
-  doRegister(value){
-    return new Promise<any>((resolve, reject) => {
-     this.afAuth.createUserWithEmailAndPassword(value.email, value.password)
-     .then(
-       res => resolve(res),
-       err => reject(err))
-    })
+    }
   }
 
-  doLogin(value){
+  doRegister(value) {
     return new Promise<any>((resolve, reject) => {
-    this.afAuth.signInWithEmailAndPassword(value.email, value.password)
-     .then(
-       res => resolve(res),
-       err => reject(err))
-    })
+      this.afAuth
+        .createUserWithEmailAndPassword(value.email, value.password)
+        .then(
+          (res) => resolve(res),
+          (err) => reject(err)
+        );
+    });
   }
 
-  doLogout(){
+  doLogin(value) {
+    return new Promise<any>((resolve, reject) => {
+      this.afAuth.signInWithEmailAndPassword(value.email, value.password).then(
+        (res) => resolve(res),
+        (err) => reject(err)
+      );
+    });
+  }
+
+  doLogout() {
     return new Promise<void>((resolve, reject) => {
       if (this.afAuth.currentUser) {
-        this.afAuth.signOut()
+        this.afAuth
+          .signOut()
           .then(() => {
             //this.firebaseservice.unsubscribeOnLogOut();
-            console.log("Sign out successful");
+            console.log('Sign out successful');
             resolve();
-          }).catch(() => {
+          })
+          .catch(() => {
             reject();
           });
       }
-    })
+    });
   }
-
-
-
 }
