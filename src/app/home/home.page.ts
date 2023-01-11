@@ -5,8 +5,8 @@ import { AddAirconModalPage } from '../modals/add-aircon-modal/add-aircon-modal.
 import { EditSchedModalPage } from '../modals/edit-sched-modal/edit-sched-modal.page';
 import { PopoverPage } from '../modals/popover/popover.page';
 import { AirQualityInfoPopPage } from '../modals/air-quality-info-pop/air-quality-info-pop.page';
-import { ModalController, PopoverController } from '@ionic/angular';
-import { IonAccordionGroup } from '@ionic/angular';
+import { ModalController, PopoverController, ToastController } from '@ionic/angular';
+
 import { LoadingController, AlertController } from '@ionic/angular';
 import { DataService } from '../services/data.service';
 import { FirebaseService } from '../services/firebase.service';
@@ -16,6 +16,7 @@ import { format, parseISO } from 'date-fns';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { EditAirconModalPage } from '../modals/edit-aircon-modal/edit-aircon-modal.page';
 import { flatMap } from 'rxjs/operators';
+import { Console, error } from 'console';
 
 @Component({
   selector: 'app-home',
@@ -29,17 +30,19 @@ export class HomePage {
   acMode: string;
 
   rangeVal: number;
+  fanVal: number
+  fanValWord: string
   air_quality_message: string;
 
-  aqNum: number;
-  aqNum10: number;
+  aqNum: 10;
+  aqNum10: 10;
   temp: any;
   humid: any;
   motionSens: number;
   carbonSens: number;
 
   current_temp: number;
-  aircon: boolean;
+  aircon: boolean = true;
 
   activeIndex: any;
 
@@ -51,11 +54,9 @@ export class HomePage {
   cityHumid: number;
   currentDayTab: any;
   acBrand: string;
-  minTemp: number;
-  maxTemp: number;
   remoteModel: string;
   formattedTime: any;
-  roomOccupancy: string;
+  roomOccupancy: "Occupied";
 
   userSched: any[] = [];
 
@@ -83,14 +84,20 @@ export class HomePage {
   };
 
   schedDays: Array<string> = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+    'Sun',
   ];
+
+  smartSchedules = [];
+
+  alertShown = false;
+
+  
 
   @ViewChild('slide') slide: IonSlides;
 
@@ -102,325 +109,55 @@ export class HomePage {
     private firebaseService: FirebaseService,
     private auth: AuthService,
     public loadingCtrl: LoadingController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private toastController: ToastController
   ) {
-    /* Getting the current temperature setting from the database. */
-    // let acTemp = this.dataService.getCurrentAcSettings()
-    // acTemp.subscribe((result: any)=>{
-    //   this.platform.ready().then(()=>{
-    //     this.rangeVal = result.temp_setting;
-    //     this.current_temp = result.temp_setting;
-    //   })
-    // })
+  
 
-    this.defaultDay = this.schedDays[0];
-    this.airconId = 'testing00';
+    this.acMode = "MODE_COOL"
+
+    this.platform.ready().then(()=>{
+      this.rangeVal = 17,
+      this.fanVal = 1,
+      this.defaultDay = "Mon"
+    })
+
+    // get the weather API
+    this.dataService.getCurrentWeather()
+    .then(data => {
+      // console.log(data)
+      this.city = data.name
+      this.cityHumid = data.main.humidity
+      this.cityTemp = parseInt(data.main.temp)
+      this.weather = data.weather[0].description
+      this.temp = parseInt(data.main.temp) - 3;
+      this.humid = this.cityHumid - 3;
+    })
+
+    //Air Quality
+    this.air_quality_message = "adequate"
   }
 
-  async ngOnInit() {
-    let airconList = this.dataService.getOwnAirconList(
-      await this.auth.getUid()
-    );
-    airconList.subscribe((res: any) => {
-      console.log(res);
-      // if(res[0].uid == uid){
-      this.airconList = res;
-      res.forEach((e) => {
-        this.airconId = e.id;
-      });
-      //   console.log(res[0].uid)
-      // }
-
-      let selectedAircon = this.dataService.getSelectedAircon(this.airconId);
-      selectedAircon.subscribe((ac: any) => {
-        let acData = this.dataService.getAirconData(this.airconId);
-        acData.subscribe((result: any) => {
-          this.acBrand = result.brand.toUpperCase();
-          this.minTemp = result.min_temp;
-          this.maxTemp = result.max_temp;
-        });
-
-        let acTemp = this.dataService.getCurrentAcSettings(this.airconId);
-        acTemp.subscribe((result: any) => {
-          this.platform.ready().then(() => {
-            this.rangeVal = result.temp_setting;
-            this.current_temp = result.temp_setting;
-          });
-        });
-
-        let switchRef = this.dataService.getCurrentAcSettings(this.airconId);
-        switchRef.subscribe((result: any) => {
-          /* Getting the current AC mode from the database. */
-          let acMode = result.mode;
-          if (acMode == 'COOL') {
-            this.acMode = 'MODE_COOL';
-          } else if (acMode == 'FAN') {
-            this.acMode = 'MODE_FAN';
-          } else if (acMode == 'AUTO') {
-            this.acMode = 'MODE_AUTO';
-          }
-
-          let swingSwitch = result.swing;
-          if (swingSwitch == 'ON') {
-            this.swing = true;
-          } else if (swingSwitch == 'OFF') {
-            this.swing = false;
-          }
-
-          /* Getting the current AC power status from the database. */
-          let acPower = result.power;
-          // console.log(acPower)
-          if (acPower == 'ON') {
-            this.aircon = true;
-          } else if (acPower == 'OFF') {
-            this.aircon = false;
-          }
-
-          /* Getting the current room occupancy status from the database. */
-          let acOccupancy = result.occupied;
-          if (acOccupancy == true) {
-            this.roomOccupancy = 'Occupied';
-          } else if (acOccupancy == false) {
-            this.roomOccupancy = 'Vacant';
-            console.log('alert');
-            clearTimeout(this.hvac_alert_timeout);
-            this.hvac_alert_timeout = setTimeout(
-              () => this.occupancyAlert(),
-              1000
-            );
-            // this.occupancyAlert()
-          }
-        });
-      });
-    });
-
-    /* This is getting the schedule from the database. */
-    let schedRef = this.dataService.getSchedule(this.airconId);
-    schedRef.subscribe((result: any) => {
-      this.userSched = result;
-    });
-
-    /* Getting the current AC settings from the database. */
-
-    /* This is getting the air quality status from the database. */
-    let aqRef = this.dataService.getAirQualityStat(this.airconId);
-    aqRef.subscribe((result) => {
-      this.aqNum = result.aqi2_5;
-      this.aqNum10 = result.aqi10;
-      var lastUpdate = result.last_updated;
-
-      if (this.aqNum > this.aqNum10) {
-        // console.log(this.aqNum)
-        if (this.aqNum >= 0 && this.aqNum <= 50) {
-          this.air_quality_message = 'normal';
-        } else if (this.aqNum >= 51 && this.aqNum <= 100) {
-          this.air_quality_message = 'adequate';
-        } else if (this.aqNum >= 101 && this.aqNum <= 150) {
-          this.air_quality_message = 'unhealthy';
-          this.presentAlert(this.air_quality_message);
-        } else if (this.aqNum >= 151 && this.aqNum <= 200) {
-          this.air_quality_message = 'harmful';
-          this.presentAlert(this.air_quality_message);
-        } else if (this.aqNum >= 201 && this.aqNum <= 300) {
-          this.air_quality_message = 'toxic';
-          this.presentAlert(this.air_quality_message);
-        } else if (this.aqNum >= 301 && this.aqNum <= 500) {
-          this.air_quality_message = 'hazardous';
-          this.presentAlert(this.air_quality_message);
-        }
-      } else if (this.aqNum10 > this.aqNum) {
-        // console.log(this.aqNum10)
-        if (this.aqNum10 >= 0 && this.aqNum10 <= 50) {
-          this.air_quality_message = 'normal';
-        } else if (this.aqNum10 >= 51 && this.aqNum10 <= 100) {
-          this.air_quality_message = 'adequate';
-        } else if (this.aqNum10 >= 101 && this.aqNum10 <= 150) {
-          this.air_quality_message = 'unhealthy';
-          this.presentAlert(this.air_quality_message);
-        } else if (this.aqNum10 >= 151 && this.aqNum10 <= 200) {
-          this.air_quality_message = 'harmful';
-          this.presentAlert(this.air_quality_message);
-        } else if (this.aqNum10 >= 201 && this.aqNum10 <= 300) {
-          this.air_quality_message = 'toxic';
-          this.presentAlert(this.air_quality_message);
-        } else if (this.aqNum10 >= 301 && this.aqNum10 <= 500) {
-          this.air_quality_message = 'hazardous';
-          this.presentAlert(this.air_quality_message);
-        }
-      }
-    });
-
-    /* This is getting the temperature and humidity status from the database. */
-    let tempHumidRef = this.dataService.getTempAndHumidityStat(this.airconId);
-    tempHumidRef.subscribe((result) => {
-      this.temp = result.temperature;
-      this.humid = result.humidity;
-    });
-
-    /* This is getting the current weather from the database. */
-    let weatherRef = this.dataService.getCurrentWeather(this.airconId);
-    weatherRef.subscribe((result) => {
-      this.city = result.name + ', ' + result.sys.country;
-      this.weather = result.weather[0].description.toUpperCase();
-      this.cityTemp = Math.round(result.main.temp - 273.15);
-      this.cityHumid = result.main.humidity;
-    });
+  ionViewDidEnter(){
+    /* Calling the function `presentAlert()` */
+    // this.presentAlert();
   }
 
-  async segmentSelected(item: string, index: number) {
-    // console.log(item, index)
-    let uid = await this.auth.getUid();
-    this.slide.slideTo(index);
-    this.day_schedules = [];
-    this.userSched.forEach((i) => {
-      if (i.uid == uid) {
-        for (const k in i.days) {
-          if (i.days[k] == item) {
-            this.day_schedules.push(i);
-          }
-        }
-      }
-    });
+  rangeFocused(event) {
+    let fanValue = event.detail.value
+
+    if( fanValue == 1){
+      this.fanValWord = "LOW"
+    }
+    else if (fanValue == 2){
+      this.fanValWord = "MID"
+    }
+    else if (fanValue == 3){
+      this.fanValWord = "HIGH"
+    }
   }
 
-  ionSlidesDidLoad() {
-    // setTimeout(() => {
-    this.slide.getActiveIndex().then((index) => {
-      // console.log(index)
-      if (index == 0) {
-        this.currentDayTab = 'Monday';
-      } else if (index == 1) {
-        this.currentDayTab = 'Tuesday';
-      } else if (index == 2) {
-        this.currentDayTab = 'Wednesday';
-      } else if (index == 3) {
-        this.currentDayTab = 'Thursday';
-      } else if (index == 4) {
-        this.currentDayTab = 'Friday';
-      } else if (index == 5) {
-        this.currentDayTab = 'Saturday';
-      } else if (index == 6) {
-        this.currentDayTab = 'Sunday';
-      }
-      this.segmentSelected(this.currentDayTab, index);
-      this.loadContent = true;
-    });
-    // }, 200);
-  }
-
-  ionSlideDidChange() {
-    this.slide.getActiveIndex().then((index) => {
-      // console.log(index)
-      if (index == 0) {
-        this.currentDayTab = 'Monday';
-      } else if (index == 1) {
-        this.currentDayTab = 'Tuesday';
-      } else if (index == 2) {
-        this.currentDayTab = 'Wednesday';
-      } else if (index == 3) {
-        this.currentDayTab = 'Thursday';
-      } else if (index == 4) {
-        this.currentDayTab = 'Friday';
-      } else if (index == 5) {
-        this.currentDayTab = 'Saturday';
-      } else if (index == 6) {
-        this.currentDayTab = 'Sunday';
-      }
-      this.segmentSelected(this.currentDayTab, index);
-      this.defaultDay = this.schedDays[index];
-    });
-  }
-
-  async presentAlert(message) {
-    const hapticsVibrate = async () => {
-      await Haptics.vibrate();
-      // console.log('vibration...')
-    };
-
-    const alert = await this.alertCtrl.create({
-      cssClass: '',
-      backdropDismiss: false,
-      header: 'You are at risk!',
-      subHeader: 'Indoor air is ' + message + '.',
-      message:
-        'It is not safe to inhale ' +
-        message +
-        ' particles in the air. Open your windows now.',
-      buttons: ['Okay'],
-    });
-    await alert.present();
-    await hapticsVibrate();
-  }
-
-  async occupancyAlert() {
-    const hapticsVibrate = async () => {
-      await Haptics.vibrate();
-      // console.log('vibration...')
-    };
-
-    const alert = await this.alertCtrl.create({
-      cssClass: '',
-      backdropDismiss: true,
-      header: 'HVAC Zoning',
-      subHeader: 'Room is vacant',
-      message:
-        'Your aircon automatically turned off because the room is vacant.',
-      buttons: ['Okay'],
-    });
-    await alert.present();
-    await hapticsVibrate();
-  }
-
-  async addAirconModal() {
-    const modal = await this.modalCtrl.create({
-      component: AddAirconModalPage,
-      cssClass: 'small-modal',
-    });
-    await modal.present();
-  }
-
-  async editAirconModal(slidingItem, deviceId) {
-    const modal = await this.modalCtrl.create({
-      component: EditAirconModalPage,
-      cssClass: 'small-modal',
-      componentProps: {
-        deviceId: deviceId,
-      },
-    });
-    slidingItem.close();
-    await modal.present();
-  }
-
-  async addSchedModal() {
-    const modal = await this.modalCtrl.create({
-      component: AddSchedModalPage,
-      cssClass: 'small-modal',
-    });
-    await modal.present();
-  }
-
-  async editSchedModal(docId) {
-    const modal = await this.modalCtrl.create({
-      component: EditSchedModalPage,
-      cssClass: 'small-modal',
-      componentProps: {
-        schedId: docId,
-      },
-    });
-    await modal.present();
-    console.log(docId);
-  }
-
-  async openMenuPopover(ev: any) {
-    const popover = await this.popoverCtrl.create({
-      component: PopoverPage,
-      event: ev,
-      cssClass: 'menuPopover',
-    });
-    await popover.present();
-  }
-
-  async airQualityInfoPop(ev: any) {
+  async airQualityInfoPop() {
     const modal = await this.modalCtrl.create({
       component: AirQualityInfoPopPage,
       cssClass: 'medium-modal',
@@ -432,56 +169,52 @@ export class HomePage {
     await modal.present();
   }
 
-  addAircon() {
-    console.log('add aircon');
+  airconMode(mode : any){
+    this.acMode = mode
   }
 
-  rangeFocused(event) {
-    /* Getting the new value of the range slider. */
-    var new_temp = event.detail.value;
+  segmentSelected(day: string){
+    this.smartSchedules = this.dataService.getSmartSchedule(day)
+    
+  }
 
-    if (new_temp && new_temp != 0) {
-      clearTimeout(this.temp_change_timeout);
-      this.temp_change_timeout = setTimeout(() => {
-        let prevTemp;
-        let action;
-        let change;
-        prevTemp = this.current_temp;
-
-        if (new_temp > prevTemp) {
-          change = new_temp - prevTemp;
-          action = 'TEMP_' + (this.current_temp + change);
-        } else if (new_temp < prevTemp) {
-          change = prevTemp - new_temp;
-          action = 'TEMP_' + (this.current_temp - change);
-        }
-        this.current_temp = new_temp;
-
-        if (!action) return;
-        this.firebaseService.changeTemp(action);
-        console.log(action);
-      }, 1000);
+  async toggleToast(aircon: any) {
+    if (aircon == false) {
+      var message = "Aircon turned on";
+    } else {
+      var message = "Aircon turned off";
     }
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 1000,
+      position: 'bottom'
+    });
+
+    await toast.present();
   }
 
-  airconMode(value) {
-    console.log(value);
-    this.firebaseService.changeMode(value);
-  }
-
-  switchPower(value) {
-    if (value == true) {
-      value = 'PWR_OFF';
-      console.log(value);
-      this.firebaseService.switchPower(value);
-    } else if (value == false) {
-      value = 'PWR_ON';
-      console.log(value);
-      this.firebaseService.switchPower(value);
+  async presentAlert() {
+    /* Checking if the alert is shown. If it is shown, it will return. */
+    if(this.alertShown){
+      return;
     }
+
+    const alert = await this.alertCtrl.create({
+      header: 'Feel free to explore the ColdSmart App!',
+      subHeader: '',
+      message: 'This is application is for demonstration purposes only. <br>For use to improve the app, please leave a feedback.',
+      buttons: ['OK'],
+      backdropDismiss: false
+    });
+    
+    await alert.present();
+
+    this.alertShown = true;
   }
 
-  setSwing() {
-    this.firebaseService.setSwing('swing');
+  settingsClick(id: number){
+    console.log(id)
   }
+
+  
 }

@@ -5,13 +5,13 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: "AIzaSyDCDFJeYcSf88d6P_fZyED67jxrkMDcIdM",
-    authDomain: "practiceproject-972d5.firebaseapp.com",
-    databaseURL: "https://practiceproject-972d5.firebaseio.com",
-    projectId: "practiceproject-972d5",
-    storageBucket: "practiceproject-972d5.appspot.com",
-    messagingSenderId: "301693553380",
-    appId: "1:301693553380:web:9e1cc9b5fd580d9e87faf1"
+    apiKey: "AIzaSyAJStHDHc4yeNfbQ-rHkANfBEwD2ItkiAI",
+  authDomain: "coldsmartfeedback.firebaseapp.com",
+  projectId: "coldsmartfeedback",
+  storageBucket: "coldsmartfeedback.appspot.com",
+  messagingSenderId: "7838853169",
+  appId: "1:7838853169:web:da7d1857ebba97357b4d10",
+  measurementId: "G-3FNXWHZ0FP"
   }
 }
 

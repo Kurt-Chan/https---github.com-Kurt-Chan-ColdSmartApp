@@ -1,17 +1,15 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
-    canLoad: [AuthGuard]
   },
   {
     path: '',
    /* It redirects the user to the login page if the user is not logged in. */
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
@@ -41,7 +39,6 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule),
-    canLoad: [AuthGuard]
   },
   {
     path: 'add-aircon-modal',
@@ -54,7 +51,6 @@ const routes: Routes = [
   {
     path: 'edit-profile-page',
     loadChildren: () => import('./edit-profile-page/edit-profile-page.module').then( m => m.EditProfilePagePageModule),
-    canLoad: [AuthGuard]
   },
   {
     path: 'change-password-modal',

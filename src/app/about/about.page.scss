@@ -36,9 +36,9 @@ ion-header{
 ion-content{
     .textHeader{
         position: relative;
-        height: 80px;
-        width: 200px;
-        left: 50px;
+        height: 10%;
+        width: 100%;
+        left: 10px;
 
         font-style: normal;
         font-family: $font;
@@ -49,24 +49,27 @@ ion-content{
 
     .subtitle{
         position: relative;
-        height: 530px;
-        width: 340px;
-        left: 30px;
+        height: 60%;
+        bottom: 15px;
+        left: 10px;
 
         font-style: normal;
         font-family: $font;
         font-size: 16px;
         font-weight: 300;
         line-height: 20px;
+        p{
+            margin-right: 10px;
+        }
     }
 
     .developers{
         position: relative;
-        top: -230px;
         .textHeader2{
-            height: 10px;
+            position: relative;
+            height: 10%;
             width: 50px;
-            left: 50px;
+            left: 10px;
     
             font-style: normal;
             font-family: $font;
@@ -78,8 +81,7 @@ ion-content{
             position: relative;
             height: 10px;
             width: 355px;
-            left: 20px;
-            top: -30px;
+            left: 10px;
     
             font-style: normal;
             font-family: $font;
@@ -87,10 +89,15 @@ ion-content{
             font-weight: 300;
             line-height: 20px;
 
+            p{
+                margin-right: 10px;
+            }
+
             ion-item-group{
+                position: relative;
                 .position{
                     position: relative;
-                    left: 7px;
+                    left: 5px;
                     font-style: normal;
                     font-family: $font;
                     font-size: 12px;

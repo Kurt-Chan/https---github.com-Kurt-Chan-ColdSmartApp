@@ -7,7 +7,7 @@
     </ion-buttons>
   </ion-toolbar>
 
-<!-- home page -->
+
   <ion-toolbar color="primary">
     <ion-segment [(ngModel)]="selectTabs">
 
@@ -15,7 +15,7 @@
         <ion-label>AC Devices</ion-label>
       </ion-segment-button>
     
-      <ion-segment-button value="schedule">
+      <ion-segment-button value="schedule" (click)="segmentSelected('Mon')">
         <ion-label>Schedule</ion-label>
       </ion-segment-button>
     </ion-segment>
@@ -30,6 +30,7 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
 
+  <!-- APIs -->
 <div class="status">
   <ion-segment [(ngModel)]="statusTabs">
     <ion-segment-button value="room_status">
@@ -41,7 +42,7 @@
   </ion-segment>
 
   <!-- weather -->
-  <div class="animate__animated animate__slideInRight animate__delay-0.5s" *ngIf="statusTabs == 'weather'">
+  <div class="animate__animated animate__fadeIn" *ngIf="statusTabs == 'weather'">
   <ion-item-divider class="ion-text-center">
     <div style="width: 100%; text-align: center; color:#174866;">
       <ion-icon name="location" slot="start"></ion-icon>
@@ -63,7 +64,7 @@
 
 
   <!-- room status -->
-  <div class="animate__animated animate__slideInLeft animate__delay-0.5s" *ngIf="statusTabs == 'room_status'">
+  <div class="animate__animated animate__fadeIn" *ngIf="statusTabs == 'room_status'">
 
   <ion-item lines="none">
     <ion-label>Inside now</ion-label>
@@ -136,24 +137,19 @@
 
 <div class="outerDiv">
 
-  <ion-item-sliding #slidingItem>
   <ion-card class="card1" >
     <ion-card-header color="primary">
       
       <ion-item lines="none" color="transparent" class="deviceHeader">
         <ion-label>
-          <ion-card-subtitle>Air-Conditioner</ion-card-subtitle>
-          <ion-card-title>{{acBrand}}</ion-card-title>
-          <p class="model" *ngIf="roomOccupancy == 'Occupied'">
+          <ion-card-subtitle>ALPHA 53GCVBE010-303P</ion-card-subtitle>
+          <ion-card-title>CARRIER</ion-card-title>
+          <p class="model">
             Room Occupancy: 
-            <span style="color: #2dd36f;">{{roomOccupancy}}</span>
-          </p>
-          <p class="model" *ngIf="roomOccupancy == 'Vacant'">
-            Room Occupancy: 
-            <span style="color: #F16262;">{{roomOccupancy}}</span>
+            <span style="color: #2dd36f;">OCCUPIED</span>
           </p>
         </ion-label>
-        <ion-toggle [(ngModel)]="aircon" color="tertiary" slot="end" (click)="switchPower(aircon)"></ion-toggle>
+        <ion-toggle [(ngModel)]="aircon" color="tertiary" slot="end" (click)="toggleToast(aircon)"></ion-toggle>
       </ion-item>
 
       <ion-item-options side="end">
@@ -172,19 +168,39 @@
         <ion-img *ngIf="acMode == 'MODE_COOL'" class="eco" src="assets/cool_white.png" slot="start"></ion-img>
         <ion-img *ngIf="acMode == 'MODE_DRY'" class="eco" src="assets/sunny_white.png" slot="start"></ion-img>
 
-      <p class="tempNumber" *ngIf="acMode != 'MODE_FAN'">{{rangeVal}}<span class="unit">°C</span></p>
-      <p class="tempNumber" *ngIf="acMode == 'MODE_FAN'">--<span class="unit">°C</span></p>
+      <p class="tempNumber" *ngIf="acMode == 'MODE_COOL'">{{rangeVal}}<span class="unit">°C</span></p>
+      <p class="fanNumber" *ngIf="acMode == 'MODE_FAN'">{{fanValWord}}<span class="fanSpeed">SPEED</span></p>
+      <p class="tempNumber" *ngIf="acMode == 'MODE_AUTO'">--<span class="unit">°C</span></p>
+      <p class="tempNumber" *ngIf="acMode == 'MODE_DRY'">{{rangeVal}}<span class="unit">°C</span></p>
     </div>
     </div>
 
     <div class="tempRange">
-      <ion-range [(ngModel)]="rangeVal" min="{{minTemp}}" max="{{maxTemp}}" step="1" snaps color="primary" (ionChange)="rangeFocused($event)">
-        <ion-icon slot="start" color="tertiary" name="snow"></ion-icon>
-        <ion-icon slot="end" color="danger" name="thermometer"></ion-icon>
-      </ion-range>
+      <ng-container *ngIf="acMode == 'MODE_COOL' || acMode == 'MODE_DRY'">
+        <ion-range [(ngModel)]="rangeVal" min="17" max="28" step="1" snaps color="primary">
+          <ion-icon slot="start" color="tertiary" name="snow"></ion-icon>
+          <ion-icon slot="end" color="danger" name="thermometer"></ion-icon>
+        </ion-range>
+      </ng-container>
+
+      <ng-container *ngIf="acMode == 'MODE_AUTO'">
+        <ion-range disabled [(ngModel)]="rangeVal" min="17" max="28" step="1" snaps color="primary">
+          <ion-icon disabled slot="start" color="tertiary" name="snow"></ion-icon>
+          <ion-icon disabled slot="end" color="danger" name="thermometer"></ion-icon>
+        </ion-range>
+      </ng-container>
+
+      <ng-container *ngIf="acMode == 'MODE_FAN'">
+        <ion-range  [(ngModel)]="fanVal" min="1" max="3" step="1" snaps color="primary" (ionChange)="rangeFocused($event)">
+          <ion-icon  slot="start" color="danger" name="caret-down-circle"></ion-icon>
+          <ion-icon  slot="end" color="tertiary" name="caret-up-circle"></ion-icon>
+        </ion-range>
+      </ng-container>
+
     </div>
 
     <div class="settings">
+        <div style="width: 100%; text-align: center; color:#1F1F1F; font-weight: 500; margin-top: 2%; margin-bottom: 5%; padding-bottom: 2px; border-bottom: solid 0.1px #999999;">MODES</div>
     <ion-segment [(ngModel)]="acMode" scrollable>
       <ion-segment-button value="MODE_COOL" (click)="airconMode('MODE_COOL')">
         <ion-img class="fan" src="assets/cool_blue.png"></ion-img>
@@ -205,14 +221,13 @@
     </ion-segment>
 
     </div>
-      <ion-button class="swingBtn" slot="end" (click)="setSwing()">
+      <!-- <ion-button class="swingBtn" slot="end">
         <ion-icon slot="icon-only" name="swap-vertical-outline" style="margin-left: 1rem;"></ion-icon>
          SWING
-      </ion-button>
+      </ion-button> -->
     </div>
 
   </ion-card>
-  </ion-item-sliding>
 
 </div>
 
@@ -240,39 +255,27 @@
     </ion-item-divider>
     
     <ion-segment scrollable   [(ngModel)]="defaultDay">
-      <ion-segment-button  *ngFor="let day of schedDays ; let i = index" [value] = "day" (click)="segmentSelected(day, i)">
+      <ion-segment-button  *ngFor="let day of schedDays" [value] = "day" (click)="segmentSelected(day)">
         <ion-label >{{day}}</ion-label>
       </ion-segment-button>
     </ion-segment>
 
-    <ion-slides #slide (ionSlidesDidLoad)="ionSlidesDidLoad()" (ionSlideDidChange)="ionSlideDidChange()" >
-
-        <ion-slide>
-        <ion-grid >
-          <ion-row>
-
-              <ion-col class="ion-align-self-start">
-              <ion-list *ngIf="loadContent">
-
-                <ion-item *ngFor="let item of day_schedules" button (click)="editSchedModal(item.schedId)" detail>
-                  <ion-label>
-                    <p class="setTemp">{{item.type}}</p>
-                    <h2>{{item.value}}</h2>
-                    <p class="time">{{item.time}}</p>
-                  </ion-label>
-                </ion-item>              
-              </ion-list>
-
-
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-
-      </ion-slide>      
-      
-    </ion-slides>
-
-</div>
+    <ion-list *ngFor="let smart of smartSchedules" class="animate__animated animate__fadeIn">
+      <ion-item button (click)="settingsClick(smart.id)">
+        <ion-avatar slot="start">
+          <ion-img *ngIf="smart.value == 'COOL'" src="../../assets/Artboard 1@300x-100-2.png"></ion-img>
+          <ion-img *ngIf="smart.value == 'FAN'" src="assets/fan.png"  ></ion-img>
+          <ion-img *ngIf="smart.value == 'AUTO'" src="assets/auto.png"></ion-img>
+          <ion-img *ngIf="smart.value == 'DRY'" src="assets/sunny_blue.png"></ion-img>
+        </ion-avatar>
+        <ion-label>
+          <p class="setTemp">{{smart.type}}</p>
+          <h2><strong>{{smart.value}}</strong></h2>
+          <p class="time">{{smart.time}}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
 
 <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
   <ion-fab-button color="tertiary" (click)="addSchedModal()">

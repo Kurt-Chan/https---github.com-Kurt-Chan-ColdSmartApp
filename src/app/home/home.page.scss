@@ -34,6 +34,7 @@ ion-header{
 
 ion-content{
 
+
   ion-skeleton-text {
     line-height: 13px;
     --background-rgb: 230,40,50;
@@ -171,6 +172,9 @@ ion-content{
         top: 30%;
         transform: translate(-50%, -50%);
         margin-bottom: 1rem;
+
+        animation: fadeIn;
+        animation-duration: 1.5s;
       }
 
       .tempNumber{
@@ -181,7 +185,36 @@ ion-content{
         color: $white;
         position: absolute;
         left: 50%;
-        top: 26%;
+        top: 27.5%;
+        transform: translate(-50%, -50%);
+
+        animation: fadeIn;
+        animation-duration: 1.5s;
+      }
+
+      .fanNumber{
+        font-style: normal;
+        font-weight: 600;
+        font-size: 80px;
+        line-height: 128px;
+        color: $white;
+        position: absolute;
+        left: 50%;
+        top: 32%;
+        transform: translate(-50%, -50%);
+
+        animation: fadeIn;
+        animation-duration: 1.5s;
+      }
+
+      .fanSpeed{
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        color: $white;
+        position: absolute;
+        left: 50%;
+        top: 85%;
         transform: translate(-50%, -50%);
       }
 
@@ -215,6 +248,11 @@ ion-content{
     left: 15%;
     // transform: translate(-50%, -50%);
     margin-bottom: 1rem;
+    
+    --background: #0E2B3D;
+    --border-radius: 8px;
+    --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.25);
+    --ripple-color: #52AAB5;
   }
 
   .settings{
@@ -247,6 +285,18 @@ ion-content{
       height: 23px;
     }
 
+    ion-segment-button.md::part(native) {
+      color: #0E2B3D;
+    }
+    
+    .segment-button-checked.md::part(native) {
+      color: #48969f;
+    }
+    
+    ion-segment-button.md::part(indicator-background) {
+      height: 4px;
+      background: #48969f;
+    }
   }
   }
 

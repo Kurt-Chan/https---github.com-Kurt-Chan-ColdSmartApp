@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AirQualityInfoPopPage implements OnInit {
 
+  pm2_5: number
+  pm10: number
   constructor() { }
 
   ngOnInit() {
+    this.pm10 = 10,
+    this.pm2_5 = 10
   }
 
 }
